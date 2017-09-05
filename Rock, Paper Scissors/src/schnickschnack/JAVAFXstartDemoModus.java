@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package spielwiese.schnickschnack;
+package schnickschnack;
 
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,11 +17,12 @@ import javafx.stage.Stage;
  *
  * @author jens.papenhagen
  */
-public class JAVAFXApp extends Application {
+public class JAVAFXstartDemoModus extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception {
-          Parent root = FXMLLoader.load(getClass().getResource("JAVAFXSpielmodichanger.fxml"));
+    public void start(Stage stage) throws IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("JAVAFXDemomodus.fxml"));
 
         Scene scene = new Scene(root);
 
@@ -30,6 +32,8 @@ public class JAVAFXApp extends Application {
 
         stage.setScene(scene);
         stage.show();
+        
+        
     }
 
     /**

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package spielwiese.schnickschnack;
+package schnickschnack;
 
 import java.util.Random;
 
@@ -27,7 +27,7 @@ public final class Ruler {
      * @param symbole2
      * @return Schere gewinnt gegen Papier, Papier gewinnt gegen Stein, Stein
      * gewinnt gegen Schere
-     * @throws spielwiese.schnickschnack.DrawException
+     * @throws schnickschnack.DrawException
      */
     public String result(String symbole1, String symbole2) throws DrawException {
         String output = null;
