@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package spielwiese.schnickschnack;
+package schnickschnack;
 
 import java.io.IOException;
 import javafx.application.Application;
@@ -17,12 +17,12 @@ import javafx.stage.Stage;
  *
  * @author jens.papenhagen
  */
-public class JAVAFXstartDemoModus extends Application {
+public class JAVAFXstartSingelplayerModus extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
 
-        Parent root = FXMLLoader.load(getClass().getResource("JAVAFXDemomodus.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("JAVAFXSingelplayer.fxml"));
 
         Scene scene = new Scene(root);
 

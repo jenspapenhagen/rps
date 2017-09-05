@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package spielwiese.schnickschnack;
+package schnickschnack;
 
-import com.jfoenix.controls.JFXButton;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -18,7 +17,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
@@ -29,8 +27,10 @@ import javafx.scene.image.ImageView;
  *
  * @author jens.papenhagen
  */
-public class JAVAFXSingelplayerController implements Initializable {
+public class JAVAFXDemomodusController implements Initializable {
 
+    @FXML
+    private Label player1Nr;
     @FXML
     private Label player2Nr;
     @FXML
@@ -44,24 +44,13 @@ public class JAVAFXSingelplayerController implements Initializable {
     @FXML
     private Label result;
     @FXML
+    private Label removeID;
+    @FXML
     private Label roundNr;
     @FXML
     private ListView backlog;
-    @FXML
-    private Button matchButton;
-
-    @FXML
-    private JFXButton selectedPapier;
-    @FXML
-    private JFXButton selectedStein;
-    @FXML
-    private JFXButton selectedSchere;
-
-    public String player1symbol = "";
 
     ObservableList<String> data = FXCollections.observableArrayList();
-
-    public Boolean inFight = false;
 
     /**
      * Initializes the controller class.
@@ -71,121 +60,103 @@ public class JAVAFXSingelplayerController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        changeWinnerLable("Bitte noch Symbol wählen");
+        fight(3, 4);
     }
 
     @FXML
     private void handleMatchButton(ActionEvent event) throws InterruptedException, Exception {
-        System.out.println("Match");
+        System.out.println("Random Match");
+        randomFight();
 
+    }
+
+    public void randomFight() {
+        getCleanProtocol(); //clean the protocol
         Random random = new Random();
+        int randomPlayerNr1 = random.nextInt((10 - 1) + 1) + 1;
         int randomPlayerNr2 = random.nextInt((10 - 1) + 1) + 1;
 
-        if (player1symbol.length() != 0) {
-            fight(player1symbol, randomPlayerNr2);
-        } else {
-            changeWinnerLable("Bitte noch Symbol wählen");
-            inFight = true;
+        if (randomPlayerNr1 == randomPlayerNr2) {
+            randomPlayerNr2 = randomPlayerNr1 + 1;
         }
 
+        fight(randomPlayerNr1, randomPlayerNr2);
     }
 
-    @FXML
-    private void handlePapierButton(ActionEvent event) throws InterruptedException, Exception {
-        System.out.println("handlePapierButton");
-        addToProtocol("Player1: Papier");
-        player1symbol = changePlayer1Symbol(Constans.symbole.PAPIER.toString());
-    }
-
-    @FXML
-    private void handleSteinButton(ActionEvent event) throws InterruptedException, Exception {
-        System.out.println("handleSteinButton");
-        addToProtocol("Player1: Stein");
-        player1symbol = changePlayer1Symbol(Constans.symbole.STEIN.toString());
-    }
-
-    @FXML
-    private void handleSchereButton(ActionEvent event) throws InterruptedException, Exception {
-        System.out.println("handleSchereButton");
-        addToProtocol("Player1: Schere");
-        player1symbol = changePlayer1Symbol(Constans.symbole.SCHERE.toString());
-    }
-
-    public void fight(String _playerSymbol, int _playerID2) throws InterruptedException {
-        matchButton.setDisable(true);
+    public void fight(int _playerID1, int _playerID2) {
         Ruler ruler = new Ruler();
+        getCleanProtocol(); //clean the protocol
 
         try {
-            String symbole1 = _playerSymbol;
-            String symbole2 = "";
-
-            if (inFight) {
-                symbole2 = ruler.getVerhalten(symbole1, Constans.symbole.PAPIER.toString());
-
-                if (selectedPapier.isPressed()) {
-                    symbole1 = Constans.symbole.PAPIER.toString();
-                }
-                if (selectedStein.isPressed()) {
-                    symbole1 = Constans.symbole.STEIN.toString();
-                }
-                if (selectedSchere.isPressed()) {
-                    symbole1 = Constans.symbole.SCHERE.toString();
-                }
-
-            } else {
-                getCleanProtocol(); //clean the protocol
-                symbole2 = showPlayer2(_playerID2);
-            }
-            changePlayer1Symbol(symbole1);
+            //give out the view
+            String symbole1 = showPlayer1(_playerID1);
+            String symbole2 = showPlayer2(_playerID2);
             changeRoundCounter(0 + "");
 
             //fight
-            addToProtocol("Player2: " + symbole2);
-            String figtresult = ruler.result(symbole1, symbole2);
-            changePlayer2Symbol(symbole2);
-            addToProtocol("Ausgabe Fight: " + figtresult);
-
-            if (figtresult.equalsIgnoreCase(Constans.fightstat.UNENTSCHIEDEN.toString())) {
-                addToProtocol("First Match was a draw");
-                addToProtocol("Please select a Symbole and klick match again");
-                System.out.println("First Match was a draw");
-
-                player1symbol = "";
-                inFight = true;
+            
+            String result = ruler.result(symbole1, symbole1);
+            addToProtocol("Player1: " + symbole1);
+            addToProtocol("Player2: " + symbole1);
+            addToProtocol("Ausgabe normal Fight: " + result);
+            //fight again if the fight was a draw
+            if (result.equalsIgnoreCase(Constans.fightstat.UNENTSCHIEDEN.toString())) {
+                addToProtocol("First Match was a draw, NOW Round 1");
+                result = runde(_playerID1, _playerID2, symbole1, symbole2);
             }
+            //removce the lost player
+            toRemoveID(result, _playerID1, _playerID2);
 
-            changeWinnerLable(figtresult);
+            changeWinnerLable(result);
 
         } catch (DrawException | IOException ex) {
             Logger.getLogger(SwingApp.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         getProtocol();
-        matchButton.setDisable(false);
+
     }
 
-    public String changePlayer1Symbol(String playerSymbol) throws IOException {
+    public String runde(int _playerID1, int _playerID2, String _lastPlayer1Symbole, String _lastPlayer2Symbole) throws DrawException {
+        String result = null;
+        Ruler ruler = new Ruler();
 
-        Image playerSymbole = givebackImg(playerSymbol);
-        player1img.setImage(playerSymbole);
+        int maxrounds = 5;
+        for (int rounds = 1; rounds <= maxrounds; rounds++) {
+            changeRoundCounter("" + rounds);
 
-        return playerSymbol;
-    }
+            //fight
+            String player1symbole = ruler.getVerhalten(_lastPlayer1Symbole, _lastPlayer2Symbole);
+            String player2symbole = ruler.getVerhalten(_lastPlayer2Symbole, _lastPlayer1Symbole);
 
-    public String changePlayer2Symbol(String playerSymbol) throws IOException {
+            addToProtocol("Player1: " + player1symbole);
+            addToProtocol("Player2: " + player2symbole);
+            result = ruler.result(player1symbole, player2symbole);
 
-        Image playerSymbole = givebackImg(playerSymbol);
-        player2img.setImage(playerSymbole);
+            addToProtocol("Runden " + rounds + " Ergebnis: " + result);
+            if (!result.equalsIgnoreCase(Constans.fightstat.UNENTSCHIEDEN.toString())) {
+                break;                
+            }
 
-        return playerSymbol;
+            if (rounds == maxrounds) {
+                result = "Player 1 gewinnt";                //froce win
+                break;
+            }
+
+        }
+
+        return result;
     }
 
     public String showPlayer1(int playerID1) throws IOException {
         Player p1 = new Player(playerID1, Constans.playerStatus.PLAYER.toString());
 
         String symbole1 = p1.getPlayerSymbole();
+        Image playerSymbole = givebackImg(symbole1);
 
-        player1Name.setText("Singelplayer");
+        player1Nr.setText("" + playerID1);
+        player1Name.setText(p1.getPlayerName());
+        player1img.setImage(playerSymbole);
 
         return symbole1;
     }
@@ -222,12 +193,35 @@ public class JAVAFXSingelplayerController implements Initializable {
         return myPicture;
     }
 
+    public void toRemoveID(String result, int _playerID1, int _playerID2) {
+        //remove the loser
+        Integer removePlayerID = 0;
+        Ruler ruler = new Ruler();
+
+        try {
+            if (ruler.fightstatus(result).equals(Constans.fightstat.GEWONNEN.toString())) {
+                removePlayerID = _playerID2;
+            } else {
+                removePlayerID = _playerID1;
+            }
+        } catch (NullPointerException ex) {
+            //froce win
+            removePlayerID = _playerID1;
+        }
+
+        changeRemovePlayerIDLable("" + removePlayerID);
+    }
+
     public void changeRoundCounter(String input) {
         roundNr.setText(input + "");
     }
 
     public void changeWinnerLable(String input) {
         result.setText(input);
+    }
+
+    public void changeRemovePlayerIDLable(String input) {
+        removeID.setText(input);
     }
 
     public void addToProtocol(String input) {

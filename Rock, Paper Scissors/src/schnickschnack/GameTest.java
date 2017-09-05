@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package spielwiese.schnickschnack;
+package schnickschnack;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
