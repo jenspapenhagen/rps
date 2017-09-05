@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="134.0" prefWidth="212.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="spielwiese.schnickschnack.JAVAFXSpielmodichangerController">
+    <stylesheets>
+        <URL value="@javafxdialog.css" />
+    </stylesheets>
+    <children>
+        <VBox alignment="CENTER" prefHeight="179.0" prefWidth="234.0" spacing="5.0">
+            <children>
+                <Label text="Select your Play Modus">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+                <JFXButton fx:id="demoButton" onAction="#handelDemoButtonClick" prefWidth="150.0" text="Demo Modus" VBox.vgrow="NEVER">
+                    <VBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                    </VBox.margin>
+                </JFXButton>
+                <JFXButton fx:id="singelButton" onAction="#handelSingelButtonClick" prefWidth="150.0" text="Singel Player">
+                    <VBox.margin>
+                        <Insets left="5.0" />
+                    </VBox.margin>
+                </JFXButton>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
