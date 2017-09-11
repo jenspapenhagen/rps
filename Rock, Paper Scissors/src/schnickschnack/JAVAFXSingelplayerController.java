@@ -207,16 +207,16 @@ public class JAVAFXSingelplayerController implements Initializable {
         Image myPicture;
         switch (randomSymbole) {
             case "SCHERE":
-                myPicture = new Image(new File("./src/spielwiese/schnickschnack/files/schere.png").toURI().toString());
+                myPicture = new Image(new File("./src/schnickschnack/files/schere.png").toURI().toString());
                 break;
             case "PAPIER":
-                myPicture = new Image(new File("./src/spielwiese/schnickschnack/files/papier.png").toURI().toString());
+                myPicture = new Image(new File("./src/schnickschnack/files/papier.png").toURI().toString());
                 break;
             case "STEIN":
-                myPicture = new Image(new File("./src/spielwiese/schnickschnack/files/stein.png").toURI().toString());
+                myPicture = new Image(new File("./src/schnickschnack/files/stein.png").toURI().toString());
                 break;
             default:
-                myPicture = new Image(new File("./src/spielwiese/schnickschnack/files/papier.png").toURI().toString());
+                myPicture = new Image(new File("./src/schnickschnack/files/papier.png").toURI().toString());
         }
 
         return myPicture;

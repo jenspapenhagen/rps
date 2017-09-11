@@ -68,7 +68,7 @@ public final class Player {
         String output = "";
         try {
             List<String> Namelist = FileUtils.readLines(
-                    new File("./src/spielwiese/schnickschnack/files/Vornamen.txt"), "utf-8");
+                    new File("./src/schnickschnack/files/Vornamen.txt"), "utf-8");
 
             int randomline = new Random().nextInt(Namelist.size());
             output = Namelist.get(randomline);

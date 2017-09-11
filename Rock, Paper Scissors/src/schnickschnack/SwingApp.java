@@ -440,16 +440,16 @@ public final class SwingApp extends javax.swing.JDialog {
         BufferedImage myPicture;
         switch (randomSymbole) {
             case "SCHERE":
-                myPicture = ImageIO.read(new File("./src/spielwiese/schnickschnack/files/schere.png"));
+                myPicture = ImageIO.read(new File("./src/schnickschnack/files/schere.png"));
                 break;
             case "PAPIER":
-                myPicture = ImageIO.read(new File("./src/spielwiese/schnickschnack/files/papier.png"));
+                myPicture = ImageIO.read(new File("./src/schnickschnack/files/papier.png"));
                 break;
             case "STEIN":
-                myPicture = ImageIO.read(new File("./src/spielwiese/schnickschnack/files/stein.png"));
+                myPicture = ImageIO.read(new File("./src/schnickschnack/files/stein.png"));
                 break;
             default:
-                myPicture = ImageIO.read(new File("./src/spielwiese/schnickschnack/files/papier.png"));
+                myPicture = ImageIO.read(new File("./src/schnickschnack/files/papier.png"));
         }
 
         return myPicture;
