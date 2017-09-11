@@ -81,9 +81,9 @@ public class JAVAFXDemomodusController implements Initializable {
 
         try {
             //give out the view
-            String symbole1 = funk.showPlayer(_playerID1,playerPostion);
+            String symbole1 = funk.showPlayer(_playerID1, playerPostion);
             playerPostion = 2;
-            String symbole2 = funk.showPlayer(_playerID2,playerPostion);
+            String symbole2 = funk.showPlayer(_playerID2, playerPostion);
             funk.changeRoundCounter(0 + "");
 
             //fight
