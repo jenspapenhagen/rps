@@ -5,15 +5,12 @@
  */
 package schnickschnack;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -42,15 +39,11 @@ public class JAVAFXDemomodusController implements Initializable {
     @FXML
     private ImageView player2img;
     @FXML
-    private Label result;
-    @FXML
-    private Label removeID;
-    @FXML
-    private Label roundNr;
-    @FXML
     private ListView backlog;
-
-    ObservableList<String> data = FXCollections.observableArrayList();
+    
+    public int playerPostion = 1;
+   
+    public Funktions funk = new Funktions();
 
     /**
      * Initializes the controller class.
@@ -67,11 +60,10 @@ public class JAVAFXDemomodusController implements Initializable {
     private void handleMatchButton(ActionEvent event) throws InterruptedException, Exception {
         System.out.println("Random Match");
         randomFight();
-
     }
 
     public void randomFight() {
-        getCleanProtocol(); //clean the protocol
+        funk.getCleanProtocol(backlog); //clean the protocol
         Random random = new Random();
         int randomPlayerNr1 = random.nextInt((10 - 1) + 1) + 1;
         int randomPlayerNr2 = random.nextInt((10 - 1) + 1) + 1;
@@ -85,36 +77,35 @@ public class JAVAFXDemomodusController implements Initializable {
 
     public void fight(int _playerID1, int _playerID2) {
         Ruler ruler = new Ruler();
-        getCleanProtocol(); //clean the protocol
+        funk.getCleanProtocol(backlog); //clean the protocol
 
         try {
             //give out the view
-            String symbole1 = showPlayer1(_playerID1);
-            String symbole2 = showPlayer2(_playerID2);
-            changeRoundCounter(0 + "");
+            String symbole1 = funk.showPlayer(_playerID1,playerPostion);
+            playerPostion = 2;
+            String symbole2 = funk.showPlayer(_playerID2,playerPostion);
+            funk.changeRoundCounter(0 + "");
 
             //fight
-            
             String result = ruler.result(symbole1, symbole1);
-            addToProtocol("Player1: " + symbole1);
-            addToProtocol("Player2: " + symbole1);
-            addToProtocol("Ausgabe normal Fight: " + result);
+            funk.addToProtocol("Player1: " + symbole1);
+            funk.addToProtocol("Player2: " + symbole1);
+            funk.addToProtocol("Ausgabe normal Fight: " + result);
             //fight again if the fight was a draw
             if (result.equalsIgnoreCase(Constans.fightstat.UNENTSCHIEDEN.toString())) {
-                addToProtocol("First Match was a draw, NOW Round 1");
+                funk.addToProtocol("First Match was a draw, NOW Round 1");
                 result = runde(_playerID1, _playerID2, symbole1, symbole2);
             }
             //removce the lost player
             toRemoveID(result, _playerID1, _playerID2);
 
-            changeWinnerLable(result);
+            funk.changeWinnerLable(result);
 
         } catch (DrawException | IOException ex) {
             Logger.getLogger(SwingApp.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        getProtocol();
-
+        funk.getProtocol(backlog);
     }
 
     public String runde(int _playerID1, int _playerID2, String _lastPlayer1Symbole, String _lastPlayer2Symbole) throws DrawException {
@@ -123,23 +114,23 @@ public class JAVAFXDemomodusController implements Initializable {
 
         int maxrounds = 5;
         for (int rounds = 1; rounds <= maxrounds; rounds++) {
-            changeRoundCounter("" + rounds);
+            funk.changeRoundCounter("" + rounds);
 
             //fight
             String player1symbole = ruler.getVerhalten(_lastPlayer1Symbole, _lastPlayer2Symbole);
             String player2symbole = ruler.getVerhalten(_lastPlayer2Symbole, _lastPlayer1Symbole);
 
-            addToProtocol("Player1: " + player1symbole);
-            addToProtocol("Player2: " + player2symbole);
+            funk.addToProtocol("Player1: " + player1symbole);
+            funk.addToProtocol("Player2: " + player2symbole);
             result = ruler.result(player1symbole, player2symbole);
 
-            addToProtocol("Runden " + rounds + " Ergebnis: " + result);
+            funk.addToProtocol("Runden " + rounds + " Ergebnis: " + result);
             if (!result.equalsIgnoreCase(Constans.fightstat.UNENTSCHIEDEN.toString())) {
-                break;                
+                break;
             }
 
             if (rounds == maxrounds) {
-                result = "Player 1 gewinnt";                //froce win
+                result = "Player 1 gewinnt";//froce win
                 break;
             }
 
@@ -148,50 +139,7 @@ public class JAVAFXDemomodusController implements Initializable {
         return result;
     }
 
-    public String showPlayer1(int playerID1) throws IOException {
-        Player p1 = new Player(playerID1, Constans.playerStatus.PLAYER.toString());
 
-        String symbole1 = p1.getPlayerSymbole();
-        Image playerSymbole = givebackImg(symbole1);
-
-        player1Nr.setText("" + playerID1);
-        player1Name.setText(p1.getPlayerName());
-        player1img.setImage(playerSymbole);
-
-        return symbole1;
-    }
-
-    public String showPlayer2(int playerID2) throws IOException {
-        Player p2 = new Player(playerID2, Constans.playerStatus.PLAYER.toString());
-
-        String symbole2 = p2.getPlayerSymbole();
-        Image playerSymbole = givebackImg(symbole2);
-
-        player2Nr.setText("" + playerID2);
-        player2Name.setText(p2.getPlayerName());
-        player2img.setImage(playerSymbole);
-
-        return symbole2;
-    }
-
-    public Image givebackImg(String randomSymbole) throws IOException {
-        Image myPicture;
-        switch (randomSymbole) {
-            case "SCHERE":
-                myPicture = new Image(new File("./src/schnickschnack/files/schere.png").toURI().toString());
-                break;
-            case "PAPIER":
-                myPicture = new Image(new File("./src/schnickschnack/files/papier.png").toURI().toString());
-                break;
-            case "STEIN":
-                myPicture = new Image(new File("./src/schnickschnack/files/stein.png").toURI().toString());
-                break;
-            default:
-                myPicture = new Image(new File("./src/schnickschnack/files/papier.png").toURI().toString());
-        }
-
-        return myPicture;
-    }
 
     public void toRemoveID(String result, int _playerID1, int _playerID2) {
         //remove the loser
@@ -209,32 +157,7 @@ public class JAVAFXDemomodusController implements Initializable {
             removePlayerID = _playerID1;
         }
 
-        changeRemovePlayerIDLable("" + removePlayerID);
-    }
-
-    public void changeRoundCounter(String input) {
-        roundNr.setText(input + "");
-    }
-
-    public void changeWinnerLable(String input) {
-        result.setText(input);
-    }
-
-    public void changeRemovePlayerIDLable(String input) {
-        removeID.setText(input);
-    }
-
-    public void addToProtocol(String input) {
-        data.add(input);
-    }
-
-    public void getProtocol() {
-        backlog.setItems(data);
-    }
-
-    public void getCleanProtocol() {
-        data.clear();
-        backlog.setItems(data);
+        funk.changeRemovePlayerIDLable("" + removePlayerID);
     }
 
 }

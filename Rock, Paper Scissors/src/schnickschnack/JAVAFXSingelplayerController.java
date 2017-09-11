@@ -6,23 +6,17 @@
 package schnickschnack;
 
 import com.jfoenix.controls.JFXButton;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 /**
  * FXML Controller class
@@ -32,24 +26,9 @@ import javafx.scene.image.ImageView;
 public class JAVAFXSingelplayerController implements Initializable {
 
     @FXML
-    private Label player2Nr;
-    @FXML
-    private Label player1Name;
-    @FXML
-    private Label player2Name;
-    @FXML
-    private ImageView player1img;
-    @FXML
-    private ImageView player2img;
-    @FXML
-    private Label result;
-    @FXML
-    private Label roundNr;
-    @FXML
     private ListView backlog;
     @FXML
     private Button matchButton;
-
     @FXML
     private JFXButton selectedPapier;
     @FXML
@@ -59,9 +38,15 @@ public class JAVAFXSingelplayerController implements Initializable {
 
     public String player1symbol = "";
 
-    ObservableList<String> data = FXCollections.observableArrayList();
-
     public Boolean inFight = false;
+
+    public Funktions funk = new Funktions();
+    
+    public int playerPostion = 1;
+
+    public JAVAFXSingelplayerController() {
+
+    }
 
     /**
      * Initializes the controller class.
@@ -71,7 +56,28 @@ public class JAVAFXSingelplayerController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        changeWinnerLable("Bitte noch Symbol wählen");
+        funk.changeWinnerLable("Bitte noch Symbol wählen");
+    }
+
+    @FXML
+    private void handlePapierButton(ActionEvent event) throws InterruptedException, Exception {
+        System.out.println("handlePapierButton");
+        funk.addToProtocol("Player1: Papier");
+        player1symbol = funk.changePlayerSymbol(Constans.symbole.PAPIER.toString(), playerPostion);
+    }
+
+    @FXML
+    private void handleSteinButton(ActionEvent event) throws InterruptedException, Exception {
+        System.out.println("handleSteinButton");
+        funk.addToProtocol("Player1: Stein");
+        player1symbol = funk.changePlayerSymbol(Constans.symbole.STEIN.toString(), playerPostion);
+    }
+
+    @FXML
+    private void handleSchereButton(ActionEvent event) throws InterruptedException, Exception {
+        System.out.println("handleSchereButton");
+        funk.addToProtocol("Player1: Schere");
+        player1symbol = funk.changePlayerSymbol(Constans.symbole.SCHERE.toString(), playerPostion);
     }
 
     @FXML
@@ -82,33 +88,12 @@ public class JAVAFXSingelplayerController implements Initializable {
         int randomPlayerNr2 = random.nextInt((10 - 1) + 1) + 1;
 
         if (player1symbol.length() != 0) {
+            funk.getCleanProtocol(backlog); //clean the protocol
             fight(player1symbol, randomPlayerNr2);
         } else {
-            changeWinnerLable("Bitte noch Symbol wählen");
+            funk.changeWinnerLable("Bitte noch Symbol wählen");
             inFight = true;
         }
-
-    }
-
-    @FXML
-    private void handlePapierButton(ActionEvent event) throws InterruptedException, Exception {
-        System.out.println("handlePapierButton");
-        addToProtocol("Player1: Papier");
-        player1symbol = changePlayer1Symbol(Constans.symbole.PAPIER.toString());
-    }
-
-    @FXML
-    private void handleSteinButton(ActionEvent event) throws InterruptedException, Exception {
-        System.out.println("handleSteinButton");
-        addToProtocol("Player1: Stein");
-        player1symbol = changePlayer1Symbol(Constans.symbole.STEIN.toString());
-    }
-
-    @FXML
-    private void handleSchereButton(ActionEvent event) throws InterruptedException, Exception {
-        System.out.println("handleSchereButton");
-        addToProtocol("Player1: Schere");
-        player1symbol = changePlayer1Symbol(Constans.symbole.SCHERE.toString());
     }
 
     public void fight(String _playerSymbol, int _playerID2) throws InterruptedException {
@@ -133,114 +118,36 @@ public class JAVAFXSingelplayerController implements Initializable {
                 }
 
             } else {
-                getCleanProtocol(); //clean the protocol
-                symbole2 = showPlayer2(_playerID2);
+                funk.getCleanProtocol(backlog); //clean the protocol
+                symbole2 = funk.showPlayer(_playerID2, 2);
             }
-            changePlayer1Symbol(symbole1);
-            changeRoundCounter(0 + "");
+            funk.changePlayerSymbol(symbole1, playerPostion);
+            funk.changeRoundCounter(0 + "");
 
             //fight
-            addToProtocol("Player2: " + symbole2);
+            funk.addToProtocol("Player2: " + symbole2);
             String figtresult = ruler.result(symbole1, symbole2);
-            changePlayer2Symbol(symbole2);
-            addToProtocol("Ausgabe Fight: " + figtresult);
+            playerPostion = 2;
+            funk.changePlayerSymbol(symbole2, playerPostion);
+            funk.addToProtocol("Ausgabe Fight: " + figtresult);
 
             if (figtresult.equalsIgnoreCase(Constans.fightstat.UNENTSCHIEDEN.toString())) {
-                addToProtocol("First Match was a draw");
-                addToProtocol("Please select a Symbole and klick match again");
+                funk.addToProtocol("First Match was a draw");
+                funk.addToProtocol("Please select a Symbole and klick match again");
                 System.out.println("First Match was a draw");
 
                 player1symbol = "";
                 inFight = true;
             }
 
-            changeWinnerLable(figtresult);
+            funk.changeWinnerLable(figtresult);
 
         } catch (DrawException | IOException ex) {
             Logger.getLogger(SwingApp.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        getProtocol();
+        funk.getProtocol(backlog);
         matchButton.setDisable(false);
-    }
-
-    public String changePlayer1Symbol(String playerSymbol) throws IOException {
-
-        Image playerSymbole = givebackImg(playerSymbol);
-        player1img.setImage(playerSymbole);
-
-        return playerSymbol;
-    }
-
-    public String changePlayer2Symbol(String playerSymbol) throws IOException {
-
-        Image playerSymbole = givebackImg(playerSymbol);
-        player2img.setImage(playerSymbole);
-
-        return playerSymbol;
-    }
-
-    public String showPlayer1(int playerID1) throws IOException {
-        Player p1 = new Player(playerID1, Constans.playerStatus.PLAYER.toString());
-
-        String symbole1 = p1.getPlayerSymbole();
-
-        player1Name.setText("Singelplayer");
-
-        return symbole1;
-    }
-
-    public String showPlayer2(int playerID2) throws IOException {
-        Player p2 = new Player(playerID2, Constans.playerStatus.PLAYER.toString());
-
-        String symbole2 = p2.getPlayerSymbole();
-        Image playerSymbole = givebackImg(symbole2);
-
-        player2Nr.setText("" + playerID2);
-        player2Name.setText(p2.getPlayerName());
-        player2img.setImage(playerSymbole);
-
-        return symbole2;
-    }
-
-    public Image givebackImg(String randomSymbole) throws IOException {
-        Image myPicture;
-        switch (randomSymbole) {
-            case "SCHERE":
-                myPicture = new Image(new File("./src/schnickschnack/files/schere.png").toURI().toString());
-                break;
-            case "PAPIER":
-                myPicture = new Image(new File("./src/schnickschnack/files/papier.png").toURI().toString());
-                break;
-            case "STEIN":
-                myPicture = new Image(new File("./src/schnickschnack/files/stein.png").toURI().toString());
-                break;
-            default:
-                myPicture = new Image(new File("./src/schnickschnack/files/papier.png").toURI().toString());
-        }
-
-        return myPicture;
-    }
-
-    public void changeRoundCounter(String input) {
-        roundNr.setText(input + "");
-    }
-
-    public void changeWinnerLable(String input) {
-        result.setText(input);
-    }
-
-    public void addToProtocol(String input) {
-        data.add(input);
-    }
-
-    public void getProtocol() {
-        backlog.setItems(data);
-    }
-
-    public void getCleanProtocol() {
-        data.clear();
-        backlog.setItems(data);
     }
 
 }
