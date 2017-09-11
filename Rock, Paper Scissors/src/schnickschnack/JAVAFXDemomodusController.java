@@ -27,6 +27,11 @@ import javafx.scene.image.ImageView;
 public class JAVAFXDemomodusController implements Initializable {
 
     @FXML
+    private ListView backlog;
+
+    public int playerPostion = 1;
+        
+    @FXML
     private Label player1Nr;
     @FXML
     private Label player2Nr;
@@ -39,10 +44,13 @@ public class JAVAFXDemomodusController implements Initializable {
     @FXML
     private ImageView player2img;
     @FXML
-    private ListView backlog;
-    
-    public int playerPostion = 1;
-   
+    private Label result;
+    @FXML
+    private Label roundNr;
+    @FXML
+    private Label removeID;
+
+
     public Funktions funk = new Funktions();
 
     /**
@@ -53,7 +61,9 @@ public class JAVAFXDemomodusController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        fight(3, 4);
+        int startplayer1 = 3;
+        int startplayer2 = 4;
+        fight(startplayer1, startplayer2);
     }
 
     @FXML
@@ -81,25 +91,26 @@ public class JAVAFXDemomodusController implements Initializable {
 
         try {
             //give out the view
-            String symbole1 = funk.showPlayer(_playerID1, playerPostion);
+            String symbole1 = showPlayer(_playerID1, playerPostion);
             playerPostion = 2;
-            String symbole2 = funk.showPlayer(_playerID2, playerPostion);
-            funk.changeRoundCounter(0 + "");
+            String symbole2 = showPlayer(_playerID2, playerPostion);
+            roundNr.setText(0 + "");
 
             //fight
-            String result = ruler.result(symbole1, symbole1);
+            String resultFromfight = ruler.result(symbole1, symbole1);
             funk.addToProtocol("Player1: " + symbole1);
             funk.addToProtocol("Player2: " + symbole1);
-            funk.addToProtocol("Ausgabe normal Fight: " + result);
+            funk.addToProtocol("Ausgabe normal Fight: " + resultFromfight);
             //fight again if the fight was a draw
-            if (result.equalsIgnoreCase(Constans.fightstat.UNENTSCHIEDEN.toString())) {
+            if (resultFromfight.equalsIgnoreCase(Constans.fightstat.UNENTSCHIEDEN.toString())) {
                 funk.addToProtocol("First Match was a draw, NOW Round 1");
-                result = runde(_playerID1, _playerID2, symbole1, symbole2);
+                changePlayerSymbol(symbole1, 1);
+                changePlayerSymbol(symbole2, 2);
+                resultFromfight = runde(_playerID1, _playerID2, symbole1, symbole2);
             }
             //removce the lost player
-            toRemoveID(result, _playerID1, _playerID2);
-
-            funk.changeWinnerLable(result);
+            toRemoveID(resultFromfight, _playerID1, _playerID2);
+            result.setText(resultFromfight);
 
         } catch (DrawException | IOException ex) {
             Logger.getLogger(SwingApp.class.getName()).log(Level.SEVERE, null, ex);
@@ -108,13 +119,13 @@ public class JAVAFXDemomodusController implements Initializable {
         funk.getProtocol(backlog);
     }
 
-    public String runde(int _playerID1, int _playerID2, String _lastPlayer1Symbole, String _lastPlayer2Symbole) throws DrawException {
+    public String runde(int _playerID1, int _playerID2, String _lastPlayer1Symbole, String _lastPlayer2Symbole) throws DrawException, IOException {
         String result = null;
         Ruler ruler = new Ruler();
 
         int maxrounds = 5;
         for (int rounds = 1; rounds <= maxrounds; rounds++) {
-            funk.changeRoundCounter("" + rounds);
+            roundNr.setText("" );
 
             //fight
             String player1symbole = ruler.getVerhalten(_lastPlayer1Symbole, _lastPlayer2Symbole);
@@ -122,10 +133,14 @@ public class JAVAFXDemomodusController implements Initializable {
 
             funk.addToProtocol("Player1: " + player1symbole);
             funk.addToProtocol("Player2: " + player2symbole);
+            changePlayerSymbol(player1symbole, 1);
+            changePlayerSymbol(player2symbole, 2);
             result = ruler.result(player1symbole, player2symbole);
 
             funk.addToProtocol("Runden " + rounds + " Ergebnis: " + result);
             if (!result.equalsIgnoreCase(Constans.fightstat.UNENTSCHIEDEN.toString())) {
+                changePlayerSymbol(player1symbole, 1);
+                changePlayerSymbol(player2symbole, 2);
                 break;
             }
 
@@ -137,9 +152,8 @@ public class JAVAFXDemomodusController implements Initializable {
         }
 
         return result;
+
     }
-
-
 
     public void toRemoveID(String result, int _playerID1, int _playerID2) {
         //remove the loser
@@ -157,7 +171,57 @@ public class JAVAFXDemomodusController implements Initializable {
             removePlayerID = _playerID1;
         }
 
-        funk.changeRemovePlayerIDLable("" + removePlayerID);
+        changeRemovePlayerIDLable("" + removePlayerID);
+    }
+    
+     public String showPlayer(int playerID, int playerPostion) throws IOException {
+        Player player = new Player(playerID, Constans.playerStatus.PLAYER.toString());
+
+        String symbole = player.getPlayerSymbole();
+        Image playerSymbole = funk.givebackImg(symbole);
+
+        switch (playerPostion) {
+            case 1:
+                player1Nr.setText("" + playerID);
+                player1Name.setText(player.getPlayerName());
+                player1img.setImage(playerSymbole);
+                break;
+
+            case 2:
+                player2Nr.setText("" + playerID);
+                player2Name.setText(player.getPlayerName());
+                player2img.setImage(playerSymbole);
+                break;
+
+            default:
+                break;
+
+        }
+
+        return symbole;
+    }
+
+    public String changePlayerSymbol(String playerSymbol, int playerPostion) throws IOException {
+        Image playerSymbole = funk.givebackImg(playerSymbol);
+        switch (playerPostion) {
+            case 1:
+                player1img.setImage(playerSymbole);
+                break;
+            case 2:
+                player2img.setImage(playerSymbole);
+                break;
+
+            default:
+                break;
+
+        }
+
+        return playerSymbol;
+    }
+
+
+    public void changeRemovePlayerIDLable(String input) {
+        removeID.setText(input);
     }
 
 }

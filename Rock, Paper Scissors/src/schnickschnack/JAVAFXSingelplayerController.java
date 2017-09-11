@@ -16,7 +16,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * FXML Controller class
@@ -41,8 +44,27 @@ public class JAVAFXSingelplayerController implements Initializable {
     public Boolean inFight = false;
 
     public Funktions funk = new Funktions();
-    
+
     public int playerPostion = 1;
+
+    @FXML
+    private Label player1Nr;
+    @FXML
+    private Label player2Nr;
+    @FXML
+    private Label player1Name;
+    @FXML
+    private Label player2Name;
+    @FXML
+    private ImageView player1img;
+    @FXML
+    private ImageView player2img;
+    @FXML
+    private Label result;
+    @FXML
+    private Label roundNr;
+    @FXML
+    private Label removeID;
 
     public JAVAFXSingelplayerController() {
 
@@ -56,28 +78,31 @@ public class JAVAFXSingelplayerController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        funk.changeWinnerLable("Bitte noch Symbol wählen");
+        result.setText("Bitte noch Symbol wählen");
     }
 
     @FXML
     private void handlePapierButton(ActionEvent event) throws InterruptedException, Exception {
         System.out.println("handlePapierButton");
         funk.addToProtocol("Player1: Papier");
-        player1symbol = funk.changePlayerSymbol(Constans.symbole.PAPIER.toString(), playerPostion);
+        playerPostion = 1;
+        player1symbol = changePlayerSymbol(Constans.symbole.PAPIER.toString(), playerPostion);
     }
 
     @FXML
     private void handleSteinButton(ActionEvent event) throws InterruptedException, Exception {
         System.out.println("handleSteinButton");
         funk.addToProtocol("Player1: Stein");
-        player1symbol = funk.changePlayerSymbol(Constans.symbole.STEIN.toString(), playerPostion);
+        playerPostion = 1;
+        player1symbol = changePlayerSymbol(Constans.symbole.STEIN.toString(), playerPostion);
     }
 
     @FXML
     private void handleSchereButton(ActionEvent event) throws InterruptedException, Exception {
         System.out.println("handleSchereButton");
         funk.addToProtocol("Player1: Schere");
-        player1symbol = funk.changePlayerSymbol(Constans.symbole.SCHERE.toString(), playerPostion);
+        playerPostion = 1;
+        player1symbol = changePlayerSymbol(Constans.symbole.SCHERE.toString(), playerPostion);
     }
 
     @FXML
@@ -91,7 +116,7 @@ public class JAVAFXSingelplayerController implements Initializable {
             funk.getCleanProtocol(backlog); //clean the protocol
             fight(player1symbol, randomPlayerNr2);
         } else {
-            funk.changeWinnerLable("Bitte noch Symbol wählen");
+            result.setText("Bitte noch Symbol wählen");
             inFight = true;
         }
     }
@@ -119,16 +144,16 @@ public class JAVAFXSingelplayerController implements Initializable {
 
             } else {
                 funk.getCleanProtocol(backlog); //clean the protocol
-                symbole2 = funk.showPlayer(_playerID2, 2);
+                symbole2 = showPlayer(_playerID2, 2);
             }
-            funk.changePlayerSymbol(symbole1, playerPostion);
-            funk.changeRoundCounter(0 + "");
+            changePlayerSymbol(symbole1, playerPostion);
+            roundNr.setText(0 + "");
 
             //fight
             funk.addToProtocol("Player2: " + symbole2);
             String figtresult = ruler.result(symbole1, symbole2);
             playerPostion = 2;
-            funk.changePlayerSymbol(symbole2, playerPostion);
+            changePlayerSymbol(symbole2, playerPostion);
             funk.addToProtocol("Ausgabe Fight: " + figtresult);
 
             if (figtresult.equalsIgnoreCase(Constans.fightstat.UNENTSCHIEDEN.toString())) {
@@ -140,7 +165,7 @@ public class JAVAFXSingelplayerController implements Initializable {
                 inFight = true;
             }
 
-            funk.changeWinnerLable(figtresult);
+            result.setText(figtresult);
 
         } catch (DrawException | IOException ex) {
             Logger.getLogger(SwingApp.class.getName()).log(Level.SEVERE, null, ex);
@@ -148,6 +173,51 @@ public class JAVAFXSingelplayerController implements Initializable {
 
         funk.getProtocol(backlog);
         matchButton.setDisable(false);
+    }
+
+    public String showPlayer(int playerID, int playerPostion) throws IOException {
+        Player player = new Player(playerID, Constans.playerStatus.PLAYER.toString());
+
+        String symbole = player.getPlayerSymbole();
+        Image playerSymbole = funk.givebackImg(symbole);
+
+        switch (playerPostion) {
+            case 1:
+                player1Nr.setText("" + playerID);
+                player1Name.setText(player.getPlayerName());
+                player1img.setImage(playerSymbole);
+                break;
+
+            case 2:
+                player2Nr.setText("" + playerID);
+                player2Name.setText(player.getPlayerName());
+                player2img.setImage(playerSymbole);
+                break;
+
+            default:
+                break;
+
+        }
+
+        return symbole;
+    }
+
+    public String changePlayerSymbol(String playerSymbol, int playerPostion) throws IOException {
+        Image playerSymbole = funk.givebackImg(playerSymbol);
+        switch (playerPostion) {
+            case 1:
+                player1img.setImage(playerSymbole);
+                break;
+            case 2:
+                player2img.setImage(playerSymbole);
+                break;
+
+            default:
+                break;
+
+        }
+
+        return playerSymbol;
     }
 
 }
