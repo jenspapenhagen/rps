@@ -28,9 +28,6 @@ public class JAVAFXDemomodusController implements Initializable {
 
     @FXML
     private ListView backlog;
-
-    public int playerPostion = 1;
-        
     @FXML
     private Label player1Nr;
     @FXML
@@ -50,8 +47,11 @@ public class JAVAFXDemomodusController implements Initializable {
     @FXML
     private Label removeID;
 
-
     public Funktions funk = new Funktions();
+    
+    public boolean randomfight = false;
+    
+    public int playerPostion = 1;
 
     /**
      * Initializes the controller class.
@@ -61,55 +61,57 @@ public class JAVAFXDemomodusController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        int startplayer1 = 3;
-        int startplayer2 = 4;
-        fight(startplayer1, startplayer2);
+        fight();
     }
 
     @FXML
     private void handleMatchButton(ActionEvent event) throws InterruptedException, Exception {
         System.out.println("Random Match");
-        randomFight();
+        randomfight = true;
+        fight();
     }
 
-    public void randomFight() {
-        funk.getCleanProtocol(backlog); //clean the protocol
-        Random random = new Random();
-        int randomPlayerNr1 = random.nextInt((10 - 1) + 1) + 1;
-        int randomPlayerNr2 = random.nextInt((10 - 1) + 1) + 1;
+    public void fight() {
+        int Player1ID = 3;
+        int Player2ID = 4;
+        
+        if (randomfight) {
+            Random random = new Random();
+            Player1ID = random.nextInt((10 - 1) + 1) + 1;
+            Player2ID = random.nextInt((10 - 1) + 1) + 1;
 
-        if (randomPlayerNr1 == randomPlayerNr2) {
-            randomPlayerNr2 = randomPlayerNr1 + 1;
+            if (Player1ID == Player2ID) {
+                Player2ID = Player1ID + 1;
+            }
         }
 
-        fight(randomPlayerNr1, randomPlayerNr2);
-    }
+        Player p1 = new Player(Player1ID, Constans.playerStatus.PLAYER.toString());
+        Player p2 = new Player(Player2ID, Constans.playerStatus.PLAYER.toString());
 
-    public void fight(int _playerID1, int _playerID2) {
         Ruler ruler = new Ruler();
         funk.getCleanProtocol(backlog); //clean the protocol
 
         try {
             //give out the view
-            String symbole1 = showPlayer(_playerID1, playerPostion);
+            String symbole1 = changePlayerSymbolImg(p1, playerPostion);
             playerPostion = 2;
-            String symbole2 = showPlayer(_playerID2, playerPostion);
-            roundNr.setText(0 + "");
+            String symbole2 = changePlayerSymbolImg(p2, playerPostion);
+            roundNr.setText("");
 
             //fight
             String resultFromfight = ruler.result(symbole1, symbole1);
             funk.addToProtocol("Player1: " + symbole1);
-            funk.addToProtocol("Player2: " + symbole1);
+            funk.addToProtocol("Player2: " + symbole2);
             funk.addToProtocol("Ausgabe normal Fight: " + resultFromfight);
             //fight again if the fight was a draw
             if (resultFromfight.equalsIgnoreCase(Constans.fightstat.UNENTSCHIEDEN.toString())) {
                 funk.addToProtocol("First Match was a draw, NOW Round 1");
-                changePlayerSymbol(symbole1, 1);
-                changePlayerSymbol(symbole2, 2);
-                resultFromfight = runde(_playerID1, _playerID2, symbole1, symbole2);
+                changePlayerSymbolImg(p1, 1);
+                changePlayerSymbolImg(p2, 2);
+                resultFromfight = runde(p1, p2);
             }
             //removce the lost player
-            toRemoveID(resultFromfight, _playerID1, _playerID2);
+            toRemoveID(resultFromfight, p1, p2);
             result.setText(resultFromfight);
 
         } catch (DrawException | IOException ex) {
@@ -117,109 +119,87 @@ public class JAVAFXDemomodusController implements Initializable {
         }
 
         funk.getProtocol(backlog);
+        randomfight = false;
     }
 
-    public String runde(int _playerID1, int _playerID2, String _lastPlayer1Symbole, String _lastPlayer2Symbole) throws DrawException, IOException {
-        String result = null;
+    public String runde(Player p1, Player p2) throws DrawException, IOException {
+        String fightresult = null;
         Ruler ruler = new Ruler();
 
         int maxrounds = 5;
         for (int rounds = 1; rounds <= maxrounds; rounds++) {
-            roundNr.setText("" );
-
             //fight
-            String player1symbole = ruler.getVerhalten(_lastPlayer1Symbole, _lastPlayer2Symbole);
-            String player2symbole = ruler.getVerhalten(_lastPlayer2Symbole, _lastPlayer1Symbole);
+            String player1symbole = ruler.getVerhalten(p1.getPlayerSymbole(), p2.getPlayerSymbole());
+            String player2symbole = ruler.getVerhalten(p2.getPlayerSymbole(), p1.getPlayerSymbole());
 
             funk.addToProtocol("Player1: " + player1symbole);
             funk.addToProtocol("Player2: " + player2symbole);
-            changePlayerSymbol(player1symbole, 1);
-            changePlayerSymbol(player2symbole, 2);
-            result = ruler.result(player1symbole, player2symbole);
+            p1.setPlayerSymbole(player1symbole);
+            p2.setPlayerSymbole(player2symbole);
+            
+            changePlayerSymbolImg(p1, 1);
+            changePlayerSymbolImg(p2, 2);
+            
+            fightresult = ruler.result(player1symbole, player2symbole);
 
-            funk.addToProtocol("Runden " + rounds + " Ergebnis: " + result);
-            if (!result.equalsIgnoreCase(Constans.fightstat.UNENTSCHIEDEN.toString())) {
-                changePlayerSymbol(player1symbole, 1);
-                changePlayerSymbol(player2symbole, 2);
+            funk.addToProtocol("Runden " + rounds + " Ergebnis: " + fightresult);
+            if (!fightresult.equalsIgnoreCase(Constans.fightstat.UNENTSCHIEDEN.toString())) {
+                changePlayerSymbolImg(p1, 1);
+                changePlayerSymbolImg(p2, 2);
                 break;
             }
 
             if (rounds == maxrounds) {
-                result = "Player 1 gewinnt";//froce win
+                fightresult = "Player 1 gewinnt";//froce win
                 break;
             }
 
+            roundNr.setText(" " + rounds);
         }
-
-        return result;
-
+        
+        return fightresult;
     }
 
-    public void toRemoveID(String result, int _playerID1, int _playerID2) {
-        //remove the loser
+    public void toRemoveID(String result, Player p1, Player p2) {
         Integer removePlayerID = 0;
         Ruler ruler = new Ruler();
 
         try {
             if (ruler.fightstatus(result).equals(Constans.fightstat.GEWONNEN.toString())) {
-                removePlayerID = _playerID2;
+                removePlayerID = p2.getPlayerID();
             } else {
-                removePlayerID = _playerID1;
+                removePlayerID = p1.getPlayerID();
             }
         } catch (NullPointerException ex) {
-            //froce win
-            removePlayerID = _playerID1;
+            removePlayerID = p1.getPlayerID();  //froce win
         }
 
         changeRemovePlayerIDLable("" + removePlayerID);
     }
-    
-     public String showPlayer(int playerID, int playerPostion) throws IOException {
-        Player player = new Player(playerID, Constans.playerStatus.PLAYER.toString());
 
-        String symbole = player.getPlayerSymbole();
+    public String changePlayerSymbolImg(Player p, int playerPostion) throws IOException {
+        String symbole = p.getPlayerSymbole();
         Image playerSymbole = funk.givebackImg(symbole);
 
         switch (playerPostion) {
             case 1:
-                player1Nr.setText("" + playerID);
-                player1Name.setText(player.getPlayerName());
+                player1Nr.setText("" + p.getPlayerID());
+                player1Name.setText(p.getPlayerName());
                 player1img.setImage(playerSymbole);
                 break;
 
             case 2:
-                player2Nr.setText("" + playerID);
-                player2Name.setText(player.getPlayerName());
+                player2Nr.setText("" + p.getPlayerID());
+                player2Name.setText(p.getPlayerName());
                 player2img.setImage(playerSymbole);
                 break;
-
             default:
                 break;
-
         }
 
         return symbole;
     }
-
-    public String changePlayerSymbol(String playerSymbol, int playerPostion) throws IOException {
-        Image playerSymbole = funk.givebackImg(playerSymbol);
-        switch (playerPostion) {
-            case 1:
-                player1img.setImage(playerSymbole);
-                break;
-            case 2:
-                player2img.setImage(playerSymbole);
-                break;
-
-            default:
-                break;
-
-        }
-
-        return playerSymbol;
-    }
-
-
+    
     public void changeRemovePlayerIDLable(String input) {
         removeID.setText(input);
     }

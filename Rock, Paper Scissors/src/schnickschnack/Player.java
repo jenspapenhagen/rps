@@ -27,18 +27,15 @@ public final class Player {
         this.PlayerName = randomName();
         this.PlayerID = _ID;
         this.PlayerStatus = _PlayerStatus;
+        this.PlayerSymbole = randomSymbole();
     }
 
     public String getPlayerName() {
-        String output = this.PlayerName;
-
-        return output;
+        return this.PlayerName;
     }
 
     public String getPlayerSymbole() {
-        String output = randomSymbole();
-
-        return output;
+        return this.PlayerSymbole;
     }
 
     public int getPlayerID() {
@@ -51,6 +48,10 @@ public final class Player {
 
     public void setPlayerName(String PlayerName) {
         this.PlayerName = PlayerName;
+    }
+
+    public void setPlayerSymbole(String PlayerSymbole) {
+        this.PlayerSymbole = PlayerSymbole;
     }
 
     public void setPlayerStatus(String PlayerStatus) {
