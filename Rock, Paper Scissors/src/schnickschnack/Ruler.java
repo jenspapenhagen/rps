@@ -18,7 +18,7 @@ public final class Ruler {
     }
 
     Ruler(String symbole1, String symbole2) {
-        result(symbole1, symbole2);
+        comparingSymboles(symbole1, symbole2);
     }
 
     /**
@@ -27,30 +27,29 @@ public final class Ruler {
      * @param symbole2
      * @return Schere gewinnt gegen Papier, Papier gewinnt gegen Stein, Stein
      * gewinnt gegen Schere
-     * @throws schnickschnack.DrawException
      */
-    public String result(String symbole1, String symbole2) {
+    public String comparingSymboles(String symbole1, String symbole2) {
         String output = null;
         boolean nondraw = false;
 
         if (symbole1 == null ? symbole2 == null : symbole1.equals(symbole2)) {
-            output = Constans.FIGHTSTAT.UNENTSCHIEDEN.toString();
+            output = CONSTANS.FIGHTSTAT.UNENTSCHIEDEN.toString();
 
             return output;
 
         }
 
         //the rules
-        if (symbole1.equals(Constans.SYMBOLE.SCHERE.toString())) {
-            nondraw = symbole2.equals(Constans.SYMBOLE.PAPIER.toString());
+        if (symbole1.equals(CONSTANS.SYMBOLE.SCHERE.toString())) {
+            nondraw = symbole2.equals(CONSTANS.SYMBOLE.PAPIER.toString());
         }
 
-        if (symbole1.equals(Constans.SYMBOLE.PAPIER.toString())) {
-            nondraw = symbole2.equals(Constans.SYMBOLE.STEIN.toString());
+        if (symbole1.equals(CONSTANS.SYMBOLE.PAPIER.toString())) {
+            nondraw = symbole2.equals(CONSTANS.SYMBOLE.STEIN.toString());
         }
 
-        if (symbole1.equals(Constans.SYMBOLE.STEIN.toString())) {
-            nondraw = symbole2.equals(Constans.SYMBOLE.SCHERE.toString());
+        if (symbole1.equals(CONSTANS.SYMBOLE.STEIN.toString())) {
+            nondraw = symbole2.equals(CONSTANS.SYMBOLE.SCHERE.toString());
         }
 
         if (nondraw) {
@@ -68,18 +67,19 @@ public final class Ruler {
 
         switch (result) {
             case "Player 1 gewinnt":
-                output = Constans.FIGHTSTAT.GEWONNEN.toString();
+                output = CONSTANS.FIGHTSTAT.GEWONNEN.toString();
                 break;
             case "Player 2 gewinnt":
-                output = Constans.FIGHTSTAT.VERLOHREN.toString();
+                output = CONSTANS.FIGHTSTAT.VERLOHREN.toString();
                 break;
             default:
-                output = Constans.FIGHTSTAT.GEWONNEN.toString();
+                output = CONSTANS.FIGHTSTAT.GEWONNEN.toString();
                 break;
         }
 
         return output;
     }
+   
 
     public String getVerhalten(String lastRoundSymbol1, String lastRoundSymbol2) {
         int indexer = new Random().nextInt(7);

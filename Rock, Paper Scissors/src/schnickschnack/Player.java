@@ -21,13 +21,13 @@ public final class Player {
     private String PlayerName;
     private String PlayerSymbole;
     private final int PlayerID;
-    private String PlayerStatus;
+    private String PlayerCondition;
 
     Player(int _ID, String _PlayerStatus) {
-        this.PlayerName = randomName();
+        this.PlayerName = getRandomName();
         this.PlayerID = _ID;
-        this.PlayerStatus = _PlayerStatus;
-        this.PlayerSymbole = randomSymbole();
+        this.PlayerCondition = _PlayerStatus;
+        this.PlayerSymbole = getRandomSymbole();
     }
 
     public String getPlayerName() {
@@ -42,8 +42,8 @@ public final class Player {
         return this.PlayerID;
     }
 
-    public String getPlayerStatus() {
-        return this.PlayerStatus;
+    public String getPlayerCondtion() {
+        return this.PlayerCondition;
     }
 
     public void setPlayerName(String PlayerName) {
@@ -55,17 +55,17 @@ public final class Player {
     }
 
     public void setPlayerStatus(String PlayerStatus) {
-        this.PlayerStatus = PlayerStatus;
+        this.PlayerCondition = PlayerStatus;
     }
 
-    public String randomSymbole() {
-        int indexer = new Random().nextInt(Constans.SYMBOLE.values().length);
-        String randomSymbole = (Constans.SYMBOLE.values()[indexer].toString());
+    public String getRandomSymbole() {
+        int indexer = new Random().nextInt(CONSTANS.SYMBOLE.values().length);
+        String randomSymbole = (CONSTANS.SYMBOLE.values()[indexer].toString());
 
         return randomSymbole;
     }
 
-    public String randomName() {
+    public String getRandomName() {
         String output = "";
         try {
             List<String> Namelist = FileUtils.readLines(

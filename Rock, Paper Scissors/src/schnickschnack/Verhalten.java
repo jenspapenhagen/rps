@@ -15,61 +15,54 @@ public class Verhalten {
     }
 
     //allways the same
-    public String Verhalten1(String lastRoundSymbol1, String lastRoundSymbol2) {
-        
-        return Constans.SYMBOLE.SCHERE.toString();
+    public Enum Verhalten1(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
+        return CONSTANS.SYMBOLE.SCHERE;
     }
 
-    public String Verhalten2(String lastRoundSymbol1, String lastRoundSymbol2) {
-        return Constans.SYMBOLE.STEIN.toString();
+    public Enum Verhalten2(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
+        return CONSTANS.SYMBOLE.STEIN;
     }
 
-    public String Verhalten3(String lastRoundSymbol1, String lastRoundSymbol2) {
-        return Constans.SYMBOLE.PAPIER.toString();
+    public Enum Verhalten3(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
+        return CONSTANS.SYMBOLE.PAPIER;
     }
 
-    public String OppositeOfLastRound(String lastRoundSymbol1, String lastRoundSymbol2) {
-        String output = OppositeSymbole(lastRoundSymbol1);
+    public Enum OppositeOfLastRound(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
+        Enum output = getOppositeSymbole(lastRoundSymbol1);
 
         return output;
     }
 
-    public String OppositeOfEnemieFromLastRound(String lastRoundSymbol1, String lastRoundSymbol2) {
-        String output = OppositeSymbole(lastRoundSymbol2);
+    public Enum OppositeOfEnemieFromLastRound(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
+        Enum output = getOppositeSymbole(lastRoundSymbol2);
 
         return output;
     }
 
-    public String SameOfLastRound(String lastRoundSymbol1, String lastRoundSymbol2) {
-        String output = lastRoundSymbol1;
+    public Enum SameOfLastRound(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
+        Enum output = lastRoundSymbol1;
 
         return output;
     }
 
-    public String SameOfEnemieFromLastRound(String lastRoundSymbol1, String lastRoundSymbol2) {
-        String output = lastRoundSymbol2;
+    public Enum SameOfEnemieFromLastRound(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
+        Enum output = lastRoundSymbol2;
 
         return output;
     }
 
-    public String OppositeSymbole(String Symbol) {
-        String output;
-        //the rules
-        switch (Symbol) {
-            case "SCHERE":
-                output = Constans.SYMBOLE.PAPIER.toString();
-                break;
-            case "PAPIER":
-                output = Constans.SYMBOLE.STEIN.toString();
-                break;
-            case "STEIN" :
-                output = Constans.SYMBOLE.SCHERE.toString();
-                break;
-            default:
-                output = Constans.SYMBOLE.PAPIER.toString();
-                
+    public Enum getOppositeSymbole(Enum Symbol) {
+        Enum output = null;
+        if (Symbol.equals(CONSTANS.SYMBOLE.SCHERE)) {
+            output = CONSTANS.SYMBOLE.PAPIER;
         }
-
+        if (Symbol.equals(CONSTANS.SYMBOLE.PAPIER)) {
+            output = CONSTANS.SYMBOLE.STEIN;
+        }
+        if (Symbol.equals(CONSTANS.SYMBOLE.STEIN)) {
+            output = CONSTANS.SYMBOLE.SCHERE;
+        }
+        
         return output;
     }
 

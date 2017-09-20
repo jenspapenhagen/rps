@@ -11,6 +11,8 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -47,11 +49,13 @@ public class JAVAFXDemomodusController implements Initializable {
     @FXML
     private Label removeID;
 
-    public Funktions funk = new Funktions();
+    public UtilityMethodes funk = new UtilityMethodes();
     
     public boolean randomfight = false;
     
     public int playerPostion = 1;
+    
+    ObservableList<String> data = FXCollections.observableArrayList();
 
     /**
      * Initializes the controller class.
@@ -85,11 +89,11 @@ public class JAVAFXDemomodusController implements Initializable {
             }
         }
 
-        Player p1 = new Player(Player1ID, Constans.PLAYERCONDITION.PLAYER.toString());
-        Player p2 = new Player(Player2ID, Constans.PLAYERCONDITION.PLAYER.toString());
+        Player p1 = new Player(Player1ID, CONSTANS.PLAYERCONDITION.PLAYER.toString());
+        Player p2 = new Player(Player2ID, CONSTANS.PLAYERCONDITION.PLAYER.toString());
 
         Ruler ruler = new Ruler();
-        funk.getCleanProtocol(backlog); //clean the protocol
+        getCleanProtocol(backlog); //clean the protocol
 
         try {
             //give out the view
@@ -99,13 +103,13 @@ public class JAVAFXDemomodusController implements Initializable {
             roundNr.setText("");
 
             //fight
-            String resultFromfight = ruler.result(symbole1, symbole1);
-            funk.addToProtocol("Player1: " + symbole1);
-            funk.addToProtocol("Player2: " + symbole2);
-            funk.addToProtocol("Ausgabe normal Fight: " + resultFromfight);
+            String resultFromfight = ruler.comparingSymboles(symbole1, symbole1);
+            addToProtocol("Player1: " + symbole1);
+            addToProtocol("Player2: " + symbole2);
+            addToProtocol("Ausgabe normal Fight: " + resultFromfight);
             //fight again if the fight was a draw
-            if (resultFromfight.equalsIgnoreCase(Constans.FIGHTSTAT.UNENTSCHIEDEN.toString())) {
-                funk.addToProtocol("First Match was a draw, NOW Round 1");
+            if (resultFromfight.equalsIgnoreCase(CONSTANS.FIGHTSTAT.UNENTSCHIEDEN.toString())) {
+                addToProtocol("First Match was a draw, NOW Round 1");
                 changePlayerSymbolImg(p1, 1);
                 changePlayerSymbolImg(p2, 2);
                 resultFromfight = runde(p1, p2);
@@ -118,7 +122,7 @@ public class JAVAFXDemomodusController implements Initializable {
             Logger.getLogger(SwingApp.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        funk.getProtocol(backlog);
+        getProtocol(backlog);
         randomfight = false;
     }
 
@@ -132,18 +136,18 @@ public class JAVAFXDemomodusController implements Initializable {
             String player1symbole = ruler.getVerhalten(p1.getPlayerSymbole(), p2.getPlayerSymbole());
             String player2symbole = ruler.getVerhalten(p2.getPlayerSymbole(), p1.getPlayerSymbole());
 
-            funk.addToProtocol("Player1: " + player1symbole);
-            funk.addToProtocol("Player2: " + player2symbole);
+            addToProtocol("Player1: " + player1symbole);
+            addToProtocol("Player2: " + player2symbole);
             p1.setPlayerSymbole(player1symbole);
             p2.setPlayerSymbole(player2symbole);
             
             changePlayerSymbolImg(p1, 1);
             changePlayerSymbolImg(p2, 2);
             
-            fightresult = ruler.result(player1symbole, player2symbole);
+            fightresult = ruler.comparingSymboles(player1symbole, player2symbole);
 
-            funk.addToProtocol("Runden " + rounds + " Ergebnis: " + fightresult);
-            if (!fightresult.equalsIgnoreCase(Constans.FIGHTSTAT.UNENTSCHIEDEN.toString())) {
+            addToProtocol("Runden " + rounds + " Ergebnis: " + fightresult);
+            if (!fightresult.equalsIgnoreCase(CONSTANS.FIGHTSTAT.UNENTSCHIEDEN.toString())) {
                 changePlayerSymbolImg(p1, 1);
                 changePlayerSymbolImg(p2, 2);
                 break;
@@ -165,7 +169,7 @@ public class JAVAFXDemomodusController implements Initializable {
         Ruler ruler = new Ruler();
 
         try {
-            if (ruler.fightstatus(result).equals(Constans.FIGHTSTAT.GEWONNEN.toString())) {
+            if (ruler.fightstatus(result).equals(CONSTANS.FIGHTSTAT.GEWONNEN.toString())) {
                 removePlayerID = p2.getPlayerID();
             } else {
                 removePlayerID = p1.getPlayerID();
@@ -203,5 +207,19 @@ public class JAVAFXDemomodusController implements Initializable {
     public void changeRemovePlayerIDLable(String input) {
         removeID.setText(input);
     }
+    
+    public void addToProtocol(String input) {
+        data.add(input);
+    }
+
+    public void getProtocol(ListView lv) {
+        lv.setItems(data);
+    }
+
+    public void getCleanProtocol(ListView lv) {
+        data.clear();
+        lv.setItems(data);
+    }
+
 
 }

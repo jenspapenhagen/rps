@@ -16,9 +16,7 @@ import javafx.scene.image.Image;
  *
  * @author jens.papenhagen
  */
-public class Funktions {
-
-    ObservableList<String> data = FXCollections.observableArrayList();
+public class UtilityMethodes {
 
     public Image givebackImg(String symbole) throws IOException {
         Image myPicture;
@@ -39,18 +37,6 @@ public class Funktions {
         return myPicture;
     }
 
-    public void addToProtocol(String input) {
-        data.add(input);
-    }
-
-    public void getProtocol(ListView lv) {
-        lv.setItems(data);
-    }
-
-    public void getCleanProtocol(ListView lv) {
-        data.clear();
-        lv.setItems(data);
-    }
 
 
 }

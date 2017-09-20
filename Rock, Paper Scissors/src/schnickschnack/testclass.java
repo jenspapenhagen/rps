@@ -26,7 +26,7 @@ public class testclass {
 
 
         //runden test
-        String output = new Runden(Constans.SYMBOLE.SCHERE.toString(), Constans.SYMBOLE.SCHERE.toString()).fightround();
+        String output = new Runden(CONSTANS.SYMBOLE.SCHERE.toString(), CONSTANS.SYMBOLE.SCHERE.toString()).fightround();
         System.out.println(" Ausgabe: "+ output);
 //        
         //games erspielen
@@ -54,7 +54,7 @@ public class testclass {
 //
 //        //fill playerList with ints
 //        for (int i = 1; i <= maxPlayer; i++) {
-//            Player p3 = new Player(i, Constans.playerStatus.PLAYER.toString());
+//            Player p3 = new Player(i, CONSTANS.playerStatus.PLAYER.toString());
 //            playerList.add(p3);
 //        }
 //        //fill the gamesList
@@ -131,7 +131,7 @@ public class testclass {
 //                Future result10 = null;
 //
 //                if (otherParticipants.size() % 2 != 0) {
-//                    Player p4 = new Player(FreiLosPlayerID, Constans.playerStatus.FREILOS.toString());
+//                    Player p4 = new Player(FreiLosPlayerID, CONSTANS.playerStatus.FREILOS.toString());
 //                    otherParticipants.add(p4);//adding freilos if size is a odd number
 //                }
 //

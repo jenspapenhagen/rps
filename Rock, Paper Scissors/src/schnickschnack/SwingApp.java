@@ -308,10 +308,10 @@ public final class SwingApp extends javax.swing.JDialog {
             changeRoundCounter(0 + "");
 
             //fight
-            String result = ruler.result(symbole1, symbole2);
+            String result = ruler.comparingSymboles(symbole1, symbole2);
             addToProtocol("Ausgabe normal Fight: " + result);
             //fight again if the fight was a draw
-            if (result.equalsIgnoreCase(Constans.FIGHTSTAT.UNENTSCHIEDEN.toString())) {
+            if (result.equalsIgnoreCase(CONSTANS.FIGHTSTAT.UNENTSCHIEDEN.toString())) {
                 addToProtocol("First Match was a draw, NOW Round 1");
                 result = runde(_playerID1, _playerID2, symbole1, symbole2);
             }
@@ -337,11 +337,11 @@ public final class SwingApp extends javax.swing.JDialog {
             changeRoundCounter("" + rounds);
 
             //fight
-            result = ruler.result(ruler.getVerhalten(_lastPlayer1Symbole, _lastPlayer2Symbole),
+            result = ruler.comparingSymboles(ruler.getVerhalten(_lastPlayer1Symbole, _lastPlayer2Symbole),
                     ruler.getVerhalten(_lastPlayer2Symbole, _lastPlayer1Symbole));
 
             addToProtocol("Runden "+ rounds +" Ergebnis: " + result);
-            if (!result.equalsIgnoreCase(Constans.FIGHTSTAT.UNENTSCHIEDEN.toString())) {
+            if (!result.equalsIgnoreCase(CONSTANS.FIGHTSTAT.UNENTSCHIEDEN.toString())) {
                 break;
             }
 
@@ -362,7 +362,7 @@ public final class SwingApp extends javax.swing.JDialog {
         Ruler ruler = new Ruler();
 
         try {
-            if (ruler.fightstatus(result).equals(Constans.FIGHTSTAT.GEWONNEN.toString())) {
+            if (ruler.fightstatus(result).equals(CONSTANS.FIGHTSTAT.GEWONNEN.toString())) {
                 removePlayerID = _playerID2;
             } else {
                 removePlayerID = _playerID1;
@@ -401,7 +401,7 @@ public final class SwingApp extends javax.swing.JDialog {
     }
 
     public String showPlayer1(int playerID1) throws IOException {
-        Player p1 = new Player(playerID1, Constans.PLAYERCONDITION.PLAYER.toString() );
+        Player p1 = new Player(playerID1, CONSTANS.PLAYERCONDITION.PLAYER.toString() );
 
         String symbole1 = p1.getPlayerSymbole();
 
@@ -419,7 +419,7 @@ public final class SwingApp extends javax.swing.JDialog {
     }
 
     public String showPlayer2(int playerID2) throws IOException {
-        Player p2 = new Player(playerID2, Constans.PLAYERCONDITION.PLAYER.toString());
+        Player p2 = new Player(playerID2, CONSTANS.PLAYERCONDITION.PLAYER.toString());
 
         String symbole2 = p2.getPlayerSymbole();
 
