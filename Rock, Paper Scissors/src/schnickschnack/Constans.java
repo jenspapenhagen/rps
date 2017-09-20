@@ -11,19 +11,19 @@ package schnickschnack;
  */
 public class Constans {
 
-    public enum symbole {
+    public enum SYMBOLE {
         PAPIER,
         SCHERE,
         STEIN
     };
 
-    public enum fightstat {
+    public enum FIGHTSTAT {
         GEWONNEN,
         VERLOHREN,
         UNENTSCHIEDEN
     };
     
-    public enum playerStatus {
+    public enum PLAYERCONDITION {
         PLAYER,
         FREILOS,
         DISQUALIFIZIERT

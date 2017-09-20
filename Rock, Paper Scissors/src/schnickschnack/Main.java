@@ -22,7 +22,7 @@ import java.util.concurrent.TimeoutException;
  */
 public class Main {
 
-    public static void main(String[] args) throws InterruptedException, BrokenBarrierException, TimeoutException, DrawException, ExecutionException, Throwable {
+    public static void main(String[] args) throws InterruptedException, BrokenBarrierException, TimeoutException, ExecutionException, Throwable {
         ExecutorService executorTier = Executors.newCachedThreadPool();
 
         int maxGames = 50;
@@ -36,7 +36,7 @@ public class Main {
 
         //fill playerList with ints
         for (int i = 1; i <= maxPlayer; i++) {
-            Player p1 = new Player(i, Constans.playerStatus.PLAYER.toString());
+            Player p1 = new Player(i, Constans.PLAYERCONDITION.PLAYER.toString());
             playerList.add(p1);
         }
 
@@ -75,7 +75,7 @@ public class Main {
 
             //fillup the remainingplayer 
             if (remainingPlayer.size() % 2 != 0) {
-                Player p1 = new Player(FreiLosPlayerID, Constans.playerStatus.FREILOS.toString());
+                Player p1 = new Player(FreiLosPlayerID, Constans.PLAYERCONDITION.FREILOS.toString());
                 remainingPlayer.add(p1);//adding freilos if size is a odd number
             }
             megaplayerList.addAll(remainingPlayer);

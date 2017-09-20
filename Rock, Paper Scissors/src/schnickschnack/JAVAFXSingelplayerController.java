@@ -77,24 +77,24 @@ public class JAVAFXSingelplayerController implements Initializable {
     @FXML
     private void handlePapierButton(ActionEvent event) throws InterruptedException, Exception {
         funk.addToProtocol("Player1: Papier");
-        Player p = new Player(1, Constans.playerStatus.PLAYER.toString());
-        p.setPlayerSymbole(Constans.symbole.PAPIER.toString());
+        Player p = new Player(1, Constans.PLAYERCONDITION.PLAYER.toString());
+        p.setPlayerSymbole(Constans.SYMBOLE.PAPIER.toString());
         player1symbol = changePlayerSymbolImg(p, 1);
     }
 
     @FXML
     private void handleSteinButton(ActionEvent event) throws InterruptedException, Exception {
         funk.addToProtocol("Player1: Stein");
-        Player p = new Player(2, Constans.playerStatus.PLAYER.toString());
-        p.setPlayerSymbole(Constans.symbole.STEIN.toString());
+        Player p = new Player(2, Constans.PLAYERCONDITION.PLAYER.toString());
+        p.setPlayerSymbole(Constans.SYMBOLE.STEIN.toString());
         player1symbol = changePlayerSymbolImg(p, 1);
     }
 
     @FXML
     private void handleSchereButton(ActionEvent event) throws InterruptedException, Exception {
         funk.addToProtocol("Player1: Schere");
-        Player p = new Player(3, Constans.playerStatus.PLAYER.toString());
-        p.setPlayerSymbole(Constans.symbole.SCHERE.toString());
+        Player p = new Player(3, Constans.PLAYERCONDITION.PLAYER.toString());
+        p.setPlayerSymbole(Constans.SYMBOLE.SCHERE.toString());
         player1symbol = changePlayerSymbolImg(p, 1);
     }
 
@@ -117,8 +117,8 @@ public class JAVAFXSingelplayerController implements Initializable {
         Random random = new Random();
         int Player1ID = 4;
         int Player2ID = random.nextInt((10 - 1) + 1) + 1;
-        Player p1 = new Player(Player1ID, Constans.playerStatus.PLAYER.toString());
-        Player p2 = new Player(Player2ID, Constans.playerStatus.PLAYER.toString());
+        Player p1 = new Player(Player1ID, Constans.PLAYERCONDITION.PLAYER.toString());
+        Player p2 = new Player(Player2ID, Constans.PLAYERCONDITION.PLAYER.toString());
         Ruler ruler = new Ruler();
 
         try {
@@ -127,16 +127,16 @@ public class JAVAFXSingelplayerController implements Initializable {
             funk.addToProtocol("Player1: " + symbole1);
 
             if (inFight) {
-                symbole2 = ruler.getVerhalten(symbole1, Constans.symbole.PAPIER.toString());
+                symbole2 = ruler.getVerhalten(symbole1, Constans.SYMBOLE.PAPIER.toString());
 
                 if (selectedPapier.isPressed()) {
-                    symbole1 = Constans.symbole.PAPIER.toString();
+                    symbole1 = Constans.SYMBOLE.PAPIER.toString();
                 }
                 if (selectedStein.isPressed()) {
-                    symbole1 = Constans.symbole.STEIN.toString();
+                    symbole1 = Constans.SYMBOLE.STEIN.toString();
                 }
                 if (selectedSchere.isPressed()) {
-                    symbole1 = Constans.symbole.SCHERE.toString();
+                    symbole1 = Constans.SYMBOLE.SCHERE.toString();
                 }
 
             } else {
@@ -153,7 +153,7 @@ public class JAVAFXSingelplayerController implements Initializable {
             funk.addToProtocol("Ausgabe Fight: " + figtresult);
 
             //fight was draw waiting on new user input
-            if (figtresult.equalsIgnoreCase(Constans.fightstat.UNENTSCHIEDEN.toString())) {
+            if (figtresult.equalsIgnoreCase(Constans.FIGHTSTAT.UNENTSCHIEDEN.toString())) {
                 funk.addToProtocol("First Match was a draw");
                 funk.addToProtocol("Please select a Symbole and klick match again");
                 System.out.println("First Match was a draw");
@@ -164,7 +164,7 @@ public class JAVAFXSingelplayerController implements Initializable {
 
             result.setText(figtresult);
 
-        } catch (DrawException | IOException ex) {
+        } catch ( IOException ex) {
             Logger.getLogger(SwingApp.class.getName()).log(Level.SEVERE, null, ex);
         }
 

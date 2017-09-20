@@ -311,7 +311,7 @@ public final class SwingApp extends javax.swing.JDialog {
             String result = ruler.result(symbole1, symbole2);
             addToProtocol("Ausgabe normal Fight: " + result);
             //fight again if the fight was a draw
-            if (result.equalsIgnoreCase(Constans.fightstat.UNENTSCHIEDEN.toString())) {
+            if (result.equalsIgnoreCase(Constans.FIGHTSTAT.UNENTSCHIEDEN.toString())) {
                 addToProtocol("First Match was a draw, NOW Round 1");
                 result = runde(_playerID1, _playerID2, symbole1, symbole2);
             }
@@ -320,7 +320,7 @@ public final class SwingApp extends javax.swing.JDialog {
 
             changeWinnerLable(result);
 
-        } catch (DrawException | IOException | InterruptedException ex) {
+        } catch (IOException | InterruptedException ex) {
             Logger.getLogger(SwingApp.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -328,7 +328,7 @@ public final class SwingApp extends javax.swing.JDialog {
 
     }
 
-    public String runde(int _playerID1, int _playerID2, String _lastPlayer1Symbole, String _lastPlayer2Symbole) throws DrawException {
+    public String runde(int _playerID1, int _playerID2, String _lastPlayer1Symbole, String _lastPlayer2Symbole)  {
         String result = null;
         Ruler ruler = new Ruler();
 
@@ -341,7 +341,7 @@ public final class SwingApp extends javax.swing.JDialog {
                     ruler.getVerhalten(_lastPlayer2Symbole, _lastPlayer1Symbole));
 
             addToProtocol("Runden "+ rounds +" Ergebnis: " + result);
-            if (!result.equalsIgnoreCase(Constans.fightstat.UNENTSCHIEDEN.toString())) {
+            if (!result.equalsIgnoreCase(Constans.FIGHTSTAT.UNENTSCHIEDEN.toString())) {
                 break;
             }
 
@@ -362,7 +362,7 @@ public final class SwingApp extends javax.swing.JDialog {
         Ruler ruler = new Ruler();
 
         try {
-            if (ruler.fightstatus(result).equals(Constans.fightstat.GEWONNEN.toString())) {
+            if (ruler.fightstatus(result).equals(Constans.FIGHTSTAT.GEWONNEN.toString())) {
                 removePlayerID = _playerID2;
             } else {
                 removePlayerID = _playerID1;
@@ -401,7 +401,7 @@ public final class SwingApp extends javax.swing.JDialog {
     }
 
     public String showPlayer1(int playerID1) throws IOException {
-        Player p1 = new Player(playerID1, Constans.playerStatus.PLAYER.toString() );
+        Player p1 = new Player(playerID1, Constans.PLAYERCONDITION.PLAYER.toString() );
 
         String symbole1 = p1.getPlayerSymbole();
 
@@ -419,7 +419,7 @@ public final class SwingApp extends javax.swing.JDialog {
     }
 
     public String showPlayer2(int playerID2) throws IOException {
-        Player p2 = new Player(playerID2, Constans.playerStatus.PLAYER.toString());
+        Player p2 = new Player(playerID2, Constans.PLAYERCONDITION.PLAYER.toString());
 
         String symbole2 = p2.getPlayerSymbole();
 

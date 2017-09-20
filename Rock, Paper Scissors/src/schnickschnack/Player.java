@@ -59,8 +59,8 @@ public final class Player {
     }
 
     public String randomSymbole() {
-        int indexer = new Random().nextInt(Constans.symbole.values().length);
-        String randomSymbole = (Constans.symbole.values()[indexer].toString());
+        int indexer = new Random().nextInt(Constans.SYMBOLE.values().length);
+        String randomSymbole = (Constans.SYMBOLE.values()[indexer].toString());
 
         return randomSymbole;
     }

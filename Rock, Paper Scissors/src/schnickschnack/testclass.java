@@ -26,7 +26,7 @@ public class testclass {
 
 
         //runden test
-        String output = new Runden(Constans.symbole.SCHERE.toString(), Constans.symbole.SCHERE.toString()).fightround();
+        String output = new Runden(Constans.SYMBOLE.SCHERE.toString(), Constans.SYMBOLE.SCHERE.toString()).fightround();
         System.out.println(" Ausgabe: "+ output);
 //        
         //games erspielen

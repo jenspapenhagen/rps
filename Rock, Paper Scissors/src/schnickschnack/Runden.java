@@ -27,17 +27,13 @@ public class Runden {
         Ruler ruler = new Ruler();
         String result = null;
         int maxrounds = 5;
-        
-        for (int rounds = 1; rounds < maxrounds; rounds++) {
-            try {
-                result = ruler.result(ruler.getVerhalten(lastPlayer1Symbole, lastPlayer2Symbole),
-                        ruler.getVerhalten(lastPlayer2Symbole, lastPlayer1Symbole));
-                System.out.println("Result of Round: " + rounds + " is: " + result);
-            } catch (DrawException ex) {
-                Logger.getLogger(Runden.class.getName()).log(Level.SEVERE, null, ex);
-            }
 
-            if (!result.equals(Constans.fightstat.UNENTSCHIEDEN.toString())) {
+        for (int rounds = 1; rounds < maxrounds; rounds++) {
+            result = ruler.result(ruler.getVerhalten(lastPlayer1Symbole, lastPlayer2Symbole),
+                    ruler.getVerhalten(lastPlayer2Symbole, lastPlayer1Symbole));
+            System.out.println("Result of Round: " + rounds + " is: " + result);
+
+            if (!result.equals(Constans.FIGHTSTAT.UNENTSCHIEDEN.toString())) {
                 break;
             }
 

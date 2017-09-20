@@ -32,7 +32,7 @@ public class Tier implements Callable<List<Player>> {
         return runThisTier();
     }
 
-    public List<Player> runThisTier() throws InterruptedException, ExecutionException, DrawException {
+    public List<Player> runThisTier() throws InterruptedException, ExecutionException {
         ExecutorService tierForExecuter = Executors.newFixedThreadPool(4);
 
         //fill the gamesList

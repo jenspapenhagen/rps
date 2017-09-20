@@ -20,9 +20,9 @@ public class Funktions {
 
     ObservableList<String> data = FXCollections.observableArrayList();
 
-    public Image givebackImg(String randomSymbole) throws IOException {
+    public Image givebackImg(String symbole) throws IOException {
         Image myPicture;
-        switch (randomSymbole) {
+        switch (symbole) {
             case "SCHERE":
                 myPicture = new Image(new File("./src/schnickschnack/files/schere.png").toURI().toString());
                 break;

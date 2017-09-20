@@ -17,15 +17,15 @@ public class Verhalten {
     //allways the same
     public String Verhalten1(String lastRoundSymbol1, String lastRoundSymbol2) {
         
-        return Constans.symbole.SCHERE.toString();
+        return Constans.SYMBOLE.SCHERE.toString();
     }
 
     public String Verhalten2(String lastRoundSymbol1, String lastRoundSymbol2) {
-        return Constans.symbole.STEIN.toString();
+        return Constans.SYMBOLE.STEIN.toString();
     }
 
     public String Verhalten3(String lastRoundSymbol1, String lastRoundSymbol2) {
-        return Constans.symbole.PAPIER.toString();
+        return Constans.SYMBOLE.PAPIER.toString();
     }
 
     public String OppositeOfLastRound(String lastRoundSymbol1, String lastRoundSymbol2) {
@@ -57,16 +57,16 @@ public class Verhalten {
         //the rules
         switch (Symbol) {
             case "SCHERE":
-                output = Constans.symbole.PAPIER.toString();
+                output = Constans.SYMBOLE.PAPIER.toString();
                 break;
             case "PAPIER":
-                output = Constans.symbole.STEIN.toString();
+                output = Constans.SYMBOLE.STEIN.toString();
                 break;
             case "STEIN" :
-                output = Constans.symbole.SCHERE.toString();
+                output = Constans.SYMBOLE.SCHERE.toString();
                 break;
             default:
-                output = Constans.symbole.PAPIER.toString();
+                output = Constans.SYMBOLE.PAPIER.toString();
                 
         }
 
