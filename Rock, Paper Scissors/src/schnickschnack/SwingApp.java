@@ -347,7 +347,7 @@ public final class SwingApp extends javax.swing.JDialog {
 
             if (rounds == maxrounds) {
                 //froce win
-                result = CONSTANS.FIGHTSTAT.WIN;
+                result = CONSTANS.FIGHTSTAT.WON;
                 break;
             }
 
@@ -360,7 +360,7 @@ public final class SwingApp extends javax.swing.JDialog {
         //remove the loser
         Integer removePlayerID = 0;
         try {
-            if (result.equals(CONSTANS.FIGHTSTAT.WIN)) {
+            if (result.equals(CONSTANS.FIGHTSTAT.WON)) {
                 removePlayerID = _playerID2;
             } else {
                 removePlayerID = _playerID1;

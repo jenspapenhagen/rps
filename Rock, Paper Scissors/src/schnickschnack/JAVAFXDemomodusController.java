@@ -154,7 +154,7 @@ public class JAVAFXDemomodusController implements Initializable {
             }
 
             if (rounds == maxrounds) {
-                fightresult = CONSTANS.FIGHTSTAT.WIN;//froce win
+                fightresult = CONSTANS.FIGHTSTAT.WON;//froce win
                 break;
             }
 
@@ -168,7 +168,7 @@ public class JAVAFXDemomodusController implements Initializable {
         Integer removePlayerID = 0;
 
         try {
-            if (result.equals(CONSTANS.FIGHTSTAT.WIN) ) {
+            if (result.equals(CONSTANS.FIGHTSTAT.WON) ) {
                 removePlayerID = p2.getPlayerID();
             } else {
                 removePlayerID = p1.getPlayerID();

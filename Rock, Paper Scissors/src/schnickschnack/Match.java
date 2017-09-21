@@ -27,10 +27,28 @@ public class Match implements Callable<Player> {
         LOG.debug("Match with ID:" + matchNr + " getstarted." + player1.getPlayerID() + " vs. " + player2.getPlayerID());
     }
 
-    public void comparingPlayerCondition(Player p1, Player p2) {
-
+    /**
+     * checking the condition of to player object 
+     * @param p1
+     * @param p2
+     * @return the the non player als instant loser
+     */
+    public Player comparingPlayerCondition(Player p1, Player p2) {
+        if (!p1.getPlayerCondtion().equals(CONSTANS.PLAYERCONDITION.PLAYER)) {
+            LOG.debug("Player 1 was a non Player object");
+            return p1;
+        }
+        if (!p2.getPlayerCondtion().equals(CONSTANS.PLAYERCONDITION.PLAYER)) {
+            LOG.debug("Player 2 was a non Player object");
+            return p2;
+        }
+        return null;
     }
 
+    /**
+     * the fight of the 2 player
+     * @return 
+     */
     @Override
     public Player call() {
         Ruler ruler = new Ruler();
@@ -40,15 +58,11 @@ public class Match implements Callable<Player> {
 
         Enum result = null;
 
-        //remove player
-        if (!player1.getPlayerCondtion()
-                .equals(CONSTANS.PLAYERCONDITION.PLAYER.toString())) {
-            return player1;
-        }
-
-        if (!player2.getPlayerCondtion()
-                .equals(CONSTANS.PLAYERCONDITION.PLAYER.toString())) {
-            return player2;
+        //remove non player
+        Player loser = comparingPlayerCondition(player1, player2);
+        if(loser != null){
+            LOG.debug("Fastgame one player was a non player object");
+            return loser;
         }
 
         result = ruler.comparingSymboles(player1Symbole, player2Symbole);
@@ -64,22 +78,28 @@ public class Match implements Callable<Player> {
         }
 
         //remove the lost player 
-        Player loser = removeLosingPlayer(result, player1, player2);
+        loser = removeLosingPlayer(result, player1, player2);
 
         return loser;
     }
 
-    public Player removeLosingPlayer(Enum result, Player _player1, Player _player2) {
-
+    /**
+     * removing the player object(witch has lost the game) 
+     * @param result
+     * @param player1
+     * @param player2
+     * @return the lost player
+     */
+    public Player removeLosingPlayer(Enum result, Player player1, Player player2) {
         try {
-            if (result.equals(CONSTANS.FIGHTSTAT.WIN)) {
-                return _player2;
+            if (result.equals(CONSTANS.FIGHTSTAT.WON)) {
+                return player2;
             } else {
-                return _player1;
+                return player1;
             }
         } catch (NullPointerException ex) {
             //froce win for player 2
-            return _player1;
+            return player1;
         }
 
     }

@@ -39,7 +39,7 @@ public class Rounds {
 
             if (rounds == maxrounds) {
                 //froce win
-                result = CONSTANS.FIGHTSTAT.WIN;
+                result = CONSTANS.FIGHTSTAT.WON;
                 break;
             }
 

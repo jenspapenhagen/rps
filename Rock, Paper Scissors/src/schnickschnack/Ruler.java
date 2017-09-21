@@ -51,7 +51,7 @@ public final class Ruler {
         }
 
         if (nondraw) {
-            output = CONSTANS.FIGHTSTAT.WIN;
+            output = CONSTANS.FIGHTSTAT.WON;
         } else {
             output = CONSTANS.FIGHTSTAT.LOST;
         }
