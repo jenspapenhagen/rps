@@ -296,15 +296,15 @@ public final class SwingApp extends javax.swing.JDialog {
     private javax.swing.JLabel winnerLable;
     // End of variables declaration//GEN-END:variables
 
-    public void fight(int _playerID1, int _playerID2) {
+    public void fight(int ID1, int ID2) {
         Ruler ruler = new Ruler();
         getCleanProtocol(); //clean the protocol
 
         try {
             Thread.sleep(5000);
             //give out the view
-            Enum symbole1 = showPlayer1(_playerID1);
-            Enum symbole2 = showPlayer2(_playerID2);
+            Enum symbole1 = showPlayer1(ID1);
+            Enum symbole2 = showPlayer2(ID2);
             changeRoundCounter(0 + "");
 
             //fight
@@ -313,10 +313,10 @@ public final class SwingApp extends javax.swing.JDialog {
             //fight again if the fight was a draw
             if (result.equals(ENUMS.FIGHTSTAT.DRAW)) {
                 addToProtocol("First Match was a draw, NOW Round 1");
-                result = runde(_playerID1, _playerID2, symbole1, symbole2);
+                result = runde(ID1, ID2, symbole1, symbole2);
             }
             //removce the lost player
-            toRemoveID(result, _playerID1, _playerID2);
+            toRemoveID(result, ID1, ID2);
 
             changeWinnerLable("Player 1 has: " +result);
 
@@ -356,18 +356,18 @@ public final class SwingApp extends javax.swing.JDialog {
         return result;
     }
 
-    public void toRemoveID(Enum result, int _playerID1, int _playerID2) {
+    public void toRemoveID(Enum result, int ID1, int ID2) {
         //remove the loser
         Integer removePlayerID = 0;
         try {
             if (result.equals(ENUMS.FIGHTSTAT.WON)) {
-                removePlayerID = _playerID2;
+                removePlayerID = ID2;
             } else {
-                removePlayerID = _playerID1;
+                removePlayerID = ID1;
             }
         } catch (NullPointerException ex) {
             //froce win
-            removePlayerID = _playerID1;
+            removePlayerID = ID1;
         }
 
         changeRemovePlayerIDLable("" + removePlayerID);
@@ -399,7 +399,7 @@ public final class SwingApp extends javax.swing.JDialog {
     }
 
     public Enum showPlayer1(int playerID1) throws IOException {
-        Player p1 = new Player(playerID1, ENUMS.PLAYERCONDITION.PLAYER.toString() );
+        Player p1 = new Player(playerID1, ENUMS.PLAYERCONDITION.PLAYER );
 
         Enum symbole1 = p1.getPlayerSymbole();
 
@@ -417,7 +417,7 @@ public final class SwingApp extends javax.swing.JDialog {
     }
 
     public Enum showPlayer2(int playerID2) throws IOException {
-        Player p2 = new Player(playerID2, ENUMS.PLAYERCONDITION.PLAYER.toString());
+        Player p2 = new Player(playerID2, ENUMS.PLAYERCONDITION.PLAYER);
 
         Enum symbole2 = p2.getPlayerSymbole();
 

@@ -15,6 +15,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -22,40 +23,50 @@ import java.util.concurrent.TimeoutException;
  */
 public class Main {
 
+    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Main.class);
+
     public static void main(String[] args) throws InterruptedException, BrokenBarrierException, TimeoutException, ExecutionException, Throwable {
         ExecutorService executorTier = Executors.newCachedThreadPool();
-        int maxPlayer = 100;
-        int maxGames = maxPlayer / 2;
-        int maxGamesNextTier = 0;
-        int anzahlDerTiers = (int) Math.sqrt(maxGames);
-        int FreiLosPlayerID = maxPlayer + 3;
 
-        List<Player> playerList = new ArrayList<>(maxPlayer);
+        int maxPlayer = 100;
+        int maxMatches = maxPlayer / 2;
+        int maxMatchesNextTier = 0;
+        int countOfTiers = (int) Math.sqrt(maxMatches);
+        int FreeWinID = maxPlayer + 3;
+
+        LOG.info("maxplayer " + maxPlayer);
+        LOG.info("maxGames " + maxMatches);
+        LOG.info("maxGamesNextTier " + maxMatchesNextTier);
+        LOG.info("anzahlDerTiers " + countOfTiers);
+        LOG.info("FreiLosPlayerID " + FreeWinID);
+
+        List<Player> rawplayerList = new ArrayList<>(maxPlayer);
         List<Player> remainingPlayer = new ArrayList<>();
 
         //fill playerList with ints
         for (int i = 1; i <= maxPlayer; i++) {
-            Player p1 = new Player(i, ENUMS.PLAYERCONDITION.PLAYER.toString());
-            playerList.add(p1);
+            Player p1 = new Player(i, ENUMS.PLAYERCONDITION.PLAYER);
+            rawplayerList.add(p1);
         }
 
-        List<Player> megaplayerList = new ArrayList<>();
-        megaplayerList.addAll(playerList);
+        //build a moving list
+        List<Player> playerListForTiers = new ArrayList<>();
+        playerListForTiers.addAll(rawplayerList);
 
         //run the tier
-        for (int tierCounter = 1; tierCounter < anzahlDerTiers; tierCounter++) {
+        for (int tierCounter = 1; tierCounter < countOfTiers; tierCounter++) {
             //giveback the count of max games for this tier
-            if (maxGamesNextTier == 2) {
-                maxGamesNextTier = maxGamesNextTier; //lastround
-            } else if (maxGamesNextTier % 2 == 0) {
-                maxGamesNextTier = maxGamesNextTier / 2;
+            if (maxMatchesNextTier == 2) {
+                maxMatchesNextTier = maxMatchesNextTier; //lastround
+            } else if (maxMatchesNextTier % 2 == 0) {
+                maxMatchesNextTier = maxMatchesNextTier / 2;
             } else {
-                maxGamesNextTier = (maxGamesNextTier + 1) / 2;
+                maxMatchesNextTier = (maxMatchesNextTier + 1) / 2;
             }
 
             if (tierCounter == 1) {
-                maxGamesNextTier = maxGames;
-                Tier tier = new Tier(maxGamesNextTier, playerList); //ersterste Tier.
+                maxMatchesNextTier = maxMatches;
+                Tier tier = new Tier(maxMatchesNextTier, rawplayerList); //ersterste Tier.
                 Future<List<Player>> result10 = executorTier.submit(tier);
                 remainingPlayer = result10.get();
             } else {
@@ -67,17 +78,17 @@ public class Main {
                 long seed = System.nanoTime();
                 Collections.shuffle(remainingPlayer, new Random(seed));
 
-                Tier tier = new Tier(maxGamesNextTier, remainingPlayer);
+                Tier tier = new Tier(maxMatchesNextTier, remainingPlayer);
                 Future<List<Player>> result10 = executorTier.submit(tier);
                 remainingPlayer = result10.get();
             }
 
-            //fillup the remainingplayer 
+            //fillup the remainingplayer with Freewin
             if (remainingPlayer.size() % 2 != 0) {
-                Player p1 = new Player(FreiLosPlayerID, ENUMS.PLAYERCONDITION.FREEWIN.toString());
+                Player p1 = new Player(FreeWinID, ENUMS.PLAYERCONDITION.FREEWIN);
                 remainingPlayer.add(p1);//adding freilos if size is a odd number
             }
-            megaplayerList.addAll(remainingPlayer);
+            playerListForTiers.addAll(remainingPlayer);
         }
         executorTier.shutdown();
 

@@ -89,8 +89,8 @@ public class JAVAFXDemomodusController implements Initializable {
             }
         }
 
-        Player p1 = new Player(Player1ID, ENUMS.PLAYERCONDITION.PLAYER.toString());
-        Player p2 = new Player(Player2ID, ENUMS.PLAYERCONDITION.PLAYER.toString());
+        Player p1 = new Player(Player1ID, ENUMS.PLAYERCONDITION.PLAYER);
+        Player p2 = new Player(Player2ID, ENUMS.PLAYERCONDITION.PLAYER);
 
         Ruler ruler = new Ruler();
         getCleanProtocol(backlog); //clean the protocol
@@ -180,11 +180,11 @@ public class JAVAFXDemomodusController implements Initializable {
         changeRemovePlayerIDLable("" + removePlayerID);
     }
 
-    public void changePlayerSymbolImg(Player p, int playerPostion) throws IOException {
+    public void changePlayerSymbolImg(Player p, int pos) throws IOException {
         Enum symbole = p.getPlayerSymbole();
         Image playerSymbole = funk.givebackImg(symbole);
 
-        switch (playerPostion) {
+        switch (pos) {
             case 1:
                 player1Nr.setText("" + p.getPlayerID());
                 player1Name.setText(p.getPlayerName());

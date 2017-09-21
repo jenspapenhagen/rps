@@ -24,28 +24,16 @@ public class testclass {
 
     public static void main(String[] args) throws Exception {
 
-
         //runden test
-        Enum output = new Rounds(ENUMS.SYMBOLE.SCISSOR, ENUMS.SYMBOLE.SCISSOR).fightround();
-        System.out.println(" Ausgabe: "+ output);
+//        Enum output = new Rounds(ENUMS.SYMBOLE.SCISSOR, ENUMS.SYMBOLE.PAPER).fightround();
+//        System.out.println(" Ausgabe: "+ output);
 //        
-        //games erspielen
-//        Game game;
-//        int erste = 1;
-//        int maxGames = 50;
-//        ExecutorService es = Executors.newSingleThreadExecutor();
-//        Future result10 = null;
-//        for (int matches = 1; matches <= maxGames; matches++) {
-//
-//            if (matches == 1) {
-//                game = new Game(matches, (matches), (matches + 1));
-//            } else {
-//                game = new Game(matches, (matches + erste), (matches + erste + 1));
-//                erste++;
-//            }
-//            result10 = es.submit(game);
-//        }
-//        es.shutdown();
+        //Match erspielen
+        Match game;
+        Player p1 = new Player(1, ENUMS.PLAYERCONDITION.PLAYER);
+        Player p2 = new Player(2, ENUMS.PLAYERCONDITION.PLAYER);
+        game = new Match(1, p1, p2);
+
         //tier test
 //        ExecutorService tierExecuter = Executors.newFixedThreadPool(3);
 //        int maxGames = 50;

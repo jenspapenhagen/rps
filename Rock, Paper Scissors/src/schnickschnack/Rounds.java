@@ -5,8 +5,7 @@
  */
 package schnickschnack;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -14,13 +13,17 @@ import java.util.logging.Logger;
  */
 public class Rounds {
 
+    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Rounds.class);
+
     private final Enum lastPlayer1Symbole;
     private final Enum lastPlayer2Symbole;
 
-    public Rounds(Enum _lastPlayer1Symbole, Enum _lastPlayer2Symbole) {
-        lastPlayer1Symbole = _lastPlayer1Symbole;
-        lastPlayer2Symbole = _lastPlayer2Symbole;
-
+    public Rounds(Enum lastPlayer1Symbole, Enum lastPlayer2Symbole) {
+        this.lastPlayer1Symbole = lastPlayer1Symbole;
+        this.lastPlayer2Symbole = lastPlayer2Symbole;
+        
+        LOG.debug("lastPlayer1Symbole" + lastPlayer1Symbole);
+        LOG.debug("lastPlayer2Symbole" + lastPlayer2Symbole);
     }
 
     public Enum fightround() {

@@ -21,12 +21,12 @@ public final class Player {
     private String PlayerName;
     private Enum PlayerSymbole;
     private final int PlayerID;
-    private String PlayerCondition;
+    private Enum PlayerCondition;
 
-    Player(int _ID, String _PlayerStatus) {
+    public Player(int ID, Enum PlayerCondition) {
         this.PlayerName = getRandomName();
-        this.PlayerID = _ID;
-        this.PlayerCondition = _PlayerStatus;
+        this.PlayerID = ID;
+        this.PlayerCondition = PlayerCondition;
         this.PlayerSymbole = getRandomSymbole();
     }
 
@@ -42,7 +42,7 @@ public final class Player {
         return this.PlayerID;
     }
 
-    public String getPlayerCondtion() {
+    public Enum getPlayerCondtion() {
         return this.PlayerCondition;
     }
 
@@ -54,8 +54,8 @@ public final class Player {
         this.PlayerSymbole = PlayerSymbole;
     }
 
-    public void setPlayerStatus(String PlayerStatus) {
-        this.PlayerCondition = PlayerStatus;
+    public void setPlayerCondition(Enum PlayerCondition) {
+        this.PlayerCondition = PlayerCondition;
     }
 
     public Enum getRandomSymbole() {

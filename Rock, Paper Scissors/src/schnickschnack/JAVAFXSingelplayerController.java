@@ -77,7 +77,7 @@ public class JAVAFXSingelplayerController implements Initializable {
     @FXML
     private void handlePapierButton(ActionEvent event) throws InterruptedException, Exception {
         addToProtocol("Player1: Papier");
-        Player p = new Player(1, ENUMS.PLAYERCONDITION.PLAYER.toString());
+        Player p = new Player(1, ENUMS.PLAYERCONDITION.PLAYER);
         p.setPlayerSymbole(ENUMS.SYMBOLE.PAPER);
         changePlayerSymbolImg(p, 1);
     }
@@ -85,7 +85,7 @@ public class JAVAFXSingelplayerController implements Initializable {
     @FXML
     private void handleSteinButton(ActionEvent event) throws InterruptedException, Exception {
         addToProtocol("Player1: Stein");
-        Player p = new Player(2, ENUMS.PLAYERCONDITION.PLAYER.toString());
+        Player p = new Player(2, ENUMS.PLAYERCONDITION.PLAYER);
         p.setPlayerSymbole(ENUMS.SYMBOLE.STONE);
         changePlayerSymbolImg(p, 1);
     }
@@ -93,7 +93,7 @@ public class JAVAFXSingelplayerController implements Initializable {
     @FXML
     private void handleSchereButton(ActionEvent event) throws InterruptedException, Exception {
         addToProtocol("Player1: Schere");
-        Player p = new Player(3, ENUMS.PLAYERCONDITION.PLAYER.toString());
+        Player p = new Player(3, ENUMS.PLAYERCONDITION.PLAYER);
         p.setPlayerSymbole(ENUMS.SYMBOLE.SCISSOR);
         changePlayerSymbolImg(p, 1);
     }
@@ -105,20 +105,20 @@ public class JAVAFXSingelplayerController implements Initializable {
 
         if (player1symbol.length() != 0) {
             getCleanProtocol(backlog); 
-            fight(player1symbol, randomPlayerNr2);
+            fight(randomPlayerNr2);
         } else {
             result.setText("Bitte noch Symbol wählen");
             inFight = true;
         }
     }
 
-    public void fight(String _playerSymbol, int _playerID2) throws InterruptedException {
+    public void fight(int ID2) throws InterruptedException {
         matchButton.setDisable(true);
         Random random = new Random();
         int Player1ID = 4;
         int Player2ID = random.nextInt((10 - 1) + 1) + 1;
-        Player p1 = new Player(Player1ID, ENUMS.PLAYERCONDITION.PLAYER.toString());
-        Player p2 = new Player(Player2ID, ENUMS.PLAYERCONDITION.PLAYER.toString());
+        Player p1 = new Player(Player1ID, ENUMS.PLAYERCONDITION.PLAYER);
+        Player p2 = new Player(Player2ID, ENUMS.PLAYERCONDITION.PLAYER);
         Ruler ruler = new Ruler();
 
         try {

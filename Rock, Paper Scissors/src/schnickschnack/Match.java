@@ -24,11 +24,13 @@ public class Match implements Callable<Player> {
         matchNr = matchID;
         player1 = p1;
         player2 = p2;
-        LOG.debug("Match with ID:" + matchNr + " getstarted." + player1.getPlayerID() + " vs. " + player2.getPlayerID());
+        LOG.debug("Match with ID:" + matchNr);
+        LOG.debug(" getstarted." + player1.getPlayerID() + " vs. " + player2.getPlayerID());
     }
 
     /**
-     * checking the condition of to player object 
+     * checking the condition of to player object
+     *
      * @param p1
      * @param p2
      * @return the the non player als instant loser
@@ -47,7 +49,8 @@ public class Match implements Callable<Player> {
 
     /**
      * the fight of the 2 player
-     * @return 
+     *
+     * @return
      */
     @Override
     public Player call() {
@@ -60,7 +63,7 @@ public class Match implements Callable<Player> {
 
         //remove non player
         Player loser = comparingPlayerCondition(player1, player2);
-        if(loser != null){
+        if (loser != null) {
             LOG.debug("Fastgame one player was a non player object");
             return loser;
         }
@@ -84,7 +87,8 @@ public class Match implements Callable<Player> {
     }
 
     /**
-     * removing the player object(witch has lost the game) 
+     * removing the player object(witch has lost the game)
+     *
      * @param result
      * @param player1
      * @param player2
