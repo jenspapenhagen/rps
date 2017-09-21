@@ -16,15 +16,15 @@ public class Verhalten {
 
     //allways the same
     public Enum Verhalten1(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
-        return CONSTANS.SYMBOLE.SCHERE;
+        return CONSTANS.SYMBOLE.SCISSOR;
     }
 
     public Enum Verhalten2(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
-        return CONSTANS.SYMBOLE.STEIN;
+        return CONSTANS.SYMBOLE.STONE;
     }
 
     public Enum Verhalten3(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
-        return CONSTANS.SYMBOLE.PAPIER;
+        return CONSTANS.SYMBOLE.PAPER;
     }
 
     public Enum OppositeOfLastRound(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
@@ -53,14 +53,14 @@ public class Verhalten {
 
     public Enum getOppositeSymbole(Enum Symbol) {
         Enum output = null;
-        if (Symbol.equals(CONSTANS.SYMBOLE.SCHERE)) {
-            output = CONSTANS.SYMBOLE.PAPIER;
+        if (Symbol.equals(CONSTANS.SYMBOLE.SCISSOR)) {
+            output = CONSTANS.SYMBOLE.PAPER;
         }
-        if (Symbol.equals(CONSTANS.SYMBOLE.PAPIER)) {
-            output = CONSTANS.SYMBOLE.STEIN;
+        if (Symbol.equals(CONSTANS.SYMBOLE.PAPER)) {
+            output = CONSTANS.SYMBOLE.STONE;
         }
-        if (Symbol.equals(CONSTANS.SYMBOLE.STEIN)) {
-            output = CONSTANS.SYMBOLE.SCHERE;
+        if (Symbol.equals(CONSTANS.SYMBOLE.STONE)) {
+            output = CONSTANS.SYMBOLE.SCISSOR;
         }
         
         return output;

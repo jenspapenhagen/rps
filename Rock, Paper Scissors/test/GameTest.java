@@ -45,7 +45,7 @@ public class GameTest {
     }
 
     /**
-     * Test of call method, of class Game.
+     * Test of call method, of class Match.
      */
     @Test
     public void testCall() throws InterruptedException, ExecutionException {
@@ -55,7 +55,7 @@ public class GameTest {
 
         ExecutorService es = Executors.newSingleThreadExecutor();
 
-        Game game = new Game(1, p1, p2);
+        Match game = new Match(1, p1, p2);
         Future<Player> result10 = es.submit(game);
 
         es.shutdown();

@@ -40,7 +40,7 @@ public class Tier implements Callable<List<Player>> {
         Iterator<Player> playerListIterator = playerList.iterator();
 
         for (int matches = 1; matches <= maxGames; matches++) {
-            Game game = new Game(matches, playerListIterator.next(), playerListIterator.next());
+            Match game = new Match(matches, playerListIterator.next(), playerListIterator.next());
             loserList.add(tierForExecuter.submit(game).get());
         }
 

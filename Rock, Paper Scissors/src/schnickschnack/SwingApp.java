@@ -303,22 +303,22 @@ public final class SwingApp extends javax.swing.JDialog {
         try {
             Thread.sleep(5000);
             //give out the view
-            String symbole1 = showPlayer1(_playerID1);
-            String symbole2 = showPlayer2(_playerID2);
+            Enum symbole1 = showPlayer1(_playerID1);
+            Enum symbole2 = showPlayer2(_playerID2);
             changeRoundCounter(0 + "");
 
             //fight
-            String result = ruler.comparingSymboles(symbole1, symbole2);
+            Enum result = ruler.comparingSymboles(symbole1, symbole2);
             addToProtocol("Ausgabe normal Fight: " + result);
             //fight again if the fight was a draw
-            if (result.equalsIgnoreCase(CONSTANS.FIGHTSTAT.UNENTSCHIEDEN.toString())) {
+            if (result.equals(CONSTANS.FIGHTSTAT.DRAW)) {
                 addToProtocol("First Match was a draw, NOW Round 1");
                 result = runde(_playerID1, _playerID2, symbole1, symbole2);
             }
             //removce the lost player
             toRemoveID(result, _playerID1, _playerID2);
 
-            changeWinnerLable(result);
+            changeWinnerLable("Player 1 has: " +result);
 
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(SwingApp.class.getName()).log(Level.SEVERE, null, ex);
@@ -328,8 +328,8 @@ public final class SwingApp extends javax.swing.JDialog {
 
     }
 
-    public String runde(int _playerID1, int _playerID2, String _lastPlayer1Symbole, String _lastPlayer2Symbole)  {
-        String result = null;
+    public Enum runde(int ID1, int ID2, Enum lastPlayer1Symbole, Enum lastPlayer2Symbole)  {
+        Enum result = null;
         Ruler ruler = new Ruler();
 
         int maxrounds = 5;
@@ -337,17 +337,17 @@ public final class SwingApp extends javax.swing.JDialog {
             changeRoundCounter("" + rounds);
 
             //fight
-            result = ruler.comparingSymboles(ruler.getVerhalten(_lastPlayer1Symbole, _lastPlayer2Symbole),
-                    ruler.getVerhalten(_lastPlayer2Symbole, _lastPlayer1Symbole));
+            result = ruler.comparingSymboles(ruler.getVerhalten(lastPlayer1Symbole, lastPlayer2Symbole),
+                    ruler.getVerhalten(lastPlayer2Symbole, lastPlayer1Symbole));
 
             addToProtocol("Runden "+ rounds +" Ergebnis: " + result);
-            if (!result.equalsIgnoreCase(CONSTANS.FIGHTSTAT.UNENTSCHIEDEN.toString())) {
+            if (!result.equals(CONSTANS.FIGHTSTAT.DRAW)) {
                 break;
             }
 
             if (rounds == maxrounds) {
                 //froce win
-                result = "Player 1 gewinnt";
+                result = CONSTANS.FIGHTSTAT.WIN;
                 break;
             }
 
@@ -356,13 +356,11 @@ public final class SwingApp extends javax.swing.JDialog {
         return result;
     }
 
-    public void toRemoveID(String result, int _playerID1, int _playerID2) {
+    public void toRemoveID(Enum result, int _playerID1, int _playerID2) {
         //remove the loser
         Integer removePlayerID = 0;
-        Ruler ruler = new Ruler();
-
         try {
-            if (ruler.fightstatus(result).equals(CONSTANS.FIGHTSTAT.GEWONNEN.toString())) {
+            if (result.equals(CONSTANS.FIGHTSTAT.WIN)) {
                 removePlayerID = _playerID2;
             } else {
                 removePlayerID = _playerID1;
@@ -400,10 +398,10 @@ public final class SwingApp extends javax.swing.JDialog {
         removedPlayerID.setText(input);
     }
 
-    public String showPlayer1(int playerID1) throws IOException {
+    public Enum showPlayer1(int playerID1) throws IOException {
         Player p1 = new Player(playerID1, CONSTANS.PLAYERCONDITION.PLAYER.toString() );
 
-        String symbole1 = p1.getPlayerSymbole();
+        Enum symbole1 = p1.getPlayerSymbole();
 
         BufferedImage playerSymbole = givebackImg(symbole1);
         ImageIcon imageIcon = new ImageIcon(playerSymbole);
@@ -418,10 +416,10 @@ public final class SwingApp extends javax.swing.JDialog {
 
     }
 
-    public String showPlayer2(int playerID2) throws IOException {
+    public Enum showPlayer2(int playerID2) throws IOException {
         Player p2 = new Player(playerID2, CONSTANS.PLAYERCONDITION.PLAYER.toString());
 
-        String symbole2 = p2.getPlayerSymbole();
+        Enum symbole2 = p2.getPlayerSymbole();
 
         BufferedImage playerSymbole = givebackImg(symbole2);
         ImageIcon imageIcon = new ImageIcon(playerSymbole);
@@ -435,20 +433,18 @@ public final class SwingApp extends javax.swing.JDialog {
         return symbole2;
     }
 
-    public BufferedImage givebackImg(String randomSymbole) throws IOException {
+    public BufferedImage givebackImg(Enum symbole) throws IOException {
         BufferedImage myPicture;
-        switch (randomSymbole) {
-            case "SCHERE":
-                myPicture = ImageIO.read(new File("./src/schnickschnack/files/schere.png"));
-                break;
-            case "PAPIER":
-                myPicture = ImageIO.read(new File("./src/schnickschnack/files/papier.png"));
-                break;
-            case "STEIN":
-                myPicture = ImageIO.read(new File("./src/schnickschnack/files/stein.png"));
-                break;
-            default:
-                myPicture = ImageIO.read(new File("./src/schnickschnack/files/papier.png"));
+        if (symbole.equals(CONSTANS.SYMBOLE.SCISSOR)) {
+            myPicture = ImageIO.read(new File("./src/schnickschnack/files/schere.png"));
+        }
+        if (symbole.equals(CONSTANS.SYMBOLE.PAPER)) {
+            myPicture = ImageIO.read(new File("./src/schnickschnack/files/papier.png"));
+        }
+        if (symbole.equals(CONSTANS.SYMBOLE.STONE)) {
+            myPicture = ImageIO.read(new File("./src/schnickschnack/files/stein.png"));
+        } else {
+            myPicture = ImageIO.read(new File("./src/schnickschnack/files/papier.png"));
         }
 
         return myPicture;

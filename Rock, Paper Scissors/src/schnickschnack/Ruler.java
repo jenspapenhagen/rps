@@ -17,7 +17,7 @@ public final class Ruler {
 
     }
 
-    Ruler(String symbole1, String symbole2) {
+    Ruler(Enum symbole1, Enum symbole2) {
         comparingSymboles(symbole1, symbole2);
     }
 
@@ -28,63 +28,41 @@ public final class Ruler {
      * @return Schere gewinnt gegen Papier, Papier gewinnt gegen Stein, Stein
      * gewinnt gegen Schere
      */
-    public String comparingSymboles(String symbole1, String symbole2) {
-        String output = null;
+    public Enum comparingSymboles(Enum symbole1, Enum symbole2) {
+        Enum output = null;
         boolean nondraw = false;
 
         if (symbole1 == null ? symbole2 == null : symbole1.equals(symbole2)) {
-            output = CONSTANS.FIGHTSTAT.UNENTSCHIEDEN.toString();
-
-            return output;
-
+            return CONSTANS.FIGHTSTAT.DRAW;
         }
 
         //the rules
-        if (symbole1.equals(CONSTANS.SYMBOLE.SCHERE.toString())) {
-            nondraw = symbole2.equals(CONSTANS.SYMBOLE.PAPIER.toString());
+        if (symbole1.equals(CONSTANS.SYMBOLE.SCISSOR) && symbole2.equals(CONSTANS.SYMBOLE.PAPER)) {
+            
+            nondraw = true;
         }
 
-        if (symbole1.equals(CONSTANS.SYMBOLE.PAPIER.toString())) {
-            nondraw = symbole2.equals(CONSTANS.SYMBOLE.STEIN.toString());
+        if (symbole1.equals(CONSTANS.SYMBOLE.PAPER) && symbole2.equals(CONSTANS.SYMBOLE.STONE) ) {
+            nondraw = true;
         }
 
-        if (symbole1.equals(CONSTANS.SYMBOLE.STEIN.toString())) {
-            nondraw = symbole2.equals(CONSTANS.SYMBOLE.SCHERE.toString());
+        if (symbole1.equals(CONSTANS.SYMBOLE.STONE) && symbole2.equals(CONSTANS.SYMBOLE.SCISSOR)) {
+            nondraw = true;
         }
 
         if (nondraw) {
-            output = "Player 1 gewinnt";
+            output = CONSTANS.FIGHTSTAT.WIN;
         } else {
-            output = "Player 2 gewinnt";
+            output = CONSTANS.FIGHTSTAT.LOST;
         }
 
         return output;
     }
 
-    //translate the output form String to a nicer Enum
-    public String fightstatus(String result) {
-        String output = null;
-
-        switch (result) {
-            case "Player 1 gewinnt":
-                output = CONSTANS.FIGHTSTAT.GEWONNEN.toString();
-                break;
-            case "Player 2 gewinnt":
-                output = CONSTANS.FIGHTSTAT.VERLOHREN.toString();
-                break;
-            default:
-                output = CONSTANS.FIGHTSTAT.GEWONNEN.toString();
-                break;
-        }
-
-        return output;
-    }
-   
-
-    public String getVerhalten(String lastRoundSymbol1, String lastRoundSymbol2) {
+    public Enum getVerhalten(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
         int indexer = new Random().nextInt(7);
         Verhalten verh = new Verhalten();
-        String output;
+        Enum output;
 
         switch (indexer) {
             case 1:

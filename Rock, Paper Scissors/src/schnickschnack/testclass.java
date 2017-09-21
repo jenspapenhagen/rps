@@ -26,7 +26,7 @@ public class testclass {
 
 
         //runden test
-        String output = new Runden(CONSTANS.SYMBOLE.SCHERE.toString(), CONSTANS.SYMBOLE.SCHERE.toString()).fightround();
+        Enum output = new Rounds(CONSTANS.SYMBOLE.SCISSOR, CONSTANS.SYMBOLE.SCISSOR).fightround();
         System.out.println(" Ausgabe: "+ output);
 //        
         //games erspielen

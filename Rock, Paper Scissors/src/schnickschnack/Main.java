@@ -24,9 +24,8 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException, BrokenBarrierException, TimeoutException, ExecutionException, Throwable {
         ExecutorService executorTier = Executors.newCachedThreadPool();
-
-        int maxGames = 50;
-        int maxPlayer = maxGames * 2;
+        int maxPlayer = 100;
+        int maxGames = maxPlayer / 2;
         int maxGamesNextTier = 0;
         int anzahlDerTiers = (int) Math.sqrt(maxGames);
         int FreiLosPlayerID = maxPlayer + 3;
@@ -75,7 +74,7 @@ public class Main {
 
             //fillup the remainingplayer 
             if (remainingPlayer.size() % 2 != 0) {
-                Player p1 = new Player(FreiLosPlayerID, CONSTANS.PLAYERCONDITION.FREILOS.toString());
+                Player p1 = new Player(FreiLosPlayerID, CONSTANS.PLAYERCONDITION.FREEWIN.toString());
                 remainingPlayer.add(p1);//adding freilos if size is a odd number
             }
             megaplayerList.addAll(remainingPlayer);
@@ -83,7 +82,5 @@ public class Main {
         executorTier.shutdown();
 
     }
-
-   
 
 }

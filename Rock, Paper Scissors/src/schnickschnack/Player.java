@@ -19,7 +19,7 @@ import org.apache.commons.io.FileUtils;
 public final class Player {
 
     private String PlayerName;
-    private String PlayerSymbole;
+    private Enum PlayerSymbole;
     private final int PlayerID;
     private String PlayerCondition;
 
@@ -34,7 +34,7 @@ public final class Player {
         return this.PlayerName;
     }
 
-    public String getPlayerSymbole() {
+    public Enum getPlayerSymbole() {
         return this.PlayerSymbole;
     }
 
@@ -50,7 +50,7 @@ public final class Player {
         this.PlayerName = PlayerName;
     }
 
-    public void setPlayerSymbole(String PlayerSymbole) {
+    public void setPlayerSymbole(Enum PlayerSymbole) {
         this.PlayerSymbole = PlayerSymbole;
     }
 
@@ -58,18 +58,17 @@ public final class Player {
         this.PlayerCondition = PlayerStatus;
     }
 
-    public String getRandomSymbole() {
+    public Enum getRandomSymbole() {
         int indexer = new Random().nextInt(CONSTANS.SYMBOLE.values().length);
-        String randomSymbole = (CONSTANS.SYMBOLE.values()[indexer].toString());
-
-        return randomSymbole;
+        
+        return (CONSTANS.SYMBOLE.values()[indexer]);
     }
 
     public String getRandomName() {
         String output = "";
         try {
             List<String> Namelist = FileUtils.readLines(
-                    new File("./src/schnickschnack/files/Vornamen.txt"), "utf-8");
+                    new File("./src/schnickschnack/files/forename.txt"), "utf-8");
 
             int randomline = new Random().nextInt(Namelist.size());
             output = Namelist.get(randomline);

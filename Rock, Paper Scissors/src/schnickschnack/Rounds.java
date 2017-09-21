@@ -12,20 +12,20 @@ import java.util.logging.Logger;
  *
  * @author jens.papenhagen
  */
-public class Runden {
+public class Rounds {
 
-    private final String lastPlayer1Symbole;
-    private final String lastPlayer2Symbole;
+    private final Enum lastPlayer1Symbole;
+    private final Enum lastPlayer2Symbole;
 
-    public Runden(String _lastPlayer1Symbole, String _lastPlayer2Symbole) {
+    public Rounds(Enum _lastPlayer1Symbole, Enum _lastPlayer2Symbole) {
         lastPlayer1Symbole = _lastPlayer1Symbole;
         lastPlayer2Symbole = _lastPlayer2Symbole;
 
     }
 
-    public String fightround() {
+    public Enum fightround() {
         Ruler ruler = new Ruler();
-        String result = null;
+        Enum result = null;
         int maxrounds = 5;
 
         for (int rounds = 1; rounds < maxrounds; rounds++) {
@@ -33,13 +33,13 @@ public class Runden {
                     ruler.getVerhalten(lastPlayer2Symbole, lastPlayer1Symbole));
             System.out.println("Result of Round: " + rounds + " is: " + result);
 
-            if (!result.equals(CONSTANS.FIGHTSTAT.UNENTSCHIEDEN.toString())) {
+            if (!result.equals(CONSTANS.FIGHTSTAT.DRAW)) {
                 break;
             }
 
             if (rounds == maxrounds) {
                 //froce win
-                result = "Player 1 gewinnt";
+                result = CONSTANS.FIGHTSTAT.WIN;
                 break;
             }
 

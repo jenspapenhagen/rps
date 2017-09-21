@@ -97,18 +97,18 @@ public class JAVAFXDemomodusController implements Initializable {
 
         try {
             //give out the view
-            String symbole1 = changePlayerSymbolImg(p1, playerPostion);
+            changePlayerSymbolImg(p1, playerPostion);
             playerPostion = 2;
-            String symbole2 = changePlayerSymbolImg(p2, playerPostion);
+            changePlayerSymbolImg(p2, playerPostion);
             roundNr.setText("");
 
             //fight
-            String resultFromfight = ruler.comparingSymboles(symbole1, symbole1);
-            addToProtocol("Player1: " + symbole1);
-            addToProtocol("Player2: " + symbole2);
+            Enum resultFromfight = ruler.comparingSymboles(p1.getPlayerSymbole(), p2.getPlayerSymbole());
+            addToProtocol("Player1: " + p1.getPlayerSymbole());
+            addToProtocol("Player2: " + p2.getPlayerSymbole());
             addToProtocol("Ausgabe normal Fight: " + resultFromfight);
             //fight again if the fight was a draw
-            if (resultFromfight.equalsIgnoreCase(CONSTANS.FIGHTSTAT.UNENTSCHIEDEN.toString())) {
+            if (resultFromfight.equals(CONSTANS.FIGHTSTAT.DRAW)) {
                 addToProtocol("First Match was a draw, NOW Round 1");
                 changePlayerSymbolImg(p1, 1);
                 changePlayerSymbolImg(p2, 2);
@@ -116,7 +116,7 @@ public class JAVAFXDemomodusController implements Initializable {
             }
             //removce the lost player
             toRemoveID(resultFromfight, p1, p2);
-            result.setText(resultFromfight);
+            result.setText("Player 1 has "+resultFromfight.toString());
 
         } catch (IOException ex) {
             Logger.getLogger(SwingApp.class.getName()).log(Level.SEVERE, null, ex);
@@ -126,15 +126,15 @@ public class JAVAFXDemomodusController implements Initializable {
         randomfight = false;
     }
 
-    public String runde(Player p1, Player p2) throws IOException {
-        String fightresult = null;
+    public Enum runde(Player p1, Player p2) throws IOException {
+        Enum fightresult = null;
         Ruler ruler = new Ruler();
 
         int maxrounds = 5;
         for (int rounds = 1; rounds <= maxrounds; rounds++) {
             //fight
-            String player1symbole = ruler.getVerhalten(p1.getPlayerSymbole(), p2.getPlayerSymbole());
-            String player2symbole = ruler.getVerhalten(p2.getPlayerSymbole(), p1.getPlayerSymbole());
+            Enum player1symbole = ruler.getVerhalten(p1.getPlayerSymbole(), p2.getPlayerSymbole());
+            Enum player2symbole = ruler.getVerhalten(p2.getPlayerSymbole(), p1.getPlayerSymbole());
 
             addToProtocol("Player1: " + player1symbole);
             addToProtocol("Player2: " + player2symbole);
@@ -147,14 +147,14 @@ public class JAVAFXDemomodusController implements Initializable {
             fightresult = ruler.comparingSymboles(player1symbole, player2symbole);
 
             addToProtocol("Runden " + rounds + " Ergebnis: " + fightresult);
-            if (!fightresult.equalsIgnoreCase(CONSTANS.FIGHTSTAT.UNENTSCHIEDEN.toString())) {
+            if (!fightresult.equals(CONSTANS.FIGHTSTAT.DRAW)) {
                 changePlayerSymbolImg(p1, 1);
                 changePlayerSymbolImg(p2, 2);
                 break;
             }
 
             if (rounds == maxrounds) {
-                fightresult = "Player 1 gewinnt";//froce win
+                fightresult = CONSTANS.FIGHTSTAT.WIN;//froce win
                 break;
             }
 
@@ -164,12 +164,11 @@ public class JAVAFXDemomodusController implements Initializable {
         return fightresult;
     }
 
-    public void toRemoveID(String result, Player p1, Player p2) {
+    public void toRemoveID(Enum result, Player p1, Player p2) {
         Integer removePlayerID = 0;
-        Ruler ruler = new Ruler();
 
         try {
-            if (ruler.fightstatus(result).equals(CONSTANS.FIGHTSTAT.GEWONNEN.toString())) {
+            if (result.equals(CONSTANS.FIGHTSTAT.WIN) ) {
                 removePlayerID = p2.getPlayerID();
             } else {
                 removePlayerID = p1.getPlayerID();
@@ -181,8 +180,8 @@ public class JAVAFXDemomodusController implements Initializable {
         changeRemovePlayerIDLable("" + removePlayerID);
     }
 
-    public String changePlayerSymbolImg(Player p, int playerPostion) throws IOException {
-        String symbole = p.getPlayerSymbole();
+    public void changePlayerSymbolImg(Player p, int playerPostion) throws IOException {
+        Enum symbole = p.getPlayerSymbole();
         Image playerSymbole = funk.givebackImg(symbole);
 
         switch (playerPostion) {
@@ -200,8 +199,6 @@ public class JAVAFXDemomodusController implements Initializable {
             default:
                 break;
         }
-
-        return symbole;
     }
     
     public void changeRemovePlayerIDLable(String input) {

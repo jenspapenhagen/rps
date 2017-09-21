@@ -7,9 +7,6 @@ package schnickschnack;
 
 import java.io.File;
 import java.io.IOException;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 
 /**
@@ -18,25 +15,22 @@ import javafx.scene.image.Image;
  */
 public class UtilityMethodes {
 
-    public Image givebackImg(String symbole) throws IOException {
+    public Image givebackImg(Enum symbole) throws IOException {
         Image myPicture;
-        switch (symbole) {
-            case "SCHERE":
-                myPicture = new Image(new File("./src/schnickschnack/files/schere.png").toURI().toString());
-                break;
-            case "PAPIER":
-                myPicture = new Image(new File("./src/schnickschnack/files/papier.png").toURI().toString());
-                break;
-            case "STEIN":
-                myPicture = new Image(new File("./src/schnickschnack/files/stein.png").toURI().toString());
-                break;
-            default:
-                myPicture = new Image(new File("./src/schnickschnack/files/papier.png").toURI().toString());
+
+        if (symbole.equals(CONSTANS.SYMBOLE.SCISSOR)) {
+            myPicture = new Image(new File("./src/schnickschnack/files/schere.png").toURI().toString());
+        }
+        if (symbole.equals(CONSTANS.SYMBOLE.PAPER)) {
+            myPicture = new Image(new File("./src/schnickschnack/files/papier.png").toURI().toString());
+        }
+        if (symbole.equals(CONSTANS.SYMBOLE.STONE)) {
+            myPicture = new Image(new File("./src/schnickschnack/files/stein.png").toURI().toString());
+        } else {
+            myPicture = new Image(new File("./src/schnickschnack/files/papier.png").toURI().toString());
         }
 
         return myPicture;
     }
-
-
 
 }

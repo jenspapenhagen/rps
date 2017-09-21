@@ -41,11 +41,7 @@ public class JAVAFXSingelplayerController implements Initializable {
     @FXML
     private JFXButton selectedSchere;
     @FXML
-    private Label player1Nr;
-    @FXML
     private Label player2Nr;
-    @FXML
-    private Label player1Name;
     @FXML
     private Label player2Name;
     @FXML
@@ -82,24 +78,24 @@ public class JAVAFXSingelplayerController implements Initializable {
     private void handlePapierButton(ActionEvent event) throws InterruptedException, Exception {
         addToProtocol("Player1: Papier");
         Player p = new Player(1, CONSTANS.PLAYERCONDITION.PLAYER.toString());
-        p.setPlayerSymbole(CONSTANS.SYMBOLE.PAPIER.toString());
-        player1symbol = changePlayerSymbolImg(p, 1);
+        p.setPlayerSymbole(CONSTANS.SYMBOLE.PAPER);
+        changePlayerSymbolImg(p, 1);
     }
 
     @FXML
     private void handleSteinButton(ActionEvent event) throws InterruptedException, Exception {
         addToProtocol("Player1: Stein");
         Player p = new Player(2, CONSTANS.PLAYERCONDITION.PLAYER.toString());
-        p.setPlayerSymbole(CONSTANS.SYMBOLE.STEIN.toString());
-        player1symbol = changePlayerSymbolImg(p, 1);
+        p.setPlayerSymbole(CONSTANS.SYMBOLE.STONE);
+        changePlayerSymbolImg(p, 1);
     }
 
     @FXML
     private void handleSchereButton(ActionEvent event) throws InterruptedException, Exception {
         addToProtocol("Player1: Schere");
         Player p = new Player(3, CONSTANS.PLAYERCONDITION.PLAYER.toString());
-        p.setPlayerSymbole(CONSTANS.SYMBOLE.SCHERE.toString());
-        player1symbol = changePlayerSymbolImg(p, 1);
+        p.setPlayerSymbole(CONSTANS.SYMBOLE.SCISSOR);
+        changePlayerSymbolImg(p, 1);
     }
 
     @FXML
@@ -126,38 +122,39 @@ public class JAVAFXSingelplayerController implements Initializable {
         Ruler ruler = new Ruler();
 
         try {
-            String symbole1 = p1.getPlayerSymbole();
-            String symbole2 = "";
+            Enum symbole1 = p1.getPlayerSymbole();
+            Enum symbole2 = null;
             addToProtocol("Player1: " + symbole1);
 
             if (inFight) {
-                symbole2 = ruler.getVerhalten(symbole1, CONSTANS.SYMBOLE.PAPIER.toString());
+                symbole2 = ruler.getVerhalten(symbole1, CONSTANS.SYMBOLE.PAPER);
 
                 if (selectedPapier.isPressed()) {
-                    symbole1 = CONSTANS.SYMBOLE.PAPIER.toString();
+                    symbole1 = CONSTANS.SYMBOLE.PAPER;
                 }
                 if (selectedStein.isPressed()) {
-                    symbole1 = CONSTANS.SYMBOLE.STEIN.toString();
+                    symbole1 = CONSTANS.SYMBOLE.STONE;
                 }
                 if (selectedSchere.isPressed()) {
-                    symbole1 = CONSTANS.SYMBOLE.SCHERE.toString();
+                    symbole1 = CONSTANS.SYMBOLE.SCISSOR;
                 }
 
             } else {
                 getCleanProtocol(backlog); 
-                symbole2 = changePlayerSymbolImg(p2, 2);
+                changePlayerSymbolImg(p2, 2);
+                symbole2 = p2.getPlayerSymbole();
             }
             changePlayerSymbolImg(p1, 1);
             roundNr.setText(0 + "");
 
             //fight
             addToProtocol("Player2: " + symbole2);
-            String figtresult = ruler.comparingSymboles(symbole1, symbole2);
+            Enum figtresult = ruler.comparingSymboles(symbole1, symbole2);
             changePlayerSymbolImg(p2, 2);
             addToProtocol("Ausgabe Fight: " + figtresult);
 
             //fight was draw waiting on new user input
-            if (figtresult.equalsIgnoreCase(CONSTANS.FIGHTSTAT.UNENTSCHIEDEN.toString())) {
+            if (figtresult.equals(CONSTANS.FIGHTSTAT.DRAW)) {
                 addToProtocol("First Match was a draw");
                 addToProtocol("Please select a Symbole and klick match again");
                 System.out.println("First Match was a draw");
@@ -166,7 +163,7 @@ public class JAVAFXSingelplayerController implements Initializable {
                 inFight = true;
             }
 
-            result.setText(figtresult);
+            result.setText("Player 1: " + figtresult);
 
         } catch ( IOException ex) {
             Logger.getLogger(SwingApp.class.getName()).log(Level.SEVERE, null, ex);
@@ -177,27 +174,23 @@ public class JAVAFXSingelplayerController implements Initializable {
         playerPostion = 1;
     }
 
-    public String changePlayerSymbolImg(Player p, int playerPostion) throws IOException {
-        String symbole = p.getPlayerSymbole();
+    public void changePlayerSymbolImg(Player p, int playerPostion) throws IOException {
+        Enum symbole = p.getPlayerSymbole();
         Image playerSymbole = funk.givebackImg(symbole);
 
         switch (playerPostion) {
             case 1:
                 player1img.setImage(playerSymbole);
                 break;
-
             case 2:
                 player2Nr.setText("" + p.getPlayerID());
                 player2Name.setText(p.getPlayerName());
                 player2img.setImage(playerSymbole);
                 break;
-
             default:
                 break;
 
         }
-
-        return symbole;
     }
 
     
