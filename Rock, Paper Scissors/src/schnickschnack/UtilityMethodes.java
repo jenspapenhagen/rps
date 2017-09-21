@@ -24,7 +24,7 @@ public class UtilityMethodes {
         if (symbole.equals(Enums.Symbole.PAPER)) {
             myPicture = new Image(new File("./src/schnickschnack/files/paper.png").toURI().toString());
         }
-        if (symbole.equals(Enums.Symbole.STONE)) {
+        if (symbole.equals(Enums.Symbole.ROCK)) {
             myPicture = new Image(new File("./src/schnickschnack/files/stone.png").toURI().toString());
         }
 

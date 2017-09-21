@@ -92,7 +92,7 @@ public class JAVAFXSingelplayerController implements Initializable {
     private void handleSteinButton(ActionEvent event) throws InterruptedException, Exception {
 
         Player p = new Player(2, Enums.Playercondition.PLAYER);
-        p.setPlayerSymbole(Enums.Symbole.STONE);
+        p.setPlayerSymbole(Enums.Symbole.ROCK);
         player1ready = true;
 
         //fill Protocoll and change UI
@@ -154,7 +154,7 @@ public class JAVAFXSingelplayerController implements Initializable {
                     symbole1 = Enums.Symbole.PAPER;
                 }
                 if (selectedStein.isPressed()) {
-                    symbole1 = Enums.Symbole.STONE;
+                    symbole1 = Enums.Symbole.ROCK;
                 }
                 if (selectedSchere.isPressed()) {
                     symbole1 = Enums.Symbole.SCISSOR;

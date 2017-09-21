@@ -441,7 +441,7 @@ public final class SwingApp extends javax.swing.JDialog {
         if (symbole.equals(Enums.Symbole.PAPER)) {
             myPicture = ImageIO.read(new File("./src/schnickschnack/files/paper.png"));
         }
-        if (symbole.equals(Enums.Symbole.STONE)) {
+        if (symbole.equals(Enums.Symbole.ROCK)) {
             myPicture = ImageIO.read(new File("./src/schnickschnack/files/stone.png"));
         } else {
             myPicture = ImageIO.read(new File("./src/schnickschnack/files/paper.png"));

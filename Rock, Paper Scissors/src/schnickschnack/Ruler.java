@@ -5,6 +5,7 @@
  */
 package schnickschnack;
 
+import java.util.EnumSet;
 import java.util.Random;
 
 /**
@@ -20,6 +21,11 @@ public final class Ruler {
         comparingSymboles(symbole1, symbole2);
     }
 
+    public boolean comparingBigSymboleRange(Enums.WinAgains symbole1, Enums.Symbole symbole2) {
+        EnumSet es = symbole1.getEnumSet();
+        return es.contains(symbole2);
+    }
+
     /**
      *
      * @param symbole1
@@ -28,6 +34,7 @@ public final class Ruler {
      * gewinnt gegen Schere
      */
     public Enum comparingSymboles(Enum symbole1, Enum symbole2) {
+       
         Enum output = null;
         boolean nondraw = false;
 
@@ -40,11 +47,11 @@ public final class Ruler {
             nondraw = true;
         }
 
-        if (symbole1.equals(Enums.Symbole.PAPER) && symbole2.equals(Enums.Symbole.STONE)) {
+        if (symbole1.equals(Enums.Symbole.PAPER) && symbole2.equals(Enums.Symbole.ROCK)) {
             nondraw = true;
         }
 
-        if (symbole1.equals(Enums.Symbole.STONE) && symbole2.equals(Enums.Symbole.SCISSOR)) {
+        if (symbole1.equals(Enums.Symbole.ROCK) && symbole2.equals(Enums.Symbole.SCISSOR)) {
             nondraw = true;
         }
 

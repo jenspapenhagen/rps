@@ -41,7 +41,7 @@ public class Rounds {
             }
 
             if (rounds == maxrounds) {
-                //froce win
+                LOG.debug("froce win");
                 result = Enums.Fightstat.WON;
                 break;
             }

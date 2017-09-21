@@ -68,7 +68,14 @@ public class Match implements Callable<Player> {
             return loser;
         }
 
-        result = ruler.comparingSymboles(player1Symbole, player2Symbole);
+        //result = ruler.comparingSymboles(player1Symbole, player2Symbole);
+        if (ruler.comparingBigSymboleRange((Enums.WinAgains) player1Symbole, (Enums.Symbole) player2Symbole)) {
+            result = Enums.Fightstat.WON;
+        } else if (player1Symbole.equals(player1Symbole)) {
+            result = Enums.Fightstat.DRAW;
+        } else {
+            result = Enums.Fightstat.LOST;
+        }
 
         //the cli output
         System.out.println(
