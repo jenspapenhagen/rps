@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package schnickschnack;
+package schnickschnack.test;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -15,15 +15,18 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import schnickschnack.*;
+import schnickschnack.Player;
+
 import static org.junit.Assert.*;
 
 /**
  *
  * @author jens.papenhagen
  */
-public class GameTest {
+public class MatchTest {
 
-    public GameTest() {
+    public MatchTest() {
     }
 
     @BeforeClass
@@ -50,8 +53,8 @@ public class GameTest {
     @Test
     public void testCall() throws InterruptedException, ExecutionException {
 
-        Player p1 = new Player(5, ENUMS.PLAYERCONDITION.PLAYER.toString());
-        Player p2 = new Player(3, ENUMS.PLAYERCONDITION.PLAYER.toString());
+        Player p1 = new Player(5, ENUMS.PLAYERCONDITION.PLAYER);
+        Player p2 = new Player(3, ENUMS.PLAYERCONDITION.PLAYER);
 
         ExecutorService es = Executors.newSingleThreadExecutor();
 

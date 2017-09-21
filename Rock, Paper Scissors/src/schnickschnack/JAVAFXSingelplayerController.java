@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -189,7 +187,7 @@ public class JAVAFXSingelplayerController implements Initializable {
             result.setText("Player 1 has: " + figtresult);
 
         } catch (IOException ex) {
-            Logger.getLogger(SwingApp.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error(ex.getMessage());
         }
 
         getProtocol(backlog);

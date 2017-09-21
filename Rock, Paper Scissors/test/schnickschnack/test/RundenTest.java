@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+package schnickschnack.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.After;
@@ -11,6 +12,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import schnickschnack.*;
 import static org.junit.Assert.*;
 
 /**
@@ -43,12 +45,11 @@ public class RundenTest {
      */
     @Test
     public void testFightround() {
-
-         String output = new Runden(CONSTANS.SYMBOLE.SCHERE.toString(), CONSTANS.SYMBOLE.SCHERE.toString()).fightround();
-         assertThat(output).isEqualToIgnoringCase("Player 1 gewinnt").as("Player 1 gewinnt");
-         assertThat(output).isEqualToIgnoringCase("Player 2 gewinnt").as("Player 2 gewinnt");
-
-        
+         Enum output = new Rounds(ENUMS.SYMBOLE.SCISSOR, ENUMS.SYMBOLE.PAPER).fightround();
+         
+         assertThat(output).isEqualTo(ENUMS.FIGHTSTAT.WON).as("Player 1 gewinnt");
+         assertThat(output).isNotEqualTo(ENUMS.FIGHTSTAT.WON).as("Player 2 gewinnt");
+       
     }
     
 }

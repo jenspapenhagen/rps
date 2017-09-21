@@ -32,8 +32,7 @@ public class JAVAFXstartSingelplayerModus extends Application {
 
         stage.setScene(scene);
         stage.show();
-        
-        
+
     }
 
     /**

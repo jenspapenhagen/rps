@@ -14,10 +14,9 @@ import java.util.Random;
 public final class Ruler {
 
     public Ruler() {
-
     }
 
-    Ruler(Enum symbole1, Enum symbole2) {
+    public Ruler(Enum symbole1, Enum symbole2) {
         comparingSymboles(symbole1, symbole2);
     }
 
@@ -38,11 +37,11 @@ public final class Ruler {
 
         //the rules
         if (symbole1.equals(ENUMS.SYMBOLE.SCISSOR) && symbole2.equals(ENUMS.SYMBOLE.PAPER)) {
-            
+
             nondraw = true;
         }
 
-        if (symbole1.equals(ENUMS.SYMBOLE.PAPER) && symbole2.equals(ENUMS.SYMBOLE.STONE) ) {
+        if (symbole1.equals(ENUMS.SYMBOLE.PAPER) && symbole2.equals(ENUMS.SYMBOLE.STONE)) {
             nondraw = true;
         }
 

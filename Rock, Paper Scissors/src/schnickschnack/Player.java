@@ -18,6 +18,7 @@ import org.apache.commons.io.FileUtils;
  */
 public final class Player {
 
+
     private String PlayerName;
     private Enum PlayerSymbole;
     private final int PlayerID;

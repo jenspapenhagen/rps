@@ -20,7 +20,7 @@ public class JAVAFXsmallChanger extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-          Parent root = FXMLLoader.load(getClass().getResource("JAVAFXSpielmodichanger.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("JAVAFXSpielmodichanger.fxml"));
 
         Scene scene = new Scene(root);
 

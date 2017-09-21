@@ -103,6 +103,7 @@ public class Match implements Callable<Player> {
             }
         } catch (NullPointerException ex) {
             //froce win for player 2
+            LOG.error(ex.getMessage());
             return player1;
         }
 
