@@ -77,24 +77,24 @@ public class JAVAFXSingelplayerController implements Initializable {
     @FXML
     private void handlePapierButton(ActionEvent event) throws InterruptedException, Exception {
         addToProtocol("Player1: Papier");
-        Player p = new Player(1, CONSTANS.PLAYERCONDITION.PLAYER.toString());
-        p.setPlayerSymbole(CONSTANS.SYMBOLE.PAPER);
+        Player p = new Player(1, ENUMS.PLAYERCONDITION.PLAYER.toString());
+        p.setPlayerSymbole(ENUMS.SYMBOLE.PAPER);
         changePlayerSymbolImg(p, 1);
     }
 
     @FXML
     private void handleSteinButton(ActionEvent event) throws InterruptedException, Exception {
         addToProtocol("Player1: Stein");
-        Player p = new Player(2, CONSTANS.PLAYERCONDITION.PLAYER.toString());
-        p.setPlayerSymbole(CONSTANS.SYMBOLE.STONE);
+        Player p = new Player(2, ENUMS.PLAYERCONDITION.PLAYER.toString());
+        p.setPlayerSymbole(ENUMS.SYMBOLE.STONE);
         changePlayerSymbolImg(p, 1);
     }
 
     @FXML
     private void handleSchereButton(ActionEvent event) throws InterruptedException, Exception {
         addToProtocol("Player1: Schere");
-        Player p = new Player(3, CONSTANS.PLAYERCONDITION.PLAYER.toString());
-        p.setPlayerSymbole(CONSTANS.SYMBOLE.SCISSOR);
+        Player p = new Player(3, ENUMS.PLAYERCONDITION.PLAYER.toString());
+        p.setPlayerSymbole(ENUMS.SYMBOLE.SCISSOR);
         changePlayerSymbolImg(p, 1);
     }
 
@@ -117,8 +117,8 @@ public class JAVAFXSingelplayerController implements Initializable {
         Random random = new Random();
         int Player1ID = 4;
         int Player2ID = random.nextInt((10 - 1) + 1) + 1;
-        Player p1 = new Player(Player1ID, CONSTANS.PLAYERCONDITION.PLAYER.toString());
-        Player p2 = new Player(Player2ID, CONSTANS.PLAYERCONDITION.PLAYER.toString());
+        Player p1 = new Player(Player1ID, ENUMS.PLAYERCONDITION.PLAYER.toString());
+        Player p2 = new Player(Player2ID, ENUMS.PLAYERCONDITION.PLAYER.toString());
         Ruler ruler = new Ruler();
 
         try {
@@ -127,16 +127,16 @@ public class JAVAFXSingelplayerController implements Initializable {
             addToProtocol("Player1: " + symbole1);
 
             if (inFight) {
-                symbole2 = ruler.getVerhalten(symbole1, CONSTANS.SYMBOLE.PAPER);
+                symbole2 = ruler.getVerhalten(symbole1, ENUMS.SYMBOLE.PAPER);
 
                 if (selectedPapier.isPressed()) {
-                    symbole1 = CONSTANS.SYMBOLE.PAPER;
+                    symbole1 = ENUMS.SYMBOLE.PAPER;
                 }
                 if (selectedStein.isPressed()) {
-                    symbole1 = CONSTANS.SYMBOLE.STONE;
+                    symbole1 = ENUMS.SYMBOLE.STONE;
                 }
                 if (selectedSchere.isPressed()) {
-                    symbole1 = CONSTANS.SYMBOLE.SCISSOR;
+                    symbole1 = ENUMS.SYMBOLE.SCISSOR;
                 }
 
             } else {
@@ -154,7 +154,7 @@ public class JAVAFXSingelplayerController implements Initializable {
             addToProtocol("Ausgabe Fight: " + figtresult);
 
             //fight was draw waiting on new user input
-            if (figtresult.equals(CONSTANS.FIGHTSTAT.DRAW)) {
+            if (figtresult.equals(ENUMS.FIGHTSTAT.DRAW)) {
                 addToProtocol("First Match was a draw");
                 addToProtocol("Please select a Symbole and klick match again");
                 System.out.println("First Match was a draw");

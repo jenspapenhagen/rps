@@ -35,7 +35,7 @@ public class Main {
 
         //fill playerList with ints
         for (int i = 1; i <= maxPlayer; i++) {
-            Player p1 = new Player(i, CONSTANS.PLAYERCONDITION.PLAYER.toString());
+            Player p1 = new Player(i, ENUMS.PLAYERCONDITION.PLAYER.toString());
             playerList.add(p1);
         }
 
@@ -74,7 +74,7 @@ public class Main {
 
             //fillup the remainingplayer 
             if (remainingPlayer.size() % 2 != 0) {
-                Player p1 = new Player(FreiLosPlayerID, CONSTANS.PLAYERCONDITION.FREEWIN.toString());
+                Player p1 = new Player(FreiLosPlayerID, ENUMS.PLAYERCONDITION.FREEWIN.toString());
                 remainingPlayer.add(p1);//adding freilos if size is a odd number
             }
             megaplayerList.addAll(remainingPlayer);

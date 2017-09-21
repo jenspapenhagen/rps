@@ -89,8 +89,8 @@ public class JAVAFXDemomodusController implements Initializable {
             }
         }
 
-        Player p1 = new Player(Player1ID, CONSTANS.PLAYERCONDITION.PLAYER.toString());
-        Player p2 = new Player(Player2ID, CONSTANS.PLAYERCONDITION.PLAYER.toString());
+        Player p1 = new Player(Player1ID, ENUMS.PLAYERCONDITION.PLAYER.toString());
+        Player p2 = new Player(Player2ID, ENUMS.PLAYERCONDITION.PLAYER.toString());
 
         Ruler ruler = new Ruler();
         getCleanProtocol(backlog); //clean the protocol
@@ -108,7 +108,7 @@ public class JAVAFXDemomodusController implements Initializable {
             addToProtocol("Player2: " + p2.getPlayerSymbole());
             addToProtocol("Ausgabe normal Fight: " + resultFromfight);
             //fight again if the fight was a draw
-            if (resultFromfight.equals(CONSTANS.FIGHTSTAT.DRAW)) {
+            if (resultFromfight.equals(ENUMS.FIGHTSTAT.DRAW)) {
                 addToProtocol("First Match was a draw, NOW Round 1");
                 changePlayerSymbolImg(p1, 1);
                 changePlayerSymbolImg(p2, 2);
@@ -147,14 +147,14 @@ public class JAVAFXDemomodusController implements Initializable {
             fightresult = ruler.comparingSymboles(player1symbole, player2symbole);
 
             addToProtocol("Runden " + rounds + " Ergebnis: " + fightresult);
-            if (!fightresult.equals(CONSTANS.FIGHTSTAT.DRAW)) {
+            if (!fightresult.equals(ENUMS.FIGHTSTAT.DRAW)) {
                 changePlayerSymbolImg(p1, 1);
                 changePlayerSymbolImg(p2, 2);
                 break;
             }
 
             if (rounds == maxrounds) {
-                fightresult = CONSTANS.FIGHTSTAT.WON;//froce win
+                fightresult = ENUMS.FIGHTSTAT.WON;//froce win
                 break;
             }
 
@@ -168,7 +168,7 @@ public class JAVAFXDemomodusController implements Initializable {
         Integer removePlayerID = 0;
 
         try {
-            if (result.equals(CONSTANS.FIGHTSTAT.WON) ) {
+            if (result.equals(ENUMS.FIGHTSTAT.WON) ) {
                 removePlayerID = p2.getPlayerID();
             } else {
                 removePlayerID = p1.getPlayerID();

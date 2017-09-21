@@ -33,27 +33,27 @@ public final class Ruler {
         boolean nondraw = false;
 
         if (symbole1 == null ? symbole2 == null : symbole1.equals(symbole2)) {
-            return CONSTANS.FIGHTSTAT.DRAW;
+            return ENUMS.FIGHTSTAT.DRAW;
         }
 
         //the rules
-        if (symbole1.equals(CONSTANS.SYMBOLE.SCISSOR) && symbole2.equals(CONSTANS.SYMBOLE.PAPER)) {
+        if (symbole1.equals(ENUMS.SYMBOLE.SCISSOR) && symbole2.equals(ENUMS.SYMBOLE.PAPER)) {
             
             nondraw = true;
         }
 
-        if (symbole1.equals(CONSTANS.SYMBOLE.PAPER) && symbole2.equals(CONSTANS.SYMBOLE.STONE) ) {
+        if (symbole1.equals(ENUMS.SYMBOLE.PAPER) && symbole2.equals(ENUMS.SYMBOLE.STONE) ) {
             nondraw = true;
         }
 
-        if (symbole1.equals(CONSTANS.SYMBOLE.STONE) && symbole2.equals(CONSTANS.SYMBOLE.SCISSOR)) {
+        if (symbole1.equals(ENUMS.SYMBOLE.STONE) && symbole2.equals(ENUMS.SYMBOLE.SCISSOR)) {
             nondraw = true;
         }
 
         if (nondraw) {
-            output = CONSTANS.FIGHTSTAT.WON;
+            output = ENUMS.FIGHTSTAT.WON;
         } else {
-            output = CONSTANS.FIGHTSTAT.LOST;
+            output = ENUMS.FIGHTSTAT.LOST;
         }
 
         return output;

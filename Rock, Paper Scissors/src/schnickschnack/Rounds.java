@@ -33,13 +33,13 @@ public class Rounds {
                     ruler.getVerhalten(lastPlayer2Symbole, lastPlayer1Symbole));
             System.out.println("Result of Round: " + rounds + " is: " + result);
 
-            if (!result.equals(CONSTANS.FIGHTSTAT.DRAW)) {
+            if (!result.equals(ENUMS.FIGHTSTAT.DRAW)) {
                 break;
             }
 
             if (rounds == maxrounds) {
                 //froce win
-                result = CONSTANS.FIGHTSTAT.WON;
+                result = ENUMS.FIGHTSTAT.WON;
                 break;
             }
 

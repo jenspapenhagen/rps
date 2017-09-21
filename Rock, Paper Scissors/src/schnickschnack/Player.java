@@ -59,9 +59,9 @@ public final class Player {
     }
 
     public Enum getRandomSymbole() {
-        int indexer = new Random().nextInt(CONSTANS.SYMBOLE.values().length);
+        int indexer = new Random().nextInt(ENUMS.SYMBOLE.values().length);
         
-        return (CONSTANS.SYMBOLE.values()[indexer]);
+        return (ENUMS.SYMBOLE.values()[indexer]);
     }
 
     public String getRandomName() {

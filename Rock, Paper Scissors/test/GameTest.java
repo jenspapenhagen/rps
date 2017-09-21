@@ -50,8 +50,8 @@ public class GameTest {
     @Test
     public void testCall() throws InterruptedException, ExecutionException {
 
-        Player p1 = new Player(5, CONSTANS.PLAYERCONDITION.PLAYER.toString());
-        Player p2 = new Player(3, CONSTANS.PLAYERCONDITION.PLAYER.toString());
+        Player p1 = new Player(5, ENUMS.PLAYERCONDITION.PLAYER.toString());
+        Player p2 = new Player(3, ENUMS.PLAYERCONDITION.PLAYER.toString());
 
         ExecutorService es = Executors.newSingleThreadExecutor();
 

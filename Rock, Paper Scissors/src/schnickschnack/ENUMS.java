@@ -9,26 +9,22 @@ package schnickschnack;
  *
  * @author jens.papenhagen
  */
-public class Constans {
-
+public class ENUMS {
     public enum SYMBOLE {
-        PAPIER,
-        SCHERE,
-        STEIN
+        PAPER,
+        SCISSOR,
+        STONE
     };
 
     public enum FIGHTSTAT {
-        GEWONNEN,
-        VERLOHREN,
-        UNENTSCHIEDEN
+        WON,
+        LOST,
+        DRAW
     };
     
     public enum PLAYERCONDITION {
         PLAYER,
-        FREILOS,
-        DISQUALIFIZIERT
+        FREEWIN,
+        DISQUALIFIZIED
     };
-
-
-
 }
