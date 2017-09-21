@@ -7,6 +7,7 @@ package schnickschnack;
 
 import java.util.EnumSet;
 import java.util.Random;
+import schnickschnack.Enums.Symbole;
 
 /**
  *
@@ -21,9 +22,16 @@ public final class Ruler {
         comparingSymboles(symbole1, symbole2);
     }
 
-    public boolean comparingBigSymboleRange(Enums.WinAgains symbole1, Enums.Symbole symbole2) {
-        EnumSet es = symbole1.getEnumSet();
-        return es.contains(symbole2);
+    
+    
+    /**
+     * check the bigger range of symbole
+     * @param symbole1
+     * @param symbole2
+     * @return true symbole1 have lost
+     */
+    public boolean comparingBigSymboleRange(Symbole symbole1, Symbole symbole2) {
+        return symbole1.loseAgaist(symbole1,symbole2);
     }
 
     /**
