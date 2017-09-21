@@ -9,21 +9,21 @@ package schnickschnack;
  *
  * @author jens.papenhagen
  */
-public class Verhalten {
+public class Behavor {
 
-    public Verhalten() {
+    public Behavor() {
     }
 
     //allways the same
-    public Enum Verhalten1(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
+    public Enum Behavor1(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
         return ENUMS.SYMBOLE.SCISSOR;
     }
 
-    public Enum Verhalten2(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
+    public Enum Behavor2(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
         return ENUMS.SYMBOLE.STONE;
     }
 
-    public Enum Verhalten3(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
+    public Enum Behavor3(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
         return ENUMS.SYMBOLE.PAPER;
     }
 

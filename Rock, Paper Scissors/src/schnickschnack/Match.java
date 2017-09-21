@@ -21,9 +21,9 @@ public class Match implements Callable<Player> {
     private final Player player2;
 
     public Match(int matchID, Player p1, Player p2) {
-        matchNr = matchID;
-        player1 = p1;
-        player2 = p2;
+        this.matchNr = matchID;
+        this.player1 = p1;
+        this.player2 = p2;
         LOG.debug("Match with ID:" + matchNr);
         LOG.debug(" getstarted." + player1.getPlayerID() + " vs. " + player2.getPlayerID());
     }

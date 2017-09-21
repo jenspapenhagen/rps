@@ -20,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.slf4j.LoggerFactory;
 
 /**
  * FXML Controller class
@@ -27,6 +28,8 @@ import javafx.scene.image.ImageView;
  * @author jens.papenhagen
  */
 public class JAVAFXDemomodusController implements Initializable {
+
+    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(JAVAFXDemomodusController.class);
 
     @FXML
     private ListView backlog;
@@ -50,11 +53,9 @@ public class JAVAFXDemomodusController implements Initializable {
     private Label removeID;
 
     public UtilityMethodes funk = new UtilityMethodes();
-    
-    public boolean randomfight = false;
-    
+
     public int playerPostion = 1;
-    
+
     ObservableList<String> data = FXCollections.observableArrayList();
 
     /**
@@ -65,102 +66,118 @@ public class JAVAFXDemomodusController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        LOG.debug("staring the fight");
         fight();
     }
 
     @FXML
     private void handleMatchButton(ActionEvent event) throws InterruptedException, Exception {
-        System.out.println("Random Match");
-        randomfight = true;
+        LOG.debug("Random Match");
         fight();
     }
 
+    /**
+     * starting the fight
+     */
     public void fight() {
-        int Player1ID = 3;
-        int Player2ID = 4;
-        
-        if (randomfight) {
-            Random random = new Random();
-            Player1ID = random.nextInt((10 - 1) + 1) + 1;
-            Player2ID = random.nextInt((10 - 1) + 1) + 1;
+        Ruler ruler = new Ruler();
 
-            if (Player1ID == Player2ID) {
-                Player2ID = Player1ID + 1;
-            }
+        Random random = new Random();
+        int Player1ID = random.nextInt((10 - 1) + 1) + 1;
+        int Player2ID = random.nextInt((10 - 1) + 1) + 1;
+        LOG.debug("Player1ID" + Player1ID);
+        LOG.debug("Player2ID" + Player2ID);
+
+        if (Player1ID == Player2ID) {
+            Player2ID = Player1ID + 1;
+            LOG.debug("Change Player ID2 to " + Player2ID);
         }
 
+        //build the player
         Player p1 = new Player(Player1ID, ENUMS.PLAYERCONDITION.PLAYER);
         Player p2 = new Player(Player2ID, ENUMS.PLAYERCONDITION.PLAYER);
 
-        Ruler ruler = new Ruler();
-        getCleanProtocol(backlog); //clean the protocol
+        //clean the protocol
+        getCleanProtocol(backlog);
 
         try {
-            //give out the view
-            changePlayerSymbolImg(p1, playerPostion);
-            playerPostion = 2;
-            changePlayerSymbolImg(p2, playerPostion);
+            //change the player symboles
+            changePlayerUI(p1, 1);
+            changePlayerUI(p2, 2);
+            //reset the round counter
             roundNr.setText("");
 
             //fight
             Enum resultFromfight = ruler.comparingSymboles(p1.getPlayerSymbole(), p2.getPlayerSymbole());
+
+            //fill the Protocol
             addToProtocol("Player1: " + p1.getPlayerSymbole());
             addToProtocol("Player2: " + p2.getPlayerSymbole());
             addToProtocol("Ausgabe normal Fight: " + resultFromfight);
+
             //fight again if the fight was a draw
             if (resultFromfight.equals(ENUMS.FIGHTSTAT.DRAW)) {
                 addToProtocol("First Match was a draw, NOW Round 1");
-                changePlayerSymbolImg(p1, 1);
-                changePlayerSymbolImg(p2, 2);
-                resultFromfight = runde(p1, p2);
+                changePlayerUI(p1, 1);
+                changePlayerUI(p2, 2);
+                resultFromfight = figthinground(p1, p2);
             }
             //removce the lost player
             toRemoveID(resultFromfight, p1, p2);
-            result.setText("Player 1 has "+resultFromfight.toString());
-
+            //show the fight result  
+            result.setText("Player 1 has " + resultFromfight);
         } catch (IOException ex) {
-            Logger.getLogger(SwingApp.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error(ex.getMessage());
         }
-
+        //draw the complett protocol
         getProtocol(backlog);
-        randomfight = false;
     }
 
-    public Enum runde(Player p1, Player p2) throws IOException {
+    public Enum figthinground(Player p1, Player p2) throws IOException {
         Enum fightresult = null;
         Ruler ruler = new Ruler();
 
         int maxrounds = 5;
         for (int rounds = 1; rounds <= maxrounds; rounds++) {
-            //fight
-            Enum player1symbole = ruler.getVerhalten(p1.getPlayerSymbole(), p2.getPlayerSymbole());
-            Enum player2symbole = ruler.getVerhalten(p2.getPlayerSymbole(), p1.getPlayerSymbole());
+            //change the behavor of the player
+            Enum player1symbole = ruler.getBehavor(p1.getPlayerSymbole(), p2.getPlayerSymbole());
+            Enum player2symbole = ruler.getBehavor(p2.getPlayerSymbole(), p1.getPlayerSymbole());
 
-            addToProtocol("Player1: " + player1symbole);
-            addToProtocol("Player2: " + player2symbole);
+            //set the new player symbole
             p1.setPlayerSymbole(player1symbole);
             p2.setPlayerSymbole(player2symbole);
-            
-            changePlayerSymbolImg(p1, 1);
-            changePlayerSymbolImg(p2, 2);
-            
+
+            //fill the Protocol
+            addToProtocol("Player1: " + player1symbole);
+            addToProtocol("Player2: " + player2symbole);
+
+            //change the player symboles
+            changePlayerUI(p1, 1);
+            changePlayerUI(p2, 2);
+
+            //fight
             fightresult = ruler.comparingSymboles(player1symbole, player2symbole);
 
+            //fill the Protocol
             addToProtocol("Runden " + rounds + " Ergebnis: " + fightresult);
+
+            //fight again if this fight was a draw, too.
             if (!fightresult.equals(ENUMS.FIGHTSTAT.DRAW)) {
-                changePlayerSymbolImg(p1, 1);
-                changePlayerSymbolImg(p2, 2);
+                changePlayerUI(p1, 1);
+                changePlayerUI(p2, 2);
                 break;
             }
-
+            //check if max round counter is not reached
             if (rounds == maxrounds) {
-                fightresult = ENUMS.FIGHTSTAT.WON;//froce win
+                //froce win
+                LOG.debug("froce win");
+                fightresult = ENUMS.FIGHTSTAT.WON;
                 break;
             }
-
+            //change the round counter
             roundNr.setText(" " + rounds);
         }
-        
+
         return fightresult;
     }
 
@@ -168,19 +185,22 @@ public class JAVAFXDemomodusController implements Initializable {
         Integer removePlayerID = 0;
 
         try {
-            if (result.equals(ENUMS.FIGHTSTAT.WON) ) {
+            if (result.equals(ENUMS.FIGHTSTAT.WON)) {
                 removePlayerID = p2.getPlayerID();
             } else {
                 removePlayerID = p1.getPlayerID();
             }
         } catch (NullPointerException ex) {
-            removePlayerID = p1.getPlayerID();  //froce win
+            //froce win
+            LOG.debug("froce win");
+            removePlayerID = p1.getPlayerID();  
         }
 
+        //show the player id, whitch has lost the game
         changeRemovePlayerIDLable("" + removePlayerID);
     }
 
-    public void changePlayerSymbolImg(Player p, int pos) throws IOException {
+    public void changePlayerUI(Player p, int pos) throws IOException {
         Enum symbole = p.getPlayerSymbole();
         Image playerSymbole = funk.givebackImg(symbole);
 
@@ -200,11 +220,11 @@ public class JAVAFXDemomodusController implements Initializable {
                 break;
         }
     }
-    
+
     public void changeRemovePlayerIDLable(String input) {
         removeID.setText(input);
     }
-    
+
     public void addToProtocol(String input) {
         data.add(input);
     }
@@ -217,6 +237,5 @@ public class JAVAFXDemomodusController implements Initializable {
         data.clear();
         lv.setItems(data);
     }
-
 
 }

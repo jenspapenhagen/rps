@@ -59,35 +59,35 @@ public final class Ruler {
         return output;
     }
 
-    public Enum getVerhalten(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
+    public Enum getBehavor(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
         int indexer = new Random().nextInt(7);
-        Verhalten verh = new Verhalten();
+        Behavor behave = new Behavor();
         Enum output;
 
         switch (indexer) {
             case 1:
-                output = verh.Verhalten1(lastRoundSymbol1, lastRoundSymbol2);
+                output = behave.Behavor1(lastRoundSymbol1, lastRoundSymbol2);
                 break;
             case 2:
-                output = verh.Verhalten2(lastRoundSymbol1, lastRoundSymbol2);
+                output = behave.Behavor2(lastRoundSymbol1, lastRoundSymbol2);
                 break;
             case 3:
-                output = verh.Verhalten3(lastRoundSymbol1, lastRoundSymbol2);
+                output = behave.Behavor3(lastRoundSymbol1, lastRoundSymbol2);
                 break;
             case 4:
-                output = verh.OppositeOfEnemieFromLastRound(lastRoundSymbol1, lastRoundSymbol2);
+                output = behave.OppositeOfEnemieFromLastRound(lastRoundSymbol1, lastRoundSymbol2);
                 break;
             case 5:
-                output = verh.OppositeOfLastRound(lastRoundSymbol1, lastRoundSymbol2);
+                output = behave.OppositeOfLastRound(lastRoundSymbol1, lastRoundSymbol2);
                 break;
             case 6:
-                output = verh.SameOfEnemieFromLastRound(lastRoundSymbol1, lastRoundSymbol2);
+                output = behave.SameOfEnemieFromLastRound(lastRoundSymbol1, lastRoundSymbol2);
                 break;
             case 7:
-                output = verh.SameOfLastRound(lastRoundSymbol1, lastRoundSymbol2);
+                output = behave.SameOfLastRound(lastRoundSymbol1, lastRoundSymbol2);
                 break;
             default:
-                output = verh.Verhalten1(lastRoundSymbol1, lastRoundSymbol2);
+                output = behave.Behavor1(lastRoundSymbol1, lastRoundSymbol2);
 
         }
 

@@ -22,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.slf4j.LoggerFactory;
 
 /**
  * FXML Controller class
@@ -29,6 +30,8 @@ import javafx.scene.image.ImageView;
  * @author jens.papenhagen
  */
 public class JAVAFXSingelplayerController implements Initializable {
+
+    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(JAVAFXDemomodusController.class);
 
     @FXML
     private ListView backlog;
@@ -53,14 +56,14 @@ public class JAVAFXSingelplayerController implements Initializable {
     @FXML
     private Label roundNr;
 
-    public String player1symbol = "";
+    public Boolean player1ready = false;
 
-    public Boolean inFight = false;
+    public Boolean stillInFight = false;
 
     public int playerPostion = 1;
 
     public UtilityMethodes funk = new UtilityMethodes();
-    
+
     ObservableList<String> data = FXCollections.observableArrayList();
 
     /**
@@ -76,58 +79,78 @@ public class JAVAFXSingelplayerController implements Initializable {
 
     @FXML
     private void handlePapierButton(ActionEvent event) throws InterruptedException, Exception {
-        addToProtocol("Player1: Papier");
         Player p = new Player(1, ENUMS.PLAYERCONDITION.PLAYER);
         p.setPlayerSymbole(ENUMS.SYMBOLE.PAPER);
+        player1ready = true;
+
+        //fill Protocoll and change UI
         changePlayerSymbolImg(p, 1);
+        result.setText("lets go");
+        addToProtocol("Player1: Papier");
+        LOG.debug("Player1: Papier");
     }
 
     @FXML
     private void handleSteinButton(ActionEvent event) throws InterruptedException, Exception {
-        addToProtocol("Player1: Stein");
+
         Player p = new Player(2, ENUMS.PLAYERCONDITION.PLAYER);
         p.setPlayerSymbole(ENUMS.SYMBOLE.STONE);
+        player1ready = true;
+
+        //fill Protocoll and change UI
         changePlayerSymbolImg(p, 1);
+        result.setText("lets go");
+        addToProtocol("Player1: Stein");
+        LOG.debug("Player1: Stein");
     }
 
     @FXML
     private void handleSchereButton(ActionEvent event) throws InterruptedException, Exception {
-        addToProtocol("Player1: Schere");
         Player p = new Player(3, ENUMS.PLAYERCONDITION.PLAYER);
         p.setPlayerSymbole(ENUMS.SYMBOLE.SCISSOR);
+        player1ready = true;
+
+        //fill Protocoll and change UI
         changePlayerSymbolImg(p, 1);
+        result.setText("lets go");
+        addToProtocol("Player1: Schere");
+        LOG.debug("Player1: Schere");
     }
 
     @FXML
     private void handleMatchButton(ActionEvent event) throws InterruptedException, Exception {
-        Random random = new Random();
-        int randomPlayerNr2 = random.nextInt((10 - 1) + 1) + 1;
-
-        if (player1symbol.length() != 0) {
-            getCleanProtocol(backlog); 
-            fight(randomPlayerNr2);
+        if (player1ready) {
+            //clean the protocol and start the fight
+            getCleanProtocol(backlog);
+            fight();
         } else {
+            LOG.debug("new player input requested");
             result.setText("Bitte noch Symbol wählen");
-            inFight = true;
+            stillInFight = true;
         }
     }
 
-    public void fight(int ID2) throws InterruptedException {
+    public void fight() throws InterruptedException {
+        //disable button in fight
         matchButton.setDisable(true);
+
+        //building the 2 player objects
         Random random = new Random();
         int Player1ID = 4;
         int Player2ID = random.nextInt((10 - 1) + 1) + 1;
+
         Player p1 = new Player(Player1ID, ENUMS.PLAYERCONDITION.PLAYER);
         Player p2 = new Player(Player2ID, ENUMS.PLAYERCONDITION.PLAYER);
         Ruler ruler = new Ruler();
 
         try {
+            //fight
             Enum symbole1 = p1.getPlayerSymbole();
             Enum symbole2 = null;
             addToProtocol("Player1: " + symbole1);
 
-            if (inFight) {
-                symbole2 = ruler.getVerhalten(symbole1, ENUMS.SYMBOLE.PAPER);
+            if (stillInFight) {
+                symbole2 = ruler.getBehavor(symbole1, ENUMS.SYMBOLE.PAPER);
 
                 if (selectedPapier.isPressed()) {
                     symbole1 = ENUMS.SYMBOLE.PAPER;
@@ -140,7 +163,7 @@ public class JAVAFXSingelplayerController implements Initializable {
                 }
 
             } else {
-                getCleanProtocol(backlog); 
+                getCleanProtocol(backlog);
                 changePlayerSymbolImg(p2, 2);
                 symbole2 = p2.getPlayerSymbole();
             }
@@ -151,34 +174,34 @@ public class JAVAFXSingelplayerController implements Initializable {
             addToProtocol("Player2: " + symbole2);
             Enum figtresult = ruler.comparingSymboles(symbole1, symbole2);
             changePlayerSymbolImg(p2, 2);
-            addToProtocol("Ausgabe Fight: " + figtresult);
+            addToProtocol("Player 1 has: " + figtresult);
 
             //fight was draw waiting on new user input
             if (figtresult.equals(ENUMS.FIGHTSTAT.DRAW)) {
                 addToProtocol("First Match was a draw");
                 addToProtocol("Please select a Symbole and klick match again");
-                System.out.println("First Match was a draw");
+                LOG.debug("First Match was a draw");
 
-                player1symbol = "";
-                inFight = true;
+                player1ready = false;
+                stillInFight = true;
             }
 
-            result.setText("Player 1: " + figtresult);
+            result.setText("Player 1 has: " + figtresult);
 
-        } catch ( IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(SwingApp.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         getProtocol(backlog);
+        LOG.debug(backlog.toString());
         matchButton.setDisable(false);
-        playerPostion = 1;
     }
 
-    public void changePlayerSymbolImg(Player p, int playerPostion) throws IOException {
+    public void changePlayerSymbolImg(Player p, int pos) throws IOException {
         Enum symbole = p.getPlayerSymbole();
         Image playerSymbole = funk.givebackImg(symbole);
 
-        switch (playerPostion) {
+        switch (pos) {
             case 1:
                 player1img.setImage(playerSymbole);
                 break;
@@ -193,7 +216,6 @@ public class JAVAFXSingelplayerController implements Initializable {
         }
     }
 
-    
     public void addToProtocol(String input) {
         data.add(input);
     }

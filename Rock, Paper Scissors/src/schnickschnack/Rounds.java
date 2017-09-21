@@ -32,8 +32,8 @@ public class Rounds {
         int maxrounds = 5;
 
         for (int rounds = 1; rounds < maxrounds; rounds++) {
-            result = ruler.comparingSymboles(ruler.getVerhalten(lastPlayer1Symbole, lastPlayer2Symbole),
-                    ruler.getVerhalten(lastPlayer2Symbole, lastPlayer1Symbole));
+            result = ruler.comparingSymboles(ruler.getBehavor(lastPlayer1Symbole, lastPlayer2Symbole),
+                    ruler.getBehavor(lastPlayer2Symbole, lastPlayer1Symbole));
             System.out.println("Result of Round: " + rounds + " is: " + result);
 
             if (!result.equals(ENUMS.FIGHTSTAT.DRAW)) {

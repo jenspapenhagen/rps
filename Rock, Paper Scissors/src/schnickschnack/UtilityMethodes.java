@@ -16,18 +16,16 @@ import javafx.scene.image.Image;
 public class UtilityMethodes {
 
     public Image givebackImg(Enum symbole) throws IOException {
-        Image myPicture;
+        Image myPicture = null;
 
         if (symbole.equals(ENUMS.SYMBOLE.SCISSOR)) {
-            myPicture = new Image(new File("./src/schnickschnack/files/schere.png").toURI().toString());
+            myPicture = new Image(new File("./src/schnickschnack/files/scissor.png").toURI().toString());
         }
         if (symbole.equals(ENUMS.SYMBOLE.PAPER)) {
-            myPicture = new Image(new File("./src/schnickschnack/files/papier.png").toURI().toString());
+            myPicture = new Image(new File("./src/schnickschnack/files/paper.png").toURI().toString());
         }
         if (symbole.equals(ENUMS.SYMBOLE.STONE)) {
-            myPicture = new Image(new File("./src/schnickschnack/files/stein.png").toURI().toString());
-        } else {
-            myPicture = new Image(new File("./src/schnickschnack/files/papier.png").toURI().toString());
+            myPicture = new Image(new File("./src/schnickschnack/files/stone.png").toURI().toString());
         }
 
         return myPicture;

@@ -5,9 +5,7 @@
  */
 package schnickschnack;
 
-import java.io.IOException;
 import javafx.application.Application;
-import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,22 +16,20 @@ import javafx.stage.Stage;
  *
  * @author jens.papenhagen
  */
-public class tappaneltest extends Application {
+public class JAVAFXsmallChanger extends Application {
 
     @Override
-    public void start(Stage stage) throws IOException {
-
-        Parent root = FXMLLoader.load(getClass().getResource("JAVAFXTaps.fxml"));
+    public void start(Stage stage) throws Exception {
+          Parent root = FXMLLoader.load(getClass().getResource("JAVAFXSpielmodichanger.fxml"));
 
         Scene scene = new Scene(root);
 
-        stage.setResizable(false);
+        stage.setResizable(true);
         stage.setTitle("Stein Schere Papier Game");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("files/icon.jpg")));
 
         stage.setScene(scene);
         stage.show();
-
     }
 
     /**
@@ -42,4 +38,5 @@ public class tappaneltest extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
 }

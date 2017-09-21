@@ -12,18 +12,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schnickschnack.JAVAFXSingelplayerController">
+<AnchorPane id="AnchorPane" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schnickschnack.JAVAFXSingelplayerController">
     <stylesheets>
         <URL value="@javafxdialog.css" />
     </stylesheets>
     <children>
         <VBox spacing="5.0">
             <children>
-                <HBox alignment="TOP_CENTER" prefHeight="258.0" prefWidth="536.0" spacing="10.0" VBox.vgrow="NEVER">
+                <HBox alignment="TOP_CENTER" spacing="10.0" VBox.vgrow="NEVER">
                     <children>
-                        <VBox prefHeight="243.0" prefWidth="240.0" spacing="5.0" HBox.hgrow="NEVER">
+                        <VBox spacing="5.0" HBox.hgrow="NEVER">
                             <children>
-                                <HBox prefHeight="50.0" prefWidth="222.0" VBox.vgrow="NEVER">
+                                <HBox VBox.vgrow="NEVER">
                                     <children>
                                         <Label text="Spielername: " />
                                         <Label fx:id="player1Name" text="Singelplayer" />
@@ -104,12 +104,12 @@
                         <Insets left="5.0" right="5.0" />
                     </opaqueInsets>
                 </HBox>
-                <HBox prefHeight="100.0" prefWidth="200.0">
+                <HBox VBox.vgrow="ALWAYS">
                     <children>
-                        <VBox prefHeight="200.0" prefWidth="200.0">
+                        <VBox minHeight="-Infinity" prefHeight="200.0" HBox.hgrow="ALWAYS">
                             <children>
                                 <Button fx:id="matchButton" mnemonicParsing="false" onAction="#handleMatchButton" text="Match" />
-                                <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                                <HBox spacing="5.0" VBox.vgrow="ALWAYS">
                                     <children>
                                         <Label text="Round Counter:" />
                                         <Label fx:id="roundNr" text="roundNr" />
@@ -123,7 +123,7 @@
                                 <Insets left="5.0" />
                             </padding>
                         </VBox>
-                        <ListView fx:id="backlog" prefHeight="100.0" prefWidth="350.0" />
+                        <ListView fx:id="backlog" prefHeight="200.0" HBox.hgrow="ALWAYS" />
                     </children>
                 </HBox>
             </children>

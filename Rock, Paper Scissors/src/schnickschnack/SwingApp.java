@@ -337,8 +337,8 @@ public final class SwingApp extends javax.swing.JDialog {
             changeRoundCounter("" + rounds);
 
             //fight
-            result = ruler.comparingSymboles(ruler.getVerhalten(lastPlayer1Symbole, lastPlayer2Symbole),
-                    ruler.getVerhalten(lastPlayer2Symbole, lastPlayer1Symbole));
+            result = ruler.comparingSymboles(ruler.getBehavor(lastPlayer1Symbole, lastPlayer2Symbole),
+                    ruler.getBehavor(lastPlayer2Symbole, lastPlayer1Symbole));
 
             addToProtocol("Runden "+ rounds +" Ergebnis: " + result);
             if (!result.equals(ENUMS.FIGHTSTAT.DRAW)) {
@@ -436,15 +436,15 @@ public final class SwingApp extends javax.swing.JDialog {
     public BufferedImage givebackImg(Enum symbole) throws IOException {
         BufferedImage myPicture;
         if (symbole.equals(ENUMS.SYMBOLE.SCISSOR)) {
-            myPicture = ImageIO.read(new File("./src/schnickschnack/files/schere.png"));
+            myPicture = ImageIO.read(new File("./src/schnickschnack/files/scissor.png"));
         }
         if (symbole.equals(ENUMS.SYMBOLE.PAPER)) {
-            myPicture = ImageIO.read(new File("./src/schnickschnack/files/papier.png"));
+            myPicture = ImageIO.read(new File("./src/schnickschnack/files/paper.png"));
         }
         if (symbole.equals(ENUMS.SYMBOLE.STONE)) {
-            myPicture = ImageIO.read(new File("./src/schnickschnack/files/stein.png"));
+            myPicture = ImageIO.read(new File("./src/schnickschnack/files/stone.png"));
         } else {
-            myPicture = ImageIO.read(new File("./src/schnickschnack/files/papier.png"));
+            myPicture = ImageIO.read(new File("./src/schnickschnack/files/paper.png"));
         }
 
         return myPicture;
