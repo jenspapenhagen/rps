@@ -45,10 +45,10 @@ public class RundenTest {
      */
     @Test
     public void testFightround() {
-         Enum output = new Rounds(ENUMS.SYMBOLE.SCISSOR, ENUMS.SYMBOLE.PAPER).fightround();
+         Enum output = new Rounds(ENUMS.Symbole.SCISSOR, ENUMS.Symbole.PAPER).fightround();
          
-         assertThat(output).isEqualTo(ENUMS.FIGHTSTAT.WON).as("Player 1 gewinnt");
-         assertThat(output).isNotEqualTo(ENUMS.FIGHTSTAT.WON).as("Player 2 gewinnt");
+         assertThat(output).isEqualTo(ENUMS.Fightstat.WON).as("Player 1 gewinnt");
+         assertThat(output).isNotEqualTo(ENUMS.Fightstat.WON).as("Player 2 gewinnt");
        
     }
     

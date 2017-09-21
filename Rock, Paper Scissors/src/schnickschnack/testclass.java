@@ -30,8 +30,8 @@ public class testclass {
 //        
         //Match erspielen
         Match game;
-        Player p1 = new Player(1, ENUMS.PLAYERCONDITION.PLAYER);
-        Player p2 = new Player(2, ENUMS.PLAYERCONDITION.PLAYER);
+        Player p1 = new Player(1, ENUMS.Playercondition.PLAYER);
+        Player p2 = new Player(2, ENUMS.Playercondition.PLAYER);
         game = new Match(1, p1, p2);
 
         //tier test

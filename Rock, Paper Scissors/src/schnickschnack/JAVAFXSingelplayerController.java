@@ -77,8 +77,8 @@ public class JAVAFXSingelplayerController implements Initializable {
 
     @FXML
     private void handlePapierButton(ActionEvent event) throws InterruptedException, Exception {
-        Player p = new Player(1, ENUMS.PLAYERCONDITION.PLAYER);
-        p.setPlayerSymbole(ENUMS.SYMBOLE.PAPER);
+        Player p = new Player(1, ENUMS.Playercondition.PLAYER);
+        p.setPlayerSymbole(ENUMS.Symbole.PAPER);
         player1ready = true;
 
         //fill Protocoll and change UI
@@ -91,8 +91,8 @@ public class JAVAFXSingelplayerController implements Initializable {
     @FXML
     private void handleSteinButton(ActionEvent event) throws InterruptedException, Exception {
 
-        Player p = new Player(2, ENUMS.PLAYERCONDITION.PLAYER);
-        p.setPlayerSymbole(ENUMS.SYMBOLE.STONE);
+        Player p = new Player(2, ENUMS.Playercondition.PLAYER);
+        p.setPlayerSymbole(ENUMS.Symbole.STONE);
         player1ready = true;
 
         //fill Protocoll and change UI
@@ -104,8 +104,8 @@ public class JAVAFXSingelplayerController implements Initializable {
 
     @FXML
     private void handleSchereButton(ActionEvent event) throws InterruptedException, Exception {
-        Player p = new Player(3, ENUMS.PLAYERCONDITION.PLAYER);
-        p.setPlayerSymbole(ENUMS.SYMBOLE.SCISSOR);
+        Player p = new Player(3, ENUMS.Playercondition.PLAYER);
+        p.setPlayerSymbole(ENUMS.Symbole.SCISSOR);
         player1ready = true;
 
         //fill Protocoll and change UI
@@ -137,8 +137,8 @@ public class JAVAFXSingelplayerController implements Initializable {
         int Player1ID = 4;
         int Player2ID = random.nextInt((10 - 1) + 1) + 1;
 
-        Player p1 = new Player(Player1ID, ENUMS.PLAYERCONDITION.PLAYER);
-        Player p2 = new Player(Player2ID, ENUMS.PLAYERCONDITION.PLAYER);
+        Player p1 = new Player(Player1ID, ENUMS.Playercondition.PLAYER);
+        Player p2 = new Player(Player2ID, ENUMS.Playercondition.PLAYER);
         Ruler ruler = new Ruler();
 
         try {
@@ -148,16 +148,16 @@ public class JAVAFXSingelplayerController implements Initializable {
             addToProtocol("Player1: " + symbole1);
 
             if (stillInFight) {
-                symbole2 = ruler.getBehavor(symbole1, ENUMS.SYMBOLE.PAPER);
+                symbole2 = ruler.getBehavor(symbole1, ENUMS.Symbole.PAPER);
 
                 if (selectedPapier.isPressed()) {
-                    symbole1 = ENUMS.SYMBOLE.PAPER;
+                    symbole1 = ENUMS.Symbole.PAPER;
                 }
                 if (selectedStein.isPressed()) {
-                    symbole1 = ENUMS.SYMBOLE.STONE;
+                    symbole1 = ENUMS.Symbole.STONE;
                 }
                 if (selectedSchere.isPressed()) {
-                    symbole1 = ENUMS.SYMBOLE.SCISSOR;
+                    symbole1 = ENUMS.Symbole.SCISSOR;
                 }
 
             } else {
@@ -175,7 +175,7 @@ public class JAVAFXSingelplayerController implements Initializable {
             addToProtocol("Player 1 has: " + figtresult);
 
             //fight was draw waiting on new user input
-            if (figtresult.equals(ENUMS.FIGHTSTAT.DRAW)) {
+            if (figtresult.equals(ENUMS.Fightstat.DRAW)) {
                 addToProtocol("First Match was a draw");
                 addToProtocol("Please select a Symbole and klick match again");
                 LOG.debug("First Match was a draw");

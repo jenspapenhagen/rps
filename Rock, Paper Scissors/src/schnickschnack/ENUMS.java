@@ -10,19 +10,19 @@ package schnickschnack;
  * @author jens.papenhagen
  */
 public class ENUMS {
-    public enum SYMBOLE {
+    public enum Symbole {
         PAPER,
         SCISSOR,
         STONE
     };
 
-    public enum FIGHTSTAT {
+    public enum Fightstat {
         WON,
         LOST,
         DRAW
     };
     
-    public enum PLAYERCONDITION {
+    public enum Playercondition {
         PLAYER,
         FREEWIN,
         DISQUALIFIZIED

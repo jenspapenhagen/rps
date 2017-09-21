@@ -36,11 +36,11 @@ public class Match implements Callable<Player> {
      * @return the the non player als instant loser
      */
     public Player comparingPlayerCondition(Player p1, Player p2) {
-        if (!p1.getPlayerCondtion().equals(ENUMS.PLAYERCONDITION.PLAYER)) {
+        if (!p1.getPlayerCondtion().equals(ENUMS.Playercondition.PLAYER)) {
             LOG.debug("Player 1 was a non Player object");
             return p1;
         }
-        if (!p2.getPlayerCondtion().equals(ENUMS.PLAYERCONDITION.PLAYER)) {
+        if (!p2.getPlayerCondtion().equals(ENUMS.Playercondition.PLAYER)) {
             LOG.debug("Player 2 was a non Player object");
             return p2;
         }
@@ -76,7 +76,7 @@ public class Match implements Callable<Player> {
                 + " gegen Player 2 Name: " + player2.getPlayerName() + " mit der Nr. " + player2.getPlayerID() + " mit " + player2Symbole
                 + " -- Das Ergebnis ist " + result);
 
-        if (result.equals(ENUMS.FIGHTSTAT.DRAW)) {
+        if (result.equals(ENUMS.Fightstat.DRAW)) {
             result = new Rounds(player1Symbole, player2Symbole).fightround();
         }
 
@@ -96,7 +96,7 @@ public class Match implements Callable<Player> {
      */
     public Player removeLosingPlayer(Enum result, Player player1, Player player2) {
         try {
-            if (result.equals(ENUMS.FIGHTSTAT.WON)) {
+            if (result.equals(ENUMS.Fightstat.WON)) {
                 return player2;
             } else {
                 return player1;

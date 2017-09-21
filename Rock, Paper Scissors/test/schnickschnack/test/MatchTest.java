@@ -53,8 +53,8 @@ public class MatchTest {
     @Test
     public void testCall() throws InterruptedException, ExecutionException {
 
-        Player p1 = new Player(5, ENUMS.PLAYERCONDITION.PLAYER);
-        Player p2 = new Player(3, ENUMS.PLAYERCONDITION.PLAYER);
+        Player p1 = new Player(5, ENUMS.Playercondition.PLAYER);
+        Player p2 = new Player(3, ENUMS.Playercondition.PLAYER);
 
         ExecutorService es = Executors.newSingleThreadExecutor();
 

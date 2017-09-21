@@ -46,6 +46,7 @@ public class Tier implements Callable<List<Player>> {
         //fill the gamesList
         List<Player> loserList = new ArrayList<>(maxGames);
         Iterator<Player> playerListIterator = playerList.iterator();
+        LOG.debug("List filled");
 
         for (int matches = 1; matches <= maxGames; matches++) {
             Match game = new Match(matches, playerListIterator.next(), playerListIterator.next());
@@ -53,6 +54,7 @@ public class Tier implements Callable<List<Player>> {
         }
 
         tierForExecuter.shutdown();
+        LOG.debug("Executors shutdown");
         playerList.removeAll(loserList);
 
         return playerList;

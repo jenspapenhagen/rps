@@ -45,7 +45,7 @@ public class Main {
 
         //fill playerList with ints
         for (int i = 1; i <= maxPlayer; i++) {
-            Player p1 = new Player(i, ENUMS.PLAYERCONDITION.PLAYER);
+            Player p1 = new Player(i, ENUMS.Playercondition.PLAYER);
             rawplayerList.add(p1);
         }
 
@@ -85,7 +85,7 @@ public class Main {
 
             //fillup the remainingplayer with Freewin
             if (remainingPlayer.size() % 2 != 0) {
-                Player p1 = new Player(FreeWinID, ENUMS.PLAYERCONDITION.FREEWIN);
+                Player p1 = new Player(FreeWinID, ENUMS.Playercondition.FREEWIN);
                 remainingPlayer.add(p1);//adding freilos if size is a odd number
             }
             playerListForTiers.addAll(remainingPlayer);
