@@ -36,13 +36,13 @@ public class Rounds {
                     ruler.getBehavor(lastPlayer2Symbole, lastPlayer1Symbole));
             System.out.println("Result of Round: " + rounds + " is: " + result);
 
-            if (!result.equals(ENUMS.Fightstat.DRAW)) {
+            if (!result.equals(Enums.Fightstat.DRAW)) {
                 break;
             }
 
             if (rounds == maxrounds) {
                 //froce win
-                result = ENUMS.Fightstat.WON;
+                result = Enums.Fightstat.WON;
                 break;
             }
 

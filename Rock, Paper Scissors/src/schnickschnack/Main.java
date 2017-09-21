@@ -26,7 +26,7 @@ public class Main {
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) throws InterruptedException, BrokenBarrierException, TimeoutException, ExecutionException, Throwable {
-        ExecutorService executorTier = Executors.newCachedThreadPool();
+        ExecutorService turnierround = Executors.newCachedThreadPool();
 
         int maxPlayer = 100;
         int maxMatches = maxPlayer / 2;
@@ -40,18 +40,18 @@ public class Main {
         LOG.info("anzahlDerTiers " + countOfTiers);
         LOG.info("FreiLosPlayerID " + FreeWinID);
 
-        List<Player> rawplayerList = new ArrayList<>(maxPlayer);
-        List<Player> remainingPlayer = new ArrayList<>();
+        List<Player> rawPlayerList = new ArrayList<>(maxPlayer);
+        List<Player> remainingPlayerList = new ArrayList<>();
 
         //fill playerList with ints
         for (int i = 1; i <= maxPlayer; i++) {
-            Player p1 = new Player(i, ENUMS.Playercondition.PLAYER);
-            rawplayerList.add(p1);
+            Player p1 = new Player(i, Enums.Playercondition.PLAYER);
+            rawPlayerList.add(p1);
         }
 
         //build a moving list
         List<Player> playerListForTiers = new ArrayList<>();
-        playerListForTiers.addAll(rawplayerList);
+        playerListForTiers.addAll(rawPlayerList);
 
         //run the tier
         for (int tierCounter = 1; tierCounter < countOfTiers; tierCounter++) {
@@ -66,9 +66,9 @@ public class Main {
 
             if (tierCounter == 1) {
                 maxMatchesNextTier = maxMatches;
-                Tier tier = new Tier(maxMatchesNextTier, rawplayerList); //ersterste Tier.
-                Future<List<Player>> result10 = executorTier.submit(tier);
-                remainingPlayer = result10.get();
+                Tier tier = new Tier(maxMatchesNextTier, rawPlayerList); //ersterste Tier.
+                Future<List<Player>> result10 = turnierround.submit(tier);
+                remainingPlayerList = result10.get();
             } else {
                 System.out.println("");
                 System.out.println("-------------------------------------------------------------------------------");
@@ -76,21 +76,25 @@ public class Main {
 
                 //shuffle the list
                 long seed = System.nanoTime();
-                Collections.shuffle(remainingPlayer, new Random(seed));
+                Collections.shuffle(remainingPlayerList, new Random(seed));
+                //todo shuffle symbole
+                
+                
+                
 
-                Tier tier = new Tier(maxMatchesNextTier, remainingPlayer);
-                Future<List<Player>> result10 = executorTier.submit(tier);
-                remainingPlayer = result10.get();
+                Tier tier = new Tier(maxMatchesNextTier, remainingPlayerList);
+                Future<List<Player>> result10 = turnierround.submit(tier);
+                remainingPlayerList = result10.get();
             }
 
             //fillup the remainingplayer with Freewin
-            if (remainingPlayer.size() % 2 != 0) {
-                Player p1 = new Player(FreeWinID, ENUMS.Playercondition.FREEWIN);
-                remainingPlayer.add(p1);//adding freilos if size is a odd number
+            if (remainingPlayerList.size() % 2 != 0) {
+                Player p1 = new Player(FreeWinID, Enums.Playercondition.FREEWIN);
+                remainingPlayerList.add(p1);//adding freilos if size is a odd number
             }
-            playerListForTiers.addAll(remainingPlayer);
+            playerListForTiers.addAll(remainingPlayerList);
         }
-        executorTier.shutdown();
+        turnierround.shutdown();
 
     }
 

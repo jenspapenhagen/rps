@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package schnickschnack;
+package schnickschnack.test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +15,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import schnickschnack.Enums;
+import schnickschnack.Match;
+import schnickschnack.Player;
 
 /**
  *
@@ -25,13 +28,13 @@ public class testclass {
     public static void main(String[] args) throws Exception {
 
         //runden test
-//        Enum output = new Rounds(ENUMS.SYMBOLE.SCISSOR, ENUMS.SYMBOLE.PAPER).fightround();
+//        Enum output = new Rounds(Enums.SYMBOLE.SCISSOR, Enums.SYMBOLE.PAPER).fightround();
 //        System.out.println(" Ausgabe: "+ output);
 //        
         //Match erspielen
         Match game;
-        Player p1 = new Player(1, ENUMS.Playercondition.PLAYER);
-        Player p2 = new Player(2, ENUMS.Playercondition.PLAYER);
+        Player p1 = new Player(1, Enums.Playercondition.PLAYER);
+        Player p2 = new Player(2, Enums.Playercondition.PLAYER);
         game = new Match(1, p1, p2);
 
         //tier test
@@ -42,7 +45,7 @@ public class testclass {
 //
 //        //fill playerList with ints
 //        for (int i = 1; i <= maxPlayer; i++) {
-//            Player p3 = new Player(i, ENUMS.playerStatus.PLAYER.toString());
+//            Player p3 = new Player(i, Enums.playerStatus.PLAYER.toString());
 //            playerList.add(p3);
 //        }
 //        //fill the gamesList
@@ -119,7 +122,7 @@ public class testclass {
 //                Future result10 = null;
 //
 //                if (otherParticipants.size() % 2 != 0) {
-//                    Player p4 = new Player(FreiLosPlayerID, ENUMS.playerStatus.FREILOS.toString());
+//                    Player p4 = new Player(FreiLosPlayerID, Enums.playerStatus.FREILOS.toString());
 //                    otherParticipants.add(p4);//adding freilos if size is a odd number
 //                }
 //

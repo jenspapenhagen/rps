@@ -41,7 +41,7 @@ public class Tier implements Callable<List<Player>> {
      */
     @Override
     public List<Player> call() throws InterruptedException, ExecutionException {
-         ExecutorService tierForExecuter = Executors.newFixedThreadPool(4);
+         ExecutorService executerForThisTier = Executors.newFixedThreadPool(4);
 
         //fill the gamesList
         List<Player> loserList = new ArrayList<>(maxGames);
@@ -50,10 +50,10 @@ public class Tier implements Callable<List<Player>> {
 
         for (int matches = 1; matches <= maxGames; matches++) {
             Match game = new Match(matches, playerListIterator.next(), playerListIterator.next());
-            loserList.add(tierForExecuter.submit(game).get());
+            loserList.add(executerForThisTier.submit(game).get());
         }
 
-        tierForExecuter.shutdown();
+        executerForThisTier.shutdown();
         LOG.debug("Executors shutdown");
         playerList.removeAll(loserList);
 

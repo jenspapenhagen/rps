@@ -92,8 +92,8 @@ public class JAVAFXDemomodusController implements Initializable {
         }
 
         //build the player
-        Player p1 = new Player(Player1ID, ENUMS.Playercondition.PLAYER);
-        Player p2 = new Player(Player2ID, ENUMS.Playercondition.PLAYER);
+        Player p1 = new Player(Player1ID, Enums.Playercondition.PLAYER);
+        Player p2 = new Player(Player2ID, Enums.Playercondition.PLAYER);
 
         //clean the protocol
         getCleanProtocol(backlog);
@@ -114,7 +114,7 @@ public class JAVAFXDemomodusController implements Initializable {
             addToProtocol("Ausgabe normal Fight: " + resultFromfight);
 
             //fight again if the fight was a draw
-            if (resultFromfight.equals(ENUMS.Fightstat.DRAW)) {
+            if (resultFromfight.equals(Enums.Fightstat.DRAW)) {
                 addToProtocol("First Match was a draw, NOW Round 1");
                 changePlayerUI(p1, 1);
                 changePlayerUI(p2, 2);
@@ -160,7 +160,7 @@ public class JAVAFXDemomodusController implements Initializable {
             addToProtocol("Runden " + rounds + " Ergebnis: " + fightresult);
 
             //fight again if this fight was a draw, too.
-            if (!fightresult.equals(ENUMS.Fightstat.DRAW)) {
+            if (!fightresult.equals(Enums.Fightstat.DRAW)) {
                 changePlayerUI(p1, 1);
                 changePlayerUI(p2, 2);
                 break;
@@ -169,7 +169,7 @@ public class JAVAFXDemomodusController implements Initializable {
             if (rounds == maxrounds) {
                 //froce win
                 LOG.debug("froce win");
-                fightresult = ENUMS.Fightstat.WON;
+                fightresult = Enums.Fightstat.WON;
                 break;
             }
             //change the round counter
@@ -183,7 +183,7 @@ public class JAVAFXDemomodusController implements Initializable {
         Integer removePlayerID = 0;
 
         try {
-            if (result.equals(ENUMS.Fightstat.WON)) {
+            if (result.equals(Enums.Fightstat.WON)) {
                 removePlayerID = p2.getPlayerID();
             } else {
                 removePlayerID = p1.getPlayerID();

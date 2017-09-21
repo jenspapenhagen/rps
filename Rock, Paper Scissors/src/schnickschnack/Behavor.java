@@ -16,15 +16,15 @@ public class Behavor {
 
     //allways the same
     public Enum Behavor1(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
-        return ENUMS.Symbole.SCISSOR;
+        return Enums.Symbole.SCISSOR;
     }
 
     public Enum Behavor2(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
-        return ENUMS.Symbole.STONE;
+        return Enums.Symbole.STONE;
     }
 
     public Enum Behavor3(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
-        return ENUMS.Symbole.PAPER;
+        return Enums.Symbole.PAPER;
     }
 
     public Enum OppositeOfLastRound(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
@@ -53,14 +53,14 @@ public class Behavor {
 
     public Enum getOppositeSymbole(Enum Symbol) {
         Enum output = null;
-        if (Symbol.equals(ENUMS.Symbole.SCISSOR)) {
-            output = ENUMS.Symbole.PAPER;
+        if (Symbol.equals(Enums.Symbole.SCISSOR)) {
+            output = Enums.Symbole.PAPER;
         }
-        if (Symbol.equals(ENUMS.Symbole.PAPER)) {
-            output = ENUMS.Symbole.STONE;
+        if (Symbol.equals(Enums.Symbole.PAPER)) {
+            output = Enums.Symbole.STONE;
         }
-        if (Symbol.equals(ENUMS.Symbole.STONE)) {
-            output = ENUMS.Symbole.SCISSOR;
+        if (Symbol.equals(Enums.Symbole.STONE)) {
+            output = Enums.Symbole.SCISSOR;
         }
         
         return output;

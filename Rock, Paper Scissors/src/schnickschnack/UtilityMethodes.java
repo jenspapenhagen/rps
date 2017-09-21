@@ -18,13 +18,13 @@ public class UtilityMethodes {
     public Image givebackImg(Enum symbole) throws IOException {
         Image myPicture = null;
 
-        if (symbole.equals(ENUMS.Symbole.SCISSOR)) {
+        if (symbole.equals(Enums.Symbole.SCISSOR)) {
             myPicture = new Image(new File("./src/schnickschnack/files/scissor.png").toURI().toString());
         }
-        if (symbole.equals(ENUMS.Symbole.PAPER)) {
+        if (symbole.equals(Enums.Symbole.PAPER)) {
             myPicture = new Image(new File("./src/schnickschnack/files/paper.png").toURI().toString());
         }
-        if (symbole.equals(ENUMS.Symbole.STONE)) {
+        if (symbole.equals(Enums.Symbole.STONE)) {
             myPicture = new Image(new File("./src/schnickschnack/files/stone.png").toURI().toString());
         }
 
