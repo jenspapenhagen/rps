@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package schnickschnack;
+package rockpaperscissors;
 
 import java.util.concurrent.Callable;
 import org.slf4j.LoggerFactory;
@@ -12,15 +12,15 @@ import org.slf4j.LoggerFactory;
  *
  * @author jens.papenhagen
  */
-public class Match implements Callable<Player> {
+public class Fight implements Callable<Player> {
 
-    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Match.class);
+    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Fight.class);
 
     private final int matchNr;
     private final Player player1;
     private final Player player2;
 
-    public Match(int matchID, Player p1, Player p2) {
+    public Fight(int matchID, Player p1, Player p2) {
         this.matchNr = matchID;
         this.player1 = p1;
         this.player2 = p2;

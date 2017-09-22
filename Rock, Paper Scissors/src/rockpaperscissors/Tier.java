@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package schnickschnack;
+package rockpaperscissors;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -49,7 +49,7 @@ public class Tier implements Callable<List<Player>> {
         LOG.debug("List filled");
 
         for (int matches = 1; matches <= maxGames; matches++) {
-            Match game = new Match(matches, playerListIterator.next(), playerListIterator.next());
+            Fight game = new Fight(matches, playerListIterator.next(), playerListIterator.next());
             loserList.add(executerForThisTier.submit(game).get());
         }
 

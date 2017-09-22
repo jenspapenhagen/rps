@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package schnickschnack;
+package rockpaperscissors;
 
-import schnickschnack.Enums.Symbole;
+import rockpaperscissors.Enums.Symbole;
 import java.util.EnumSet;
 
 /**

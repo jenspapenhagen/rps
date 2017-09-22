@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package schnickschnack.test;
+package rockpaperscissors.test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,9 +15,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import schnickschnack.Enums;
-import schnickschnack.Match;
-import schnickschnack.Player;
+import rockpaperscissors.Enums;
+import rockpaperscissors.Fight;
+import rockpaperscissors.Player;
 
 /**
  *
@@ -32,10 +32,10 @@ public class testclass {
 //        System.out.println(" Ausgabe: "+ output);
 //        
         //Match erspielen
-        Match game;
+        Fight game;
         Player p1 = new Player(1, Enums.Playercondition.PLAYER);
         Player p2 = new Player(2, Enums.Playercondition.PLAYER);
-        game = new Match(1, p1, p2);
+        game = new Fight(1, p1, p2);
 
         //tier test
 //        ExecutorService tierExecuter = Executors.newFixedThreadPool(3);

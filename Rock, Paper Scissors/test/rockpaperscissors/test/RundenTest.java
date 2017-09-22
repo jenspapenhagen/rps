@@ -4,15 +4,16 @@
  * and open the template in the editor.
  */
 
-package schnickschnack.test;
+package rockpaperscissors.test;
 
+import rockpaperscissors.Rounds;
+import rockpaperscissors.Enums;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import schnickschnack.*;
 import static org.junit.Assert.*;
 
 /**

@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package schnickschnack;
+package rockpaperscissors;
 
 import java.util.EnumSet;
 import java.util.Random;
-import schnickschnack.Enums.Symbole;
+import rockpaperscissors.Enums.Symbole;
 
 /**
  *

@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package schnickschnack.test;
+package rockpaperscissors.test;
 
+import rockpaperscissors.Fight;
+import rockpaperscissors.Enums;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -15,8 +17,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import schnickschnack.*;
-import schnickschnack.Player;
+import rockpaperscissors.Player;
 
 import static org.junit.Assert.*;
 
@@ -48,7 +49,7 @@ public class MatchTest {
     }
 
     /**
-     * Test of call method, of class Match.
+     * Test of call method, of class Fight.
      */
     @Test
     public void testCall() throws InterruptedException, ExecutionException {
@@ -58,7 +59,7 @@ public class MatchTest {
 
         ExecutorService es = Executors.newSingleThreadExecutor();
 
-        Match game = new Match(1, p1, p2);
+        Fight game = new Fight(1, p1, p2);
         Future<Player> result10 = es.submit(game);
 
         es.shutdown();
