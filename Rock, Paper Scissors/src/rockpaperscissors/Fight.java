@@ -81,7 +81,7 @@ public class Fight implements Callable<Player> {
         System.out.println(
                 "Match " + matchNr + ": Player 1 Name: " + player1.getPlayerName() + " mit der Nr." + player1.getPlayerID() + " nimmt: " + player1Symbole
                 + " gegen Player 2 Name: " + player2.getPlayerName() + " mit der Nr. " + player2.getPlayerID() + " mit " + player2Symbole
-                + " -- Das Ergebnis ist " + result);
+                + " -- Player1 hat: " + result);
 
         if (result.equals(Enums.Fightstat.DRAW)) {
             result = new Rounds(player1Symbole, player2Symbole).fightround();

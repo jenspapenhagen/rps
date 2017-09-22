@@ -6,58 +6,37 @@
 package rockpaperscissors;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author jens.papenhagen
  */
-public class Tier implements Callable<List<Player>> {
+public class Tier {
 
-    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Tier.class);
+    private int tierId;
+    private List<Match> matchList;
+
+    public Tier(int tierId) {
+        this.matchList = new ArrayList<>();
+        this.tierId = tierId;
+    }
+
+    public int getTierId() {
+        return tierId;
+    }
+
+    public List<Match> getMatchList() {
+        return matchList;
+    }
+
+    public void setTierId(int tierId) {
+        this.tierId = tierId;
+    }
+
+    public void setMatchList(List<Match> matchList) {
+        this.matchList = matchList;
+    }
     
-    private final int maxGames;
-    private final List<Player> playerList;
-
-    public Tier(int maxGames, List<Player> playerList) {
-        this.maxGames = maxGames;
-        this.playerList = playerList;
-        
-        LOG.debug("maxGames" + maxGames);
-        LOG.debug("playerList" + playerList);
-    }
-
-    /**
-     * a round i the tournier get called tier
-     * @return
-     * @throws InterruptedException
-     * @throws ExecutionException 
-     */
-    @Override
-    public List<Player> call() throws InterruptedException, ExecutionException {
-         ExecutorService executerForThisTier = Executors.newFixedThreadPool(4);
-
-        //fill the gamesList
-        List<Player> loserList = new ArrayList<>(maxGames);
-        Iterator<Player> playerListIterator = playerList.iterator();
-        LOG.debug("List filled");
-
-        for (int matches = 1; matches <= maxGames; matches++) {
-            Fight fight = new Fight(matches, playerListIterator.next(), playerListIterator.next());
-            loserList.add(executerForThisTier.submit(fight).get());
-        }
-
-        executerForThisTier.shutdown();
-        LOG.debug("Executors shutdown");
-        playerList.removeAll(loserList);
-
-        return playerList;
-    }
 
 }
