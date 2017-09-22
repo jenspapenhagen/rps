@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Tier implements Callable<List<Player>> {
 
-    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Rounds.class);
+    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Tier.class);
     
     private final int maxGames;
     private final List<Player> playerList;
@@ -49,8 +49,8 @@ public class Tier implements Callable<List<Player>> {
         LOG.debug("List filled");
 
         for (int matches = 1; matches <= maxGames; matches++) {
-            Fight game = new Fight(matches, playerListIterator.next(), playerListIterator.next());
-            loserList.add(executerForThisTier.submit(game).get());
+            Fight fight = new Fight(matches, playerListIterator.next(), playerListIterator.next());
+            loserList.add(executerForThisTier.submit(fight).get());
         }
 
         executerForThisTier.shutdown();

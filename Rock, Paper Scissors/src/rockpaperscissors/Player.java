@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -18,6 +19,7 @@ import org.apache.commons.io.FileUtils;
  */
 public final class Player {
 
+    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Player.class);
 
     private String PlayerName;
     private Enum PlayerSymbole;
@@ -61,7 +63,7 @@ public final class Player {
 
     public Enum getRandomSymbole() {
         int indexer = new Random().nextInt(Enums.Symbole.values().length);
-        
+
         return (Enums.Symbole.values()[indexer]);
     }
 
@@ -69,16 +71,18 @@ public final class Player {
         String output = "";
         try {
             List<String> Namelist = FileUtils.readLines(
-                    new File("./src/schnickschnack/files/forename.txt"), "utf-8");
+                    new File("./src/rockpaperscissors/files/forename.txt"), "utf-8");
 
             int randomline = new Random().nextInt(Namelist.size());
             output = Namelist.get(randomline);
 
-        } catch (FileNotFoundException e) {
-            System.out.println("Liste alle");
+        } catch (FileNotFoundException ex) {
+            LOG.error("forname liste emptry");
+            LOG.error(ex.getMessage());
 
-        } catch (IOException e) {
-            System.out.println("Liste alle2");
+        } catch (IOException ex) {
+            LOG.error("forname can not be read");
+            LOG.error(ex.getMessage());
         }
 
         return output;

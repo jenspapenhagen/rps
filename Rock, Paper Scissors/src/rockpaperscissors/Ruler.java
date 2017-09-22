@@ -5,7 +5,6 @@
  */
 package rockpaperscissors;
 
-import java.util.EnumSet;
 import java.util.Random;
 import rockpaperscissors.Enums.Symbole;
 
