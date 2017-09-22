@@ -16,7 +16,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="530.0" prefWidth="594.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
     <stylesheets>
-        <URL value="@javafxdialog.css" />
+        <URL value="@files/javafxdialog.css" />
     </stylesheets>
     <children>
         <TabPane fx:id="tabPane" layoutY="154.0" prefHeight="731.0" prefWidth="571.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

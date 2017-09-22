@@ -78,13 +78,31 @@ public class Fight implements Callable<Player> {
         }
 
         //the cli output
-        System.out.println(
-                "Match " + matchNr + ": Player 1 Name: " + player1.getPlayerName() + " mit der Nr." + player1.getPlayerID() + " nimmt: " + player1Symbole
+        System.out.println("Match " + matchNr + ": Player 1 Name: " + player1.getPlayerName() + " mit der Nr." + player1.getPlayerID() + " nimmt: " + player2Symbole
                 + " gegen Player 2 Name: " + player2.getPlayerName() + " mit der Nr. " + player2.getPlayerID() + " mit " + player2Symbole
                 + " -- Player1 hat: " + result);
 
+        //playing rounds if the frist fight was a draw
         if (result.equals(Enums.Fightstat.DRAW)) {
-            result = new Rounds(player1Symbole, player2Symbole).fightround();
+            //result = new Rounds(player1Symbole, player2Symbole).fightround();
+            int maxrounds = 5;
+
+            for (int rounds = 1; rounds < maxrounds; rounds++) {
+                result = ruler.comparingSymboles(ruler.getBehavor(player2Symbole, player2Symbole),
+                        ruler.getBehavor(player2Symbole, player2Symbole));
+                System.out.println("Result of Round: " + rounds + " is: " + result);
+
+                if (!result.equals(Enums.Fightstat.DRAW)) {
+                    break;
+                }
+
+                if (rounds == maxrounds) {
+                    LOG.debug("froce win");
+                    result = Enums.Fightstat.WON;
+                    break;
+                }
+
+            }
         }
 
         //remove the lost player 

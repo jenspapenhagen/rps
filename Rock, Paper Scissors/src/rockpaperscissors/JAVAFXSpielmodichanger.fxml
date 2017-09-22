@@ -10,7 +10,7 @@
 
 <AnchorPane id="AnchorPane" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rockpaperscissors.JAVAFXSpielmodichangerController">
     <stylesheets>
-        <URL value="@javafxdialog.css" />
+        <URL value="@files/javafxdialog.css" />
     </stylesheets>
     <children>
         <VBox alignment="CENTER" spacing="5.0">

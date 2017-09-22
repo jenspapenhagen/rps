@@ -19,13 +19,13 @@ public class UtilityMethodes {
         Image myPicture = null;
 
         if (symbole.equals(Enums.Symbole.SCISSOR)) {
-            myPicture = new Image(new File("./src/schnickschnack/files/scissor.png").toURI().toString());
+            myPicture = new Image(new File("./src/rockpaperscissors/files/scissor.png").toURI().toString());
         }
         if (symbole.equals(Enums.Symbole.PAPER)) {
-            myPicture = new Image(new File("./src/schnickschnack/files/paper.png").toURI().toString());
+            myPicture = new Image(new File("./src/rockpaperscissors/files/paper.png").toURI().toString());
         }
         if (symbole.equals(Enums.Symbole.ROCK)) {
-            myPicture = new Image(new File("./src/schnickschnack/files/stone.png").toURI().toString());
+            myPicture = new Image(new File("./src/rockpaperscissors/files/stone.png").toURI().toString());
         }
 
         return myPicture;

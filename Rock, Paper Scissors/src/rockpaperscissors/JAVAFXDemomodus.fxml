@@ -13,7 +13,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rockpaperscissors.JAVAFXDemomodusController">
     <stylesheets>
-        <URL value="@javafxdialog.css" />
+        <URL value="@files/javafxdialog.css" />
     </stylesheets>
     <children>
         <VBox spacing="5.0">
