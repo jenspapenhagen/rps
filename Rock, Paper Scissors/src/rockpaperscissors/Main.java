@@ -10,11 +10,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeoutException;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -25,8 +23,7 @@ public class Main {
 
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Main.class);
 
-    public static void main(String[] args) throws InterruptedException, BrokenBarrierException, TimeoutException, ExecutionException, Throwable {
-        ExecutorService turnierround = Executors.newFixedThreadPool(4);
+    public static void main(String[] args) {
 
         int maxPlayer = 100;
         int maxMatches = maxPlayer / 2;
@@ -40,6 +37,9 @@ public class Main {
         LOG.info("count of tiers " + countOfTiers);
         LOG.info("ID from the freeWin player " + FreeWinID);
 
+        ExecutorService turnierround = Executors.newFixedThreadPool(4);
+
+        //build up the tournament
         List<Tier> tournament = new ArrayList<>(countOfTiers);
 
         //build two moving list
@@ -53,7 +53,7 @@ public class Main {
         }
 
         //run the tier
-        for (int tierCounter = 1; tierCounter < countOfTiers; tierCounter++) {
+        for (int tierCounter = 1; tierCounter <= countOfTiers; tierCounter++) {
             //building the tier
             Tier tier = new Tier(tierCounter);
 
@@ -81,36 +81,47 @@ public class Main {
 
             List<Player> loserList = new ArrayList<>(maxFightInNextTier);
             Iterator<Player> playerListIterator = remainingPlayerList.iterator();
-            
+
             LOG.debug("lets fight");
             for (int matches = 1; matches <= maxFightInNextTier; matches++) {
-                //set default match log
-                Match matchlog = new Match(1, 2, 3);
+                Match matchlog = null;
+                if (playerListIterator.hasNext() && (loserList.size() * 2) < remainingPlayerList.size()) {
+                    //set default match log
+                    matchlog = new Match(1, 2, 3);
 
-                if (playerListIterator.hasNext()) {
+                    //getting the 2 player
                     Player p1 = playerListIterator.next();
                     Player p2 = playerListIterator.next();
+
                     //start the fight
                     Fight fight = new Fight(matches, p1, p2);
 
-                    //adding both player to the matchlog
+                    //adding the right match ID into the matchlog and both player to the matchlog
+                    matchlog.setId(matches);
                     matchlog.setPlayer1ID(p1.getPlayerID());
                     matchlog.setPlayer2ID(p2.getPlayerID());
 
-                    //adding loser of the fight to the loser List
-                    loserList.add(turnierround.submit(fight).get());
-                }
+                    try {
+                        //adding loser of the fight to the loser List
+                        loserList.add(turnierround.submit(fight).get());
+                    } catch (InterruptedException | ExecutionException ex) {
+                        LOG.error(ex.getMessage());
+                    }
 
-                //adding the winner into the matchlog
-                if (matchlog.getPlayer1ID() == loserList.get(matches - 1).getPlayerID()) {
-                    matchlog.setWinnerID(matchlog.getPlayer1ID());
-                } else {
-                    matchlog.setWinnerID(matchlog.getPlayer2ID());
+                    //adding the winner into the matchlog
+                    try {
+                        if (matchlog.getPlayer1ID() == loserList.get(matches - 1).getPlayerID()) {
+                            matchlog.setWinnerID(matchlog.getPlayer2ID());
+                        } else {
+                            matchlog.setWinnerID(matchlog.getPlayer1ID());
+                        }
+                    } catch (IndexOutOfBoundsException | NullPointerException ex) {
+                        LOG.error(ex.getMessage());
+                    }
+
+                    //add this matchlog to the matchlist
+                    matchListForThisTier.add(matchlog);
                 }
-                //adding the right match ID into the matchlog
-                matchlog.setId(matches);
-                //add this matchlog to the matchlist
-                matchListForThisTier.add(matchlog);
             }
             LOG.debug("tier finish");
             System.out.println("");
@@ -125,9 +136,11 @@ public class Main {
 
             //fillup the remainingplayer with Freewin
             //adding FREEWIN odd size of remainingPlayerList
-            if (remainingPlayerList.size() % 2 != 0) {
+            //not in the last round
+            if (maxFightInNextTier != 1 && remainingPlayerList.size() % 2 != 0) {
                 Player p1 = new Player(FreeWinID, Enums.Playercondition.FREEWIN);
                 remainingPlayerList.add(p1);
+                LOG.debug("added Freewin player");
             }
 
             //adding the matchlist to this tier
