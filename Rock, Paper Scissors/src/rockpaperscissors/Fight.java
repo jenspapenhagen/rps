@@ -19,13 +19,16 @@ public class Fight implements Callable<Player> {
     private final int matchNr;
     private final Player player1;
     private final Player player2;
+    private final boolean calm;
 
-    public Fight(int matchID, Player p1, Player p2) {
+    public Fight(int matchID, Player p1, Player p2, boolean calm) {
         this.matchNr = matchID;
         this.player1 = p1;
         this.player2 = p2;
+        this.calm = calm;
         LOG.debug("Match with ID:" + matchNr);
         LOG.debug(" getstarted." + player1.getPlayerID() + " vs. " + player2.getPlayerID());
+        LOG.debug("This Fight is: " + this.calm);
     }
 
     /**
@@ -56,6 +59,7 @@ public class Fight implements Callable<Player> {
     public Player call() {
         Ruler ruler = new Ruler();
 
+        //getting the symboles of the player
         Enum player1Symbole = player1.getPlayerSymbole();
         Enum player2Symbole = player2.getPlayerSymbole();
 
@@ -77,21 +81,31 @@ public class Fight implements Callable<Player> {
             result = Enums.Fightstat.WON;
         }
 
-        //the cli output
-        System.out.println("Match " + matchNr + ": Player 1 Name: " + player1.getPlayerName() + " mit der Nr." + player1.getPlayerID() + " nimmt: " + player2Symbole
-                + " gegen Player 2 Name: " + player2.getPlayerName() + " mit der Nr. " + player2.getPlayerID() + " mit " + player2Symbole
-                + " -- Player1 hat: " + result);
+        if (calm) {
+            LOG.debug("Match " + matchNr + ": Player 1 Name: " + player1.getPlayerName() + " mit der Nr." + player1.getPlayerID() + " nimmt: " + player2Symbole
+                    + " gegen Player 2 Name: " + player2.getPlayerName() + " mit der Nr. " + player2.getPlayerID() + " mit " + player2Symbole
+                    + " -- Player1 hat: " + result);
+        } else {
+            //the cli output
+            System.out.println("Match " + matchNr + ": Player 1 Name: " + player1.getPlayerName() + " mit der Nr." + player1.getPlayerID() + " nimmt: " + player2Symbole
+                    + " gegen Player 2 Name: " + player2.getPlayerName() + " mit der Nr. " + player2.getPlayerID() + " mit " + player2Symbole
+                    + " -- Player1 hat: " + result);
+        }
 
         //playing rounds if the frist fight was a draw
         if (result.equals(Enums.Fightstat.DRAW)) {
             int maxrounds = 5;
             Behavor behv = new Behavor();
-            
+
             //rounds
             for (int rounds = 1; rounds < maxrounds; rounds++) {
                 result = ruler.comparingSymboles(behv.getBehavor(player2Symbole, player2Symbole),
                         behv.getBehavor(player2Symbole, player2Symbole));
-                System.out.println("Result of Round: " + rounds + " is: " + result);
+                if (calm) {
+                    LOG.debug("Result of Round: " + rounds + " is: " + result);
+                } else {
+                    System.out.println("Result of Round: " + rounds + " is: " + result);
+                }
 
                 //we have a winner lift this loop
                 if (!result.equals(Enums.Fightstat.DRAW)) {

@@ -146,7 +146,7 @@ public class JAVAFXSingelplayerController implements Initializable {
 
         //get new behavor for next round
         Behavor behv = new Behavor();
-        
+
         //fight
         Enum symbole1 = p1.getPlayerSymbole();
         Enum symbole2 = null;
@@ -175,9 +175,9 @@ public class JAVAFXSingelplayerController implements Initializable {
         roundNr.setText(0 + "");
 
         //fight
-        addToProtocol("Player2: " + symbole2);
         Enum figtresult = ruler.comparingSymboles(symbole1, symbole2);
         changePlayerUI(p2, 2);
+        addToProtocol("Player2: " + symbole2);
         addToProtocol("Player 1 has: " + figtresult);
 
         //fight was draw
@@ -191,6 +191,7 @@ public class JAVAFXSingelplayerController implements Initializable {
             stillInFight = true;
         }
 
+        addToProtocol("Player 1 has: " + figtresult);
         result.setText("Player 1 has: " + figtresult);
 
         getProtocol(backlog);

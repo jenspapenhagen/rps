@@ -30,12 +30,14 @@ public class Main {
         int maxFightInNextTier = 0;
         int countOfTiers = (int) Math.sqrt(maxMatches);
         int FreeWinID = maxPlayer + 3;
+        boolean calm = true;
 
         LOG.info("maxplayer for this tournament " + maxPlayer);
         LOG.info("max Match games for the frist round" + maxMatches);
         LOG.info("maxGamesNextTier " + maxFightInNextTier);
         LOG.info("count of tiers " + countOfTiers);
         LOG.info("ID from the freeWin player " + FreeWinID);
+        LOG.info("This Fight is: " + calm);
 
         ExecutorService turnierround = Executors.newFixedThreadPool(4);
 
@@ -94,7 +96,7 @@ public class Main {
                     Player p2 = playerListIterator.next();
 
                     //start the fight
-                    Fight fight = new Fight(matches, p1, p2);
+                    Fight fight = new Fight(matches, p1, p2, calm);
 
                     //adding the right match ID into the matchlog and both player to the matchlog
                     matchlog.setId(matches);
@@ -124,9 +126,15 @@ public class Main {
                 }
             }
             LOG.debug("tier finish");
-            System.out.println("");
-            System.out.println("-------------------------------------------------------------------------------");
-            System.out.println("");
+            if (calm) {
+                LOG.debug("");
+                LOG.debug("-------------------------------------------------------------------------------");
+                LOG.debug("");
+            } else {
+                System.out.println("");
+                System.out.println("-------------------------------------------------------------------------------");
+                System.out.println("");
+            }
 
             //renove the loser from the remainingPlayerList
             remainingPlayerList.removeAll(loserList);
@@ -182,15 +190,16 @@ public class Main {
     }
 
     /**
-     * Try to build a tournament grid in console.
-     * using a List of Tier Objects for this
-     * @param tournament 
+     * Try to build a tournament grid in console. using a List of Tier Objects
+     * for this
+     *
+     * @param tournament
      */
     public static void displayTournament(List<Tier> tournament) {
         for (int i = tournament.size() - 1; i >= 0; i--) {
             StringBuilder spaces = new StringBuilder();
             spaces.append(String.join("", Collections.nCopies(100, " ")));
-            
+
             int maxl = spaces.length();
             spaces.delete((i * 10) + 30, maxl);
             System.out.printf("%s\t%s", tournament.get(i).getTierId(), spaces.toString());
@@ -198,13 +207,13 @@ public class Main {
             for (int j = 0; j < tournament.get(i).getMatchList().size(); j++) {
                 System.out.printf("\t%s", String.format("%s", tournament.get(i).getMatchList().get(j).getWinnerID()));
             }
-            
+
             System.out.println("");
             System.out.printf("%s\t%s", tournament.get(i).getTierId(), spaces.toString());
             for (int j = 0; j < tournament.get(i).getMatchList().size(); j++) {
                 System.out.printf("%s\t", String.format(" %s vs.%s", tournament.get(i).getMatchList().get(j).getPlayer1ID(), tournament.get(i).getMatchList().get(j).getPlayer2ID()));
             }
-            
+
             System.out.println("");
             System.out.println(String.join("", Collections.nCopies(200, "-")));
         }

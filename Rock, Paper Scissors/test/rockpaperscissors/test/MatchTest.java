@@ -53,13 +53,16 @@ public class MatchTest {
      */
     @Test
     public void testCall() throws InterruptedException, ExecutionException {
+        
+        //only log the fight to the debug log
+        boolean calm = true;
 
         Player p1 = new Player(5, Enums.Playercondition.PLAYER);
         Player p2 = new Player(3, Enums.Playercondition.PLAYER);
 
         ExecutorService es = Executors.newSingleThreadExecutor();
 
-        Fight game = new Fight(1, p1, p2);
+        Fight game = new Fight(1, p1, p2, calm);
         Future<Player> result10 = es.submit(game);
 
         es.shutdown();
