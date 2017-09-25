@@ -26,7 +26,7 @@ public class JAVAFXstartDemoModus extends Application {
 
         Scene scene = new Scene(root);
 
-        stage.setResizable(false);
+        stage.setResizable(true);
         stage.setTitle("Stein Schere Papier Game");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("files/icon.jpg")));
 

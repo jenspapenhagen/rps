@@ -8,7 +8,7 @@ package rockpaperscissors;
 import java.util.EnumSet;
 
 /**
- *
+ * this rps15 match (rps have to be the power of 3)
  * @author jens.papenhagen
  */
 public class Enums {

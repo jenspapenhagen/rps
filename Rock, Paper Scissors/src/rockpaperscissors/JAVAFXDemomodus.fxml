@@ -11,18 +11,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rockpaperscissors.JAVAFXDemomodusController">
+<AnchorPane id="AnchorPane" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rockpaperscissors.JAVAFXDemomodusController">
     <stylesheets>
         <URL value="@files/javafxdialog.css" />
     </stylesheets>
     <children>
         <VBox spacing="5.0">
             <children>
-                <HBox alignment="TOP_CENTER" prefHeight="258.0" prefWidth="536.0" spacing="10.0" VBox.vgrow="NEVER">
+                <HBox alignment="TOP_CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
                     <children>
-                        <VBox prefHeight="243.0" prefWidth="240.0" spacing="5.0" HBox.hgrow="NEVER">
+                        <VBox spacing="5.0" HBox.hgrow="NEVER">
                             <children>
-                        <HBox prefHeight="50.0" prefWidth="222.0" VBox.vgrow="NEVER">
+                        <HBox VBox.vgrow="NEVER">
                            <children>
                               <Label text="Spielername: " />
                               <Label fx:id="player1Name" text="name1" />
@@ -36,7 +36,7 @@
                               <Insets />
                            </VBox.margin></Label>
                                 <Label fx:id="player1Nr" text="Nr1" />
-                                <ImageView fx:id="player1img" fitHeight="150.0" fitWidth="222.0" pickOnBounds="true" VBox.vgrow="NEVER" />
+                                <ImageView fx:id="player1img" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS" />
                             </children>
                             <opaqueInsets>
                                 <Insets />
@@ -56,9 +56,9 @@
                                 <Insets />
                             </opaqueInsets>
                         </Label>
-                  <VBox layoutX="142.0" layoutY="15.0" prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="NEVER">
+                  <VBox layoutX="142.0" layoutY="15.0" spacing="5.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <HBox prefHeight="50.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                        <HBox VBox.vgrow="ALWAYS">
                            <children>
                               <Label text="Spielername: " />
                               <Label fx:id="player2Name" text="name2" />
@@ -73,7 +73,8 @@
                            </VBox.margin>
                         </Label>
                         <Label fx:id="player2Nr" text="Nr2" />
-                        <ImageView fx:id="player2img" fitHeight="150.0" fitWidth="222.0" pickOnBounds="true" />
+                        <ImageView fx:id="player2img" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" VBox.vgrow="ALWAYS" />
+                        <Label text="images by: bardbach.com" />
                      </children>
                      <opaqueInsets>
                         <Insets bottom="5.0" />
@@ -87,7 +88,7 @@
                   <Insets bottom="5.0" right="5.0" top="5.0" />
                </padding>
                 </HBox>
-                <HBox prefHeight="29.0" prefWidth="545.0" spacing="5.0">
+                <HBox spacing="5.0">
                     <children>
                         <Label text="And the Winner is:">
                      <padding>
@@ -102,18 +103,18 @@
                         <Insets left="5.0" right="5.0" />
                     </opaqueInsets>
                 </HBox>
-                <HBox prefHeight="100.0" prefWidth="200.0">
+                <HBox VBox.vgrow="ALWAYS">
                     <children>
-                        <VBox prefHeight="200.0" prefWidth="200.0">
+                        <VBox HBox.hgrow="ALWAYS">
                             <children>
                                 <Button fx:id="matchButton" mnemonicParsing="false" onAction="#handleMatchButton" text="Match" />
-                                <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                                <HBox spacing="5.0">
                                     <children>
                                         <Label text="To remove ID: " />
                                         <Label fx:id="removeID" text="removeID" />
                                     </children>
                                 </HBox>
-                                <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                                <HBox spacing="5.0">
                                     <children>
                                         <Label text="Round Counter:" />
                                         <Label fx:id="roundNr" text="roundNr" />
@@ -127,7 +128,7 @@
                         <Insets left="5.0" />
                      </padding>
                         </VBox>
-                  <ListView fx:id="backlog" prefHeight="100.0" prefWidth="350.0" />
+                  <ListView fx:id="backlog" HBox.hgrow="ALWAYS" />
                     </children>
                 </HBox>
             </children>

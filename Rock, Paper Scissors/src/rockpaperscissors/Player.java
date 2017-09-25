@@ -21,44 +21,44 @@ public final class Player {
 
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Player.class);
 
-    private String PlayerName;
-    private Enum PlayerSymbole;
-    private final int PlayerID;
-    private Enum PlayerCondition;
+    private String name;
+    private Enum symbole;
+    private final int ID;
+    private Enum condition;
 
-    public Player(int ID, Enum PlayerCondition) {
-        this.PlayerName = getRandomName();
-        this.PlayerID = ID;
-        this.PlayerCondition = PlayerCondition;
-        this.PlayerSymbole = getRandomSymbole();
+    public Player(int ID, Enum condition) {
+        this.name = getRandomName();
+        this.ID = ID;
+        this.condition = condition;
+        this.symbole = getRandomSymbole();
     }
 
     public String getPlayerName() {
-        return this.PlayerName;
+        return this.name;
     }
 
     public Enum getPlayerSymbole() {
-        return this.PlayerSymbole;
+        return this.symbole;
     }
 
     public int getPlayerID() {
-        return this.PlayerID;
+        return this.ID;
     }
 
     public Enum getPlayerCondtion() {
-        return this.PlayerCondition;
+        return this.condition;
     }
 
-    public void setPlayerName(String PlayerName) {
-        this.PlayerName = PlayerName;
+    public void setPlayerName(String name) {
+        this.name = name;
     }
 
-    public void setPlayerSymbole(Enum PlayerSymbole) {
-        this.PlayerSymbole = PlayerSymbole;
+    public void setPlayerSymbole(Enum symbole) {
+        this.symbole = symbole;
     }
 
-    public void setPlayerCondition(Enum PlayerCondition) {
-        this.PlayerCondition = PlayerCondition;
+    public void setPlayerCondition(Enum condition) {
+        this.condition = condition;
     }
 
     public Enum getRandomSymbole() {

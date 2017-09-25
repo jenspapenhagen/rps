@@ -86,7 +86,11 @@ public class Main {
 
             LOG.debug("lets fight");
             for (int matches = 1; matches <= maxFightInNextTier; matches++) {
+                //make a new matchlog
                 Match matchlog = null;
+                
+                //check if there is a next player in the playerlist and 
+                //the loserlist is at it max. On single-elimination the loser is have to be smaller than the half remainingPlayer list.
                 if (playerListIterator.hasNext() && (loserList.size() * 2) < remainingPlayerList.size()) {
                     //set default match log
                     matchlog = new Match(1, 2, 3);
@@ -170,20 +174,20 @@ public class Main {
      * not half the fightcount on odd fights add one fight befor half the
      * fightcount
      *
-     * @param fights
+     * @param numbersOfFights
      * @return maxfights for next tier
      */
-    public static int getMaxFightsInTier(int fights) {
+    public static int getMaxFightsInTier(int numbersOfFights) {
         int output;
-        if (fights == 2) {
+        if (numbersOfFights == 2) {
             //if onyl 2 player are left
-            output = fights; //lastround
-        } else if (fights % 2 == 0) {
+            output = numbersOfFights; //lastround
+        } else if (numbersOfFights % 2 == 0) {
             //if max games count is even  
-            output = fights / 2;
+            output = numbersOfFights / 2;
         } else {
             //if odd, add one match number befor half the numbers
-            output = (fights + 1) / 2;
+            output = (numbersOfFights + 1) / 2;
         }
 
         return output;
