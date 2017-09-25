@@ -24,7 +24,7 @@ public class Main {
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-
+        //config area for this tournament
         int maxPlayer = 100;
         int maxMatches = maxPlayer / 2;
         int maxFightInNextTier = 0;
@@ -154,6 +154,7 @@ public class Main {
 
         //display in better cli
         displayTournament(tournament);
+
     }
 
     /**
@@ -180,18 +181,32 @@ public class Main {
         return output;
     }
 
+    /**
+     * Try to build a tournament grid in console.
+     * using a List of Tier Objects for this
+     * @param tournament 
+     */
     public static void displayTournament(List<Tier> tournament) {
-        for (Tier t : tournament) {
-            System.out.println("");
-            System.out.println("Tier: " + t.getTierId());
-            for (Match m : t.getMatchList()) {
-                System.out.println("Match: " + m.getId());
-                System.out.println("Player1: " + m.getPlayer1ID());
-                System.out.println("Player2: " + m.getPlayer2ID());
-                System.out.println("and the Winner is: " + m.getWinnerID());
+        for (int i = tournament.size() - 1; i >= 0; i--) {
+            StringBuilder spaces = new StringBuilder();
+            spaces.append(String.join("", Collections.nCopies(100, " ")));
+            
+            int maxl = spaces.length();
+            spaces.delete((i * 10) + 30, maxl);
+            System.out.printf("%s\t%s", tournament.get(i).getTierId(), spaces.toString());
 
+            for (int j = 0; j < tournament.get(i).getMatchList().size(); j++) {
+                System.out.printf("\t%s", String.format("%s", tournament.get(i).getMatchList().get(j).getWinnerID()));
             }
-
+            
+            System.out.println("");
+            System.out.printf("%s\t%s", tournament.get(i).getTierId(), spaces.toString());
+            for (int j = 0; j < tournament.get(i).getMatchList().size(); j++) {
+                System.out.printf("%s\t", String.format(" %s vs.%s", tournament.get(i).getMatchList().get(j).getPlayer1ID(), tournament.get(i).getMatchList().get(j).getPlayer2ID()));
+            }
+            
+            System.out.println("");
+            System.out.println(String.join("", Collections.nCopies(200, "-")));
         }
 
     }
