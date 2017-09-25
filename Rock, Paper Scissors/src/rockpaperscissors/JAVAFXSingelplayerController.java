@@ -76,47 +76,47 @@ public class JAVAFXSingelplayerController implements Initializable {
     }
 
     @FXML
-    private void handlePapierButton(ActionEvent event) throws InterruptedException, Exception {
+    private void handlePapierButton(ActionEvent event) {
         Player p = new Player(1, Enums.Playercondition.PLAYER);
         p.setPlayerSymbole(Enums.Symbole.PAPER);
         player1ready = true;
 
         //fill Protocoll and change UI
-        changePlayerSymbolImg(p, 1);
+        changePlayerUI(p, 1);
         result.setText("lets go");
         addToProtocol("Player1: Papier");
         LOG.debug("Player1: Papier");
     }
 
     @FXML
-    private void handleSteinButton(ActionEvent event) throws InterruptedException, Exception {
+    private void handleSteinButton(ActionEvent event) {
 
         Player p = new Player(2, Enums.Playercondition.PLAYER);
         p.setPlayerSymbole(Enums.Symbole.ROCK);
         player1ready = true;
 
         //fill Protocoll and change UI
-        changePlayerSymbolImg(p, 1);
+        changePlayerUI(p, 1);
         result.setText("lets go");
         addToProtocol("Player1: Stein");
         LOG.debug("Player1: Stein");
     }
 
     @FXML
-    private void handleSchereButton(ActionEvent event) throws InterruptedException, Exception {
+    private void handleSchereButton(ActionEvent event) {
         Player p = new Player(3, Enums.Playercondition.PLAYER);
         p.setPlayerSymbole(Enums.Symbole.SCISSOR);
         player1ready = true;
 
         //fill Protocoll and change UI
-        changePlayerSymbolImg(p, 1);
+        changePlayerUI(p, 1);
         result.setText("lets go");
         addToProtocol("Player1: Schere");
         LOG.debug("Player1: Schere");
     }
 
     @FXML
-    private void handleMatchButton(ActionEvent event) throws InterruptedException, Exception {
+    private void handleMatchButton(ActionEvent event) throws InterruptedException {
         if (player1ready) {
             //clean the protocol and start the fight
             getCleanProtocol(backlog);
@@ -128,7 +128,10 @@ public class JAVAFXSingelplayerController implements Initializable {
         }
     }
 
-    public void fight() throws InterruptedException {
+    /**
+     * Starting the fight
+     */
+    public void fight() {
         //disable button in fight
         matchButton.setDisable(true);
 
@@ -141,63 +144,74 @@ public class JAVAFXSingelplayerController implements Initializable {
         Player p2 = new Player(Player2ID, Enums.Playercondition.PLAYER);
         Ruler ruler = new Ruler();
 
-        try {
-            //fight
-            Enum symbole1 = p1.getPlayerSymbole();
-            Enum symbole2 = null;
-            addToProtocol("Player1: " + symbole1);
+        //get new behavor for next round
+        Behavor behv = new Behavor();
+        
+        //fight
+        Enum symbole1 = p1.getPlayerSymbole();
+        Enum symbole2 = null;
+        addToProtocol("Player1: " + symbole1);
 
-            if (stillInFight) {
-                symbole2 = ruler.getBehavor(symbole1, Enums.Symbole.PAPER);
+        if (stillInFight) {
+            symbole2 = behv.getBehavor(symbole1, Enums.Symbole.PAPER);
 
-                if (selectedPapier.isPressed()) {
-                    symbole1 = Enums.Symbole.PAPER;
-                }
-                if (selectedStein.isPressed()) {
-                    symbole1 = Enums.Symbole.ROCK;
-                }
-                if (selectedSchere.isPressed()) {
-                    symbole1 = Enums.Symbole.SCISSOR;
-                }
-
-            } else {
-                getCleanProtocol(backlog);
-                changePlayerSymbolImg(p2, 2);
-                symbole2 = p2.getPlayerSymbole();
+            //check buttons are pressed
+            if (selectedPapier.isPressed()) {
+                symbole1 = Enums.Symbole.PAPER;
             }
-            changePlayerSymbolImg(p1, 1);
-            roundNr.setText(0 + "");
-
-            //fight
-            addToProtocol("Player2: " + symbole2);
-            Enum figtresult = ruler.comparingSymboles(symbole1, symbole2);
-            changePlayerSymbolImg(p2, 2);
-            addToProtocol("Player 1 has: " + figtresult);
-
-            //fight was draw waiting on new user input
-            if (figtresult.equals(Enums.Fightstat.DRAW)) {
-                addToProtocol("First Match was a draw");
-                addToProtocol("Please select a Symbole and klick match again");
-                LOG.debug("First Match was a draw");
-
-                player1ready = false;
-                stillInFight = true;
+            if (selectedStein.isPressed()) {
+                symbole1 = Enums.Symbole.ROCK;
+            }
+            if (selectedSchere.isPressed()) {
+                symbole1 = Enums.Symbole.SCISSOR;
             }
 
-            result.setText("Player 1 has: " + figtresult);
-
-        } catch (IOException ex) {
-            LOG.error(ex.getMessage());
+        } else {
+            getCleanProtocol(backlog);
+            changePlayerUI(p2, 2);
+            symbole2 = p2.getPlayerSymbole();
         }
+        changePlayerUI(p1, 1);
+        roundNr.setText(0 + "");
+
+        //fight
+        addToProtocol("Player2: " + symbole2);
+        Enum figtresult = ruler.comparingSymboles(symbole1, symbole2);
+        changePlayerUI(p2, 2);
+        addToProtocol("Player 1 has: " + figtresult);
+
+        //fight was draw
+        //waiting on new user input
+        if (figtresult.equals(Enums.Fightstat.DRAW)) {
+            addToProtocol("First Match was a draw");
+            addToProtocol("Please select a Symbole and klick match again");
+            LOG.debug("First Match was a draw");
+
+            player1ready = false;
+            stillInFight = true;
+        }
+
+        result.setText("Player 1 has: " + figtresult);
 
         getProtocol(backlog);
         LOG.debug(backlog.toString());
         matchButton.setDisable(false);
     }
 
-    public void changePlayerSymbolImg(Player p, int pos) throws IOException {
+    /**
+     * changing the player in the UI
+     *
+     * @param p
+     * @param pos
+     */
+    public void changePlayerUI(Player p, int pos) {
         Enum symbole = p.getPlayerSymbole();
-        Image playerSymbole = funk.givebackImg(symbole);
+        Image playerSymbole = null;
+        try {
+            playerSymbole = funk.givebackImg(symbole);
+        } catch (IOException ex) {
+            LOG.error(ex.getMessage());
+        }
 
         switch (pos) {
             case 1:

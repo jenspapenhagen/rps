@@ -331,14 +331,15 @@ public final class SwingApp extends javax.swing.JDialog {
     public Enum runde(int ID1, int ID2, Enum lastPlayer1Symbole, Enum lastPlayer2Symbole)  {
         Enum result = null;
         Ruler ruler = new Ruler();
+        Behavor behv = new Behavor();
 
         int maxrounds = 5;
         for (int rounds = 1; rounds <= maxrounds; rounds++) {
             changeRoundCounter("" + rounds);
 
             //fight
-            result = ruler.comparingSymboles(ruler.getBehavor(lastPlayer1Symbole, lastPlayer2Symbole),
-                    ruler.getBehavor(lastPlayer2Symbole, lastPlayer1Symbole));
+            result = ruler.comparingSymboles(behv.getBehavor(lastPlayer1Symbole, lastPlayer2Symbole),
+                    behv.getBehavor(lastPlayer2Symbole, lastPlayer1Symbole));
 
             addToProtocol("Runden "+ rounds +" Ergebnis: " + result);
             if (!result.equals(Enums.Fightstat.DRAW)) {

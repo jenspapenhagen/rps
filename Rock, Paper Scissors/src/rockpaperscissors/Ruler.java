@@ -71,39 +71,4 @@ public final class Ruler {
         return output;
     }
 
-    public Enum getBehavor(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
-        int indexer = new Random().nextInt(7);
-        Behavor behave = new Behavor();
-        Enum output;
-
-        switch (indexer) {
-            case 1:
-                output = behave.Behavor1(lastRoundSymbol1, lastRoundSymbol2);
-                break;
-            case 2:
-                output = behave.Behavor2(lastRoundSymbol1, lastRoundSymbol2);
-                break;
-            case 3:
-                output = behave.Behavor3(lastRoundSymbol1, lastRoundSymbol2);
-                break;
-            case 4:
-                output = behave.OppositeOfEnemieFromLastRound(lastRoundSymbol1, lastRoundSymbol2);
-                break;
-            case 5:
-                output = behave.OppositeOfLastRound(lastRoundSymbol1, lastRoundSymbol2);
-                break;
-            case 6:
-                output = behave.SameOfEnemieFromLastRound(lastRoundSymbol1, lastRoundSymbol2);
-                break;
-            case 7:
-                output = behave.SameOfLastRound(lastRoundSymbol1, lastRoundSymbol2);
-                break;
-            default:
-                output = behave.Behavor1(lastRoundSymbol1, lastRoundSymbol2);
-
-        }
-
-        return output;
-    }
-
 }

@@ -69,7 +69,7 @@ public class JAVAFXDemomodusController implements Initializable {
     }
 
     @FXML
-    private void handleMatchButton(ActionEvent event) throws InterruptedException, Exception {
+    private void handleMatchButton(ActionEvent event) {
         LOG.debug("Random Match");
         fight();
     }
@@ -98,48 +98,51 @@ public class JAVAFXDemomodusController implements Initializable {
         //clean the protocol
         getCleanProtocol(backlog);
 
-        try {
-            //change the player symboles
+        //change the player symboles
+        changePlayerUI(p1, 1);
+        changePlayerUI(p2, 2);
+        //reset the round counter
+        roundNr.setText("");
+
+        //fight
+        Enum resultFromfight = ruler.comparingSymboles(p1.getPlayerSymbole(), p2.getPlayerSymbole());
+
+        //fill the Protocol
+        addToProtocol("Player1: " + p1.getPlayerSymbole());
+        addToProtocol("Player2: " + p2.getPlayerSymbole());
+        addToProtocol("Ausgabe normal Fight: " + resultFromfight);
+
+        //fight again if the fight was a draw
+        if (resultFromfight.equals(Enums.Fightstat.DRAW)) {
+            addToProtocol("First Match was a draw, NOW Round 1");
             changePlayerUI(p1, 1);
             changePlayerUI(p2, 2);
-            //reset the round counter
-            roundNr.setText("");
-
-            //fight
-            Enum resultFromfight = ruler.comparingSymboles(p1.getPlayerSymbole(), p2.getPlayerSymbole());
-
-            //fill the Protocol
-            addToProtocol("Player1: " + p1.getPlayerSymbole());
-            addToProtocol("Player2: " + p2.getPlayerSymbole());
-            addToProtocol("Ausgabe normal Fight: " + resultFromfight);
-
-            //fight again if the fight was a draw
-            if (resultFromfight.equals(Enums.Fightstat.DRAW)) {
-                addToProtocol("First Match was a draw, NOW Round 1");
-                changePlayerUI(p1, 1);
-                changePlayerUI(p2, 2);
-                resultFromfight = figthinground(p1, p2);
-            }
-            //removce the lost player
-            toRemoveID(resultFromfight, p1, p2);
-            //show the fight result  
-            result.setText("Player 1 has " + resultFromfight);
-        } catch (IOException ex) {
-            LOG.error(ex.getMessage());
+            resultFromfight = figthinground(p1, p2);
         }
+        //removce the lost player
+        showLostPlayer(resultFromfight, p1, p2);
+        //show the fight result  
+
         //draw the complett protocol
         getProtocol(backlog);
     }
 
-    public Enum figthinground(Player p1, Player p2) throws IOException {
+    /**
+     * if we have a draw fight again
+     * @param p1
+     * @param p2
+     * @return 
+     */
+    public Enum figthinground(Player p1, Player p2) {
         Enum fightresult = null;
         Ruler ruler = new Ruler();
+        Behavor behv = new Behavor();
 
         int maxrounds = 5;
         for (int rounds = 1; rounds <= maxrounds; rounds++) {
             //change the behavor of the player
-            Enum player1symbole = ruler.getBehavor(p1.getPlayerSymbole(), p2.getPlayerSymbole());
-            Enum player2symbole = ruler.getBehavor(p2.getPlayerSymbole(), p1.getPlayerSymbole());
+            Enum player1symbole = behv.getBehavor(p1.getPlayerSymbole(), p2.getPlayerSymbole());
+            Enum player2symbole = behv.getBehavor(p2.getPlayerSymbole(), p1.getPlayerSymbole());
 
             //set the new player symbole
             p1.setPlayerSymbole(player1symbole);
@@ -179,7 +182,13 @@ public class JAVAFXDemomodusController implements Initializable {
         return fightresult;
     }
 
-    public void toRemoveID(Enum result, Player p1, Player p2) {
+    /**
+     * giveback the Lost player in the UI
+     * @param result
+     * @param p1
+     * @param p2 
+     */
+    public void showLostPlayer(Enum result, Player p1, Player p2) {
         Integer removePlayerID = 0;
 
         try {
@@ -191,16 +200,27 @@ public class JAVAFXDemomodusController implements Initializable {
         } catch (NullPointerException ex) {
             //froce win
             LOG.debug("froce win");
-            removePlayerID = p1.getPlayerID();  
+            removePlayerID = p1.getPlayerID();
         }
 
         //show the player id, whitch has lost the game
         changeRemovePlayerIDLable("" + removePlayerID);
     }
 
-    public void changePlayerUI(Player p, int pos) throws IOException {
+    /**
+     * changing the player in the UI
+     *
+     * @param p
+     * @param pos
+     */
+    public void changePlayerUI(Player p, int pos) {
         Enum symbole = p.getPlayerSymbole();
-        Image playerSymbole = funk.givebackImg(symbole);
+        Image playerSymbole = null;
+        try {
+            playerSymbole = funk.givebackImg(symbole);
+        } catch (IOException ex) {
+            LOG.error(ex.getMessage());
+        }
 
         switch (pos) {
             case 1:

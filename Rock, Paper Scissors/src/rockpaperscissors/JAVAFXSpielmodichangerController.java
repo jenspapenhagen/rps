@@ -36,7 +36,7 @@ public class JAVAFXSpielmodichangerController implements Initializable {
     private JFXButton singelButton;
 
     @FXML
-    private void handelDemoButtonClick(ActionEvent event) throws InterruptedException, Exception {
+    private void handelDemoButtonClick(ActionEvent event) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("JAVAFXDemomodus.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
@@ -58,7 +58,7 @@ public class JAVAFXSpielmodichangerController implements Initializable {
     }
 
     @FXML
-    private void handelSingelButtonClick(ActionEvent event) throws InterruptedException, Exception {
+    private void handelSingelButtonClick(ActionEvent event) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("JAVAFXSingelplayer.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();

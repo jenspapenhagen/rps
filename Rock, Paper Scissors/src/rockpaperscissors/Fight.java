@@ -68,7 +68,7 @@ public class Fight implements Callable<Player> {
             return loser;
         }
 
-        //result = ruler.comparingSymboles(player1Symbole, player2Symbole);
+        //comparing the two symboles from the players
         if (ruler.comparingBigSymboleRange((Enums.Symbole) player1Symbole, (Enums.Symbole) player2Symbole)) {
             result = Enums.Fightstat.LOST;
         } else if (player1Symbole.equals(player2Symbole)) {
@@ -84,18 +84,20 @@ public class Fight implements Callable<Player> {
 
         //playing rounds if the frist fight was a draw
         if (result.equals(Enums.Fightstat.DRAW)) {
-            //result = new Rounds(player1Symbole, player2Symbole).fightround();
             int maxrounds = 5;
-
+            Behavor behv = new Behavor();
+            
+            //rounds
             for (int rounds = 1; rounds < maxrounds; rounds++) {
-                result = ruler.comparingSymboles(ruler.getBehavor(player2Symbole, player2Symbole),
-                        ruler.getBehavor(player2Symbole, player2Symbole));
+                result = ruler.comparingSymboles(behv.getBehavor(player2Symbole, player2Symbole),
+                        behv.getBehavor(player2Symbole, player2Symbole));
                 System.out.println("Result of Round: " + rounds + " is: " + result);
 
+                //we have a winner lift this loop
                 if (!result.equals(Enums.Fightstat.DRAW)) {
                     break;
                 }
-
+                //max round reach
                 if (rounds == maxrounds) {
                     LOG.debug("froce win");
                     result = Enums.Fightstat.WON;
@@ -105,7 +107,7 @@ public class Fight implements Callable<Player> {
             }
         }
 
-        //remove the lost player 
+        //giveback the lost player 
         loser = removeLosingPlayer(result, player1, player2);
 
         return loser;
