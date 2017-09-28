@@ -58,6 +58,8 @@ public class JAVAFXSingelplayerController implements Initializable {
 
     public Boolean stillInFight = false;
 
+    public Boolean fightended = false;
+
     public int playerPostion = 1;
 
     public UtilityMethodes funk = new UtilityMethodes();
@@ -86,8 +88,12 @@ public class JAVAFXSingelplayerController implements Initializable {
         //fill Protocoll and change UI
         changePlayerUI(p, 1);
         result.setText("lets go");
-        addToProtocol("Player1: Papier");
-        LOG.debug("Player1: Papier");
+
+        //only add to log it the game is not ended
+        if (!fightended) {
+            addToProtocol("Player1: Papier");
+            LOG.debug("Player1: Papier");
+        }
         symbole1 = p.getPlayerSymbole();
     }
 
@@ -101,8 +107,12 @@ public class JAVAFXSingelplayerController implements Initializable {
         //fill Protocoll and change UI
         changePlayerUI(p, 1);
         result.setText("lets go");
-        addToProtocol("Player1: Stein");
-        LOG.debug("Player1: Stein");
+
+        //only add to log it the game is not ended
+        if (!fightended) {
+            addToProtocol("Player1: Stein");
+            LOG.debug("Player1: Stein");
+        }
         symbole1 = p.getPlayerSymbole();
     }
 
@@ -115,8 +125,12 @@ public class JAVAFXSingelplayerController implements Initializable {
         //fill Protocoll and change UI
         changePlayerUI(p, 1);
         result.setText("lets go");
-        addToProtocol("Player1: Schere");
-        LOG.debug("Player1: Schere");
+
+        //only add to log it the game is not ended
+        if (!fightended) {
+            addToProtocol("Player1: Schere");
+            LOG.debug("Player1: Schere");
+        }
         symbole1 = p.getPlayerSymbole();
     }
 
@@ -159,7 +173,7 @@ public class JAVAFXSingelplayerController implements Initializable {
         Enum infightSymbole1 = null;
         Enum infightSymbole2 = null;
         addToProtocol("Player1: " + infightSymbole1);
-        
+
         //check still in fight or the game starts again
         if (stillInFight) {
             //new symbole form player 1
@@ -203,6 +217,13 @@ public class JAVAFXSingelplayerController implements Initializable {
             player1ready = false;
             //the game is still running to NOT restart it
             stillInFight = true;
+
+            //change player 1 symbole to defauled symbole
+            p1.setPlayerSymbole(Enums.Symbole.DEFAULED);
+
+            //change UI
+            changePlayerUI(p1, 1);
+
         } else {
             //player 1 have won
             figtresult = Enums.Fightstat.WON;
@@ -221,6 +242,10 @@ public class JAVAFXSingelplayerController implements Initializable {
 
         //plot the Protocol
         getProtocol(backlog);
+
+        //set the fight of end
+        fightended = true;
+
         //populate the debug log
         LOG.debug(backlog.toString());
         //now the match button can be used again
@@ -257,7 +282,7 @@ public class JAVAFXSingelplayerController implements Initializable {
             default:
                 break;
         }
-        
+
     }
 
     public void addToProtocol(String input) {

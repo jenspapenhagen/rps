@@ -62,7 +62,8 @@ public final class Player {
     }
 
     public Enum getRandomSymbole() {
-        int indexer = new Random().nextInt(Enums.Symbole.values().length);
+        //so not select the default Enum
+        int indexer = new Random().nextInt(Enums.Symbole.values().length-1);
 
         return (Enums.Symbole.values()[indexer]);
     }

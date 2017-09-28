@@ -9,6 +9,7 @@ import java.util.EnumSet;
 
 /**
  * this rps15 match (rps have to be the power of 3)
+ *
  * @author jens.papenhagen
  */
 public class Enums {
@@ -28,7 +29,8 @@ public class Enums {
         WOLF,
         TREE,
         HUMAN,
-        SNAKE;
+        SNAKE,
+        DEFAULED;
 
         public boolean loseAgaist(Symbole e, Symbole s) {
             switch (e) {
@@ -62,8 +64,10 @@ public class Enums {
                     return EnumSet.of(SNAKE, SCISSOR, FIRE, ROCK, GUN, LIGHTNING, DEVIL).contains(s);
                 case SNAKE:
                     return EnumSet.of(SCISSOR, FIRE, ROCK, GUN, LIGHTNING, DEVIL, DRAGON).contains(s);
+                case DEFAULED:
+                    return false;
                 default:
-                    return false;                    
+                    return false;
             }
 
         }
@@ -81,5 +85,4 @@ public class Enums {
         DISQUALIFIZIED
     };
 
-   
 }
