@@ -37,12 +37,6 @@ public class JAVAFXSingelplayerController implements Initializable {
     @FXML
     private Button matchButton;
     @FXML
-    private Button selectedPapier;
-    @FXML
-    private Button selectedStein;
-    @FXML
-    private Button selectedSchere;
-    @FXML
     private ComboBox combobox;
     @FXML
     private Label player2Nr;
@@ -85,7 +79,7 @@ public class JAVAFXSingelplayerController implements Initializable {
     }
 
     @FXML
-    private void handleSelectedCombobox(ActionEvent event) throws InterruptedException {
+    private void handleSelectedCombobox(ActionEvent event) {
         //build new player object 
         Player p = new Player(1, Enums.Playercondition.PLAYER);
         p.setPlayerSymbole((Enum) combobox.getValue());
@@ -102,6 +96,8 @@ public class JAVAFXSingelplayerController implements Initializable {
             addToProtocol("Player1: " + p.getPlayerSymbole());
             LOG.debug("Player1: " + p.getPlayerSymbole());
         }
+        
+        //set the globle enum
         symbole1 = p.getPlayerSymbole();
     }
 
@@ -162,9 +158,6 @@ public class JAVAFXSingelplayerController implements Initializable {
             infightSymbole1 = this.symbole1;
             infightSymbole2 = p2.getPlayerSymbole();
         }
-
-        //add to log
-        addToProtocol("Player1: " + infightSymbole1);
 
         //set the given symbole
         p1.setPlayerSymbole(infightSymbole1);

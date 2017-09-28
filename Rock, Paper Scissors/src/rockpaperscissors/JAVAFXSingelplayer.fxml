@@ -33,7 +33,7 @@
                                     </opaqueInsets>
                                 </HBox>
                                 <Label text="Select your Choice" />
-                                <ComboBox fx:id="combobox" prefWidth="150.0" promptText="Selected Symbole" onAction="handleSelectedCombobox" visibleRowCount="15" />
+                                <ComboBox fx:id="combobox" onAction="#handleSelectedCombobox" prefWidth="150.0" promptText="Selected Symbole" visibleRowCount="15" />
                                 <ImageView fx:id="player1img" fitHeight="150.0" fitWidth="222.0" pickOnBounds="true" VBox.vgrow="NEVER" />
                             </children>
                             <opaqueInsets>

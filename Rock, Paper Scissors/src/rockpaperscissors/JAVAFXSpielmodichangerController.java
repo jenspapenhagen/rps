@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  * @author jens.papenhagen
  */
 public class JAVAFXSpielmodichangerController implements Initializable {
-    
+
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(JAVAFXSpielmodichangerController.class);
 
     @FXML
@@ -38,6 +38,7 @@ public class JAVAFXSpielmodichangerController implements Initializable {
     @FXML
     private void handelDemoButtonClick(ActionEvent event) {
         try {
+            demoButton.setDisable(true);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("JAVAFXDemomodus.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             LOG.debug("DemoButton get pressed");
@@ -51,7 +52,7 @@ public class JAVAFXSpielmodichangerController implements Initializable {
 
             stage.setScene(new Scene(root1));
             stage.show();
-
+            demoButton.setDisable(false);
         } catch (IOException ex) {
             LOG.error(ex.getMessage());
         }
@@ -60,6 +61,7 @@ public class JAVAFXSpielmodichangerController implements Initializable {
     @FXML
     private void handelSingelButtonClick(ActionEvent event) {
         try {
+            singelButton.setDisable(true);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("JAVAFXSingelplayer.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             LOG.debug("Singelplayer Button get pressed");
@@ -73,7 +75,7 @@ public class JAVAFXSpielmodichangerController implements Initializable {
 
             stage.setScene(new Scene(root1));
             stage.show();
-
+            singelButton.setDisable(false);
         } catch (IOException ex) {
             LOG.error(ex.getMessage());
         }
