@@ -105,7 +105,15 @@ public class JAVAFXDemomodusController implements Initializable {
         roundNr.setText("");
 
         //fight
-        Enum resultFromfight = ruler.comparingSymboles(p1.getPlayerSymbole(), p2.getPlayerSymbole());
+        Enum resultFromfight = null;
+        //Enum resultFromfight = ruler.comparingBigSymboleRange((Enums.Symbole)p1.getPlayerSymbole(), (Enums.Symbole)p2.getPlayerSymbole());
+        if (ruler.comparingBigSymboleRange((Enums.Symbole) p1.getPlayerSymbole(), (Enums.Symbole) p2.getPlayerSymbole())) {
+            resultFromfight = Enums.Fightstat.LOST;
+        } else if (p1.getPlayerSymbole().equals(p2.getPlayerSymbole())) {
+            resultFromfight = Enums.Fightstat.DRAW;
+        } else {
+            resultFromfight = Enums.Fightstat.WON;
+        }
 
         //fill the Protocol
         addToProtocol("Player1: " + p1.getPlayerSymbole());
@@ -129,9 +137,10 @@ public class JAVAFXDemomodusController implements Initializable {
 
     /**
      * if we have a draw fight again
+     *
      * @param p1
      * @param p2
-     * @return 
+     * @return
      */
     public Enum figthinground(Player p1, Player p2) {
         Enum fightresult = null;
@@ -184,9 +193,10 @@ public class JAVAFXDemomodusController implements Initializable {
 
     /**
      * giveback the Lost player in the UI
+     *
      * @param result
      * @param p1
-     * @param p2 
+     * @param p2
      */
     public void showLostPlayer(Enum result, Player p1, Player p2) {
         Integer removePlayerID = 0;

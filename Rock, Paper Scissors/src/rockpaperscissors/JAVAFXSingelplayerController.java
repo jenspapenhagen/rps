@@ -64,6 +64,8 @@ public class JAVAFXSingelplayerController implements Initializable {
 
     ObservableList<String> data = FXCollections.observableArrayList();
 
+    private Enum symbole1 = null;
+
     /**
      * Initializes the controller class.
      *
@@ -86,6 +88,7 @@ public class JAVAFXSingelplayerController implements Initializable {
         result.setText("lets go");
         addToProtocol("Player1: Papier");
         LOG.debug("Player1: Papier");
+        symbole1 = p.getPlayerSymbole();
     }
 
     @FXML
@@ -100,6 +103,7 @@ public class JAVAFXSingelplayerController implements Initializable {
         result.setText("lets go");
         addToProtocol("Player1: Stein");
         LOG.debug("Player1: Stein");
+        symbole1 = p.getPlayerSymbole();
     }
 
     @FXML
@@ -113,15 +117,18 @@ public class JAVAFXSingelplayerController implements Initializable {
         result.setText("lets go");
         addToProtocol("Player1: Schere");
         LOG.debug("Player1: Schere");
+        symbole1 = p.getPlayerSymbole();
     }
 
     @FXML
     private void handleMatchButton(ActionEvent event) throws InterruptedException {
+        //playerready get set true on button pressed
         if (player1ready) {
             //clean the protocol and start the fight
             getCleanProtocol(backlog);
             fight();
         } else {
+            //give out that you are waiting on player input
             LOG.debug("new player input requested");
             result.setText("Bitte noch Symbol wählen");
             stillInFight = true;
@@ -132,14 +139,15 @@ public class JAVAFXSingelplayerController implements Initializable {
      * Starting the fight
      */
     public void fight() {
-        //disable button in fight
+        //disable match button in fight
         matchButton.setDisable(true);
 
-        //building the 2 player objects
+        //get random ID´s for nicer UI output
         Random random = new Random();
         int Player1ID = 4;
         int Player2ID = random.nextInt((10 - 1) + 1) + 1;
 
+        //building the 2 player objects
         Player p1 = new Player(Player1ID, Enums.Playercondition.PLAYER);
         Player p2 = new Player(Player2ID, Enums.Playercondition.PLAYER);
         Ruler ruler = new Ruler();
@@ -148,65 +156,87 @@ public class JAVAFXSingelplayerController implements Initializable {
         Behavor behv = new Behavor();
 
         //fight
-        Enum symbole1 = p1.getPlayerSymbole();
-        Enum symbole2 = null;
-        addToProtocol("Player1: " + symbole1);
-
+        Enum infightSymbole1 = null;
+        Enum infightSymbole2 = null;
+        addToProtocol("Player1: " + infightSymbole1);
+        
+        //check still in fight or the game starts again
         if (stillInFight) {
-            symbole2 = behv.getBehavor(symbole1, Enums.Symbole.PAPER);
-
-            //check buttons are pressed
-            if (selectedPapier.isPressed()) {
-                symbole1 = Enums.Symbole.PAPER;
-            }
-            if (selectedStein.isPressed()) {
-                symbole1 = Enums.Symbole.ROCK;
-            }
-            if (selectedSchere.isPressed()) {
-                symbole1 = Enums.Symbole.SCISSOR;
-            }
-
+            //new symbole form player 1
+            infightSymbole1 = this.symbole1;
+            //new symbole for player 2
+            infightSymbole2 = behv.getBehavor(infightSymbole1, Enums.Symbole.PAPER);
         } else {
+            //start new and clean the Protocol
             getCleanProtocol(backlog);
+            //change the UI
             changePlayerUI(p2, 2);
-            symbole2 = p2.getPlayerSymbole();
+
+            //get both symboles
+            infightSymbole1 = this.symbole1;
+            infightSymbole2 = p2.getPlayerSymbole();
         }
+
+        //set the given symbole
+        p1.setPlayerSymbole(infightSymbole1);
+
+        //change UI
         changePlayerUI(p1, 1);
         roundNr.setText(0 + "");
 
         //fight
-        Enum figtresult = ruler.comparingSymboles(symbole1, symbole2);
-        changePlayerUI(p2, 2);
-        addToProtocol("Player2: " + symbole2);
-        addToProtocol("Player 1 has: " + figtresult);
+        Enum figtresult = null;
+        if (ruler.comparingBigSymboleRange((Enums.Symbole) infightSymbole1, (Enums.Symbole) infightSymbole2)) {
+            //player 1 have lost
+            figtresult = Enums.Fightstat.LOST;
+        } else if (infightSymbole1.equals(infightSymbole2)) {
+            //can happend but raw
+            figtresult = Enums.Fightstat.DRAW;
 
-        //fight was draw
-        //waiting on new user input
-        if (figtresult.equals(Enums.Fightstat.DRAW)) {
+            //fight was draw
+            //waiting on new user input
             addToProtocol("First Match was a draw");
             addToProtocol("Please select a Symbole and klick match again");
-            LOG.debug("First Match was a draw");
 
+            LOG.debug("First Match was a draw");
+            //unset the player ready (this will be set on button press)
             player1ready = false;
+            //the game is still running to NOT restart it
             stillInFight = true;
+        } else {
+            //player 1 have won
+            figtresult = Enums.Fightstat.WON;
         }
 
+        //change the UI
+        changePlayerUI(p2, 2);
+
+        //fill the protocol
+        addToProtocol("Player1: " + infightSymbole1);
+        addToProtocol("Player2: " + infightSymbole2);
         addToProtocol("Player 1 has: " + figtresult);
+
+        //change UI
         result.setText("Player 1 has: " + figtresult);
 
+        //plot the Protocol
         getProtocol(backlog);
+        //populate the debug log
         LOG.debug(backlog.toString());
+        //now the match button can be used again
         matchButton.setDisable(false);
     }
 
     /**
-     * changing the player in the UI
+     * changing the player in the UI on a given postion
      *
      * @param p
      * @param pos
      */
     public void changePlayerUI(Player p, int pos) {
+        //get the player symbole
         Enum symbole = p.getPlayerSymbole();
+        //change the old Imaage
         Image playerSymbole = null;
         try {
             playerSymbole = funk.givebackImg(symbole);
@@ -214,6 +244,7 @@ public class JAVAFXSingelplayerController implements Initializable {
             LOG.error(ex.getMessage());
         }
 
+        //witch postion have to be change
         switch (pos) {
             case 1:
                 player1img.setImage(playerSymbole);
@@ -225,8 +256,8 @@ public class JAVAFXSingelplayerController implements Initializable {
                 break;
             default:
                 break;
-
         }
+        
     }
 
     public void addToProtocol(String input) {
