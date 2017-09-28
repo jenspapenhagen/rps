@@ -59,15 +59,19 @@ public class MatchTest {
 
         Player p1 = new Player(5, Enums.Playercondition.PLAYER);
         Player p2 = new Player(3, Enums.Playercondition.PLAYER);
-
+        
+        p1.setPlayerSymbole(Enums.Symbole.PAPER);
+        p2.setPlayerSymbole(Enums.Symbole.SCISSOR);
+        
         ExecutorService es = Executors.newSingleThreadExecutor();
 
         Fight game = new Fight(1, p1, p2, calm);
+        //give back the loser
         Future<Player> result10 = es.submit(game);
 
         es.shutdown();
         assertThat(p1.getPlayerID()).isEqualTo(result10.get().getPlayerID()).as("Vergleich player1 id zu gewinner");
-        assertThat(p2.getPlayerID()).isEqualTo(result10.get().getPlayerID()).as("Vergleich player2 id zu gewinner");
+        assertThat(p2.getPlayerID()).isNotEqualTo(result10.get().getPlayerID()).as("Vergleich player2 id zu gewinner");
     }
 
     
