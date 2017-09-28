@@ -5,9 +5,9 @@
  */
 package rockpaperscissors;
 
-import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
+import java.util.EnumSet;
 import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
@@ -36,11 +37,13 @@ public class JAVAFXSingelplayerController implements Initializable {
     @FXML
     private Button matchButton;
     @FXML
-    private JFXButton selectedPapier;
+    private Button selectedPapier;
     @FXML
-    private JFXButton selectedStein;
+    private Button selectedStein;
     @FXML
-    private JFXButton selectedSchere;
+    private Button selectedSchere;
+    @FXML
+    private ComboBox combobox;
     @FXML
     private Label player2Nr;
     @FXML
@@ -54,15 +57,13 @@ public class JAVAFXSingelplayerController implements Initializable {
     @FXML
     private Label roundNr;
 
-    public Boolean player1ready = false;
+    private Boolean player1ready = false;
 
-    public Boolean stillInFight = false;
+    private Boolean stillInFight = false;
 
-    public Boolean fightended = false;
+    private Boolean fightended = false;
 
-    public int playerPostion = 1;
-
-    public UtilityMethodes funk = new UtilityMethodes();
+    private UtilityMethodes funk = new UtilityMethodes();
 
     ObservableList<String> data = FXCollections.observableArrayList();
 
@@ -76,13 +77,20 @@ public class JAVAFXSingelplayerController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //show a text animate the singel player to start the game
         result.setText("Bitte noch Symbol wählen");
+
+        //fill the combox
+        combobox.getItems().addAll(EnumSet.allOf(Enums.Symbole.class));
     }
 
     @FXML
-    private void handlePapierButton(ActionEvent event) {
+    private void handleSelectedCombobox(ActionEvent event) throws InterruptedException {
+        //build new player object 
         Player p = new Player(1, Enums.Playercondition.PLAYER);
-        p.setPlayerSymbole(Enums.Symbole.PAPER);
+        p.setPlayerSymbole((Enum) combobox.getValue());
+
+        //set player to ready
         player1ready = true;
 
         //fill Protocoll and change UI
@@ -91,45 +99,8 @@ public class JAVAFXSingelplayerController implements Initializable {
 
         //only add to log it the game is not ended
         if (!fightended) {
-            addToProtocol("Player1: Papier");
-            LOG.debug("Player1: Papier");
-        }
-        symbole1 = p.getPlayerSymbole();
-    }
-
-    @FXML
-    private void handleSteinButton(ActionEvent event) {
-
-        Player p = new Player(2, Enums.Playercondition.PLAYER);
-        p.setPlayerSymbole(Enums.Symbole.ROCK);
-        player1ready = true;
-
-        //fill Protocoll and change UI
-        changePlayerUI(p, 1);
-        result.setText("lets go");
-
-        //only add to log it the game is not ended
-        if (!fightended) {
-            addToProtocol("Player1: Stein");
-            LOG.debug("Player1: Stein");
-        }
-        symbole1 = p.getPlayerSymbole();
-    }
-
-    @FXML
-    private void handleSchereButton(ActionEvent event) {
-        Player p = new Player(3, Enums.Playercondition.PLAYER);
-        p.setPlayerSymbole(Enums.Symbole.SCISSOR);
-        player1ready = true;
-
-        //fill Protocoll and change UI
-        changePlayerUI(p, 1);
-        result.setText("lets go");
-
-        //only add to log it the game is not ended
-        if (!fightended) {
-            addToProtocol("Player1: Schere");
-            LOG.debug("Player1: Schere");
+            addToProtocol("Player1: " + p.getPlayerSymbole());
+            LOG.debug("Player1: " + p.getPlayerSymbole());
         }
         symbole1 = p.getPlayerSymbole();
     }
@@ -152,7 +123,7 @@ public class JAVAFXSingelplayerController implements Initializable {
     /**
      * Starting the fight
      */
-    public void fight() {
+    private void fight() {
         //disable match button in fight
         matchButton.setDisable(true);
 
@@ -164,6 +135,8 @@ public class JAVAFXSingelplayerController implements Initializable {
         //building the 2 player objects
         Player p1 = new Player(Player1ID, Enums.Playercondition.PLAYER);
         Player p2 = new Player(Player2ID, Enums.Playercondition.PLAYER);
+
+        //get the ruler to determinate the winner or loser
         Ruler ruler = new Ruler();
 
         //get new behavor for next round
@@ -172,7 +145,6 @@ public class JAVAFXSingelplayerController implements Initializable {
         //fight
         Enum infightSymbole1 = null;
         Enum infightSymbole2 = null;
-        addToProtocol("Player1: " + infightSymbole1);
 
         //check still in fight or the game starts again
         if (stillInFight) {
@@ -190,6 +162,9 @@ public class JAVAFXSingelplayerController implements Initializable {
             infightSymbole1 = this.symbole1;
             infightSymbole2 = p2.getPlayerSymbole();
         }
+
+        //add to log
+        addToProtocol("Player1: " + infightSymbole1);
 
         //set the given symbole
         p1.setPlayerSymbole(infightSymbole1);
@@ -258,7 +233,7 @@ public class JAVAFXSingelplayerController implements Initializable {
      * @param p
      * @param pos
      */
-    public void changePlayerUI(Player p, int pos) {
+    private void changePlayerUI(Player p, int pos) {
         //get the player symbole
         Enum symbole = p.getPlayerSymbole();
         //change the old Imaage
@@ -285,15 +260,15 @@ public class JAVAFXSingelplayerController implements Initializable {
 
     }
 
-    public void addToProtocol(String input) {
+    private void addToProtocol(String input) {
         data.add(input);
     }
 
-    public void getProtocol(ListView lv) {
+    private void getProtocol(ListView lv) {
         lv.setItems(data);
     }
 
-    public void getCleanProtocol(ListView lv) {
+    private void getCleanProtocol(ListView lv) {
         data.clear();
         lv.setItems(data);
     }

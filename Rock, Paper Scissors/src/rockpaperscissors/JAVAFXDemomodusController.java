@@ -50,9 +50,9 @@ public class JAVAFXDemomodusController implements Initializable {
     @FXML
     private Label removeID;
 
-    public UtilityMethodes funk = new UtilityMethodes();
+    private int maxrounds = 5;
 
-    public int playerPostion = 1;
+    private UtilityMethodes funk = new UtilityMethodes();
 
     ObservableList<String> data = FXCollections.observableArrayList();
 
@@ -77,23 +77,26 @@ public class JAVAFXDemomodusController implements Initializable {
     /**
      * starting the fight
      */
-    public void fight() {
+    private void fight() {
+        //get the ruler to determinate the winner or loser
         Ruler ruler = new Ruler();
 
+        //generate 2 random numbers
         Random random = new Random();
-        int Player1ID = random.nextInt((10 - 1) + 1) + 1;
-        int Player2ID = random.nextInt((10 - 1) + 1) + 1;
-        LOG.debug("Player1ID" + Player1ID);
-        LOG.debug("Player2ID" + Player2ID);
+        int ID1 = random.nextInt((10 - 1) + 1) + 1;
+        int ID2 = random.nextInt((10 - 1) + 1) + 1;
+        LOG.debug("Player1ID" + ID1);
+        LOG.debug("Player2ID" + ID2);
 
-        if (Player1ID == Player2ID) {
-            Player2ID = Player1ID + 1;
-            LOG.debug("Change Player ID2 to " + Player2ID);
+        //if the random ID generator do not make to diff. numbers
+        if (ID1 == ID2) {
+            ID2 = ID1 + 1;
+            LOG.debug("Change Player ID2 to " + ID2);
         }
 
-        //build the player
-        Player p1 = new Player(Player1ID, Enums.Playercondition.PLAYER);
-        Player p2 = new Player(Player2ID, Enums.Playercondition.PLAYER);
+        //build the two player objects
+        Player p1 = new Player(ID1, Enums.Playercondition.PLAYER);
+        Player p2 = new Player(ID2, Enums.Playercondition.PLAYER);
 
         //clean the protocol
         getCleanProtocol(backlog);
@@ -101,12 +104,12 @@ public class JAVAFXDemomodusController implements Initializable {
         //change the player symboles
         changePlayerUI(p1, 1);
         changePlayerUI(p2, 2);
-        //reset the round counter
+
+        //reset the round counter in the UI
         roundNr.setText("");
 
         //fight
         Enum resultFromfight = null;
-        //Enum resultFromfight = ruler.comparingBigSymboleRange((Enums.Symbole)p1.getPlayerSymbole(), (Enums.Symbole)p2.getPlayerSymbole());
         if (ruler.comparingBigSymboleRange((Enums.Symbole) p1.getPlayerSymbole(), (Enums.Symbole) p2.getPlayerSymbole())) {
             resultFromfight = Enums.Fightstat.LOST;
         } else if (p1.getPlayerSymbole().equals(p2.getPlayerSymbole())) {
@@ -123,13 +126,19 @@ public class JAVAFXDemomodusController implements Initializable {
         //fight again if the fight was a draw
         if (resultFromfight.equals(Enums.Fightstat.DRAW)) {
             addToProtocol("First Match was a draw, NOW Round 1");
+            //change the UI
             changePlayerUI(p1, 1);
             changePlayerUI(p2, 2);
+
+            //retrun the Loser
             resultFromfight = figthinground(p1, p2);
         }
+
         //removce the lost player
         showLostPlayer(resultFromfight, p1, p2);
+
         //show the fight result  
+        result.setText("Player 1 has: " + resultFromfight);
 
         //draw the complett protocol
         getProtocol(backlog);
@@ -142,13 +151,19 @@ public class JAVAFXDemomodusController implements Initializable {
      * @param p2
      * @return
      */
-    public Enum figthinground(Player p1, Player p2) {
+    private Enum figthinground(Player p1, Player p2) {
         Enum fightresult = null;
+        //get the ruler to determinate the winner or loser
         Ruler ruler = new Ruler();
+
+        //get new behavor for next round
         Behavor behv = new Behavor();
 
-        int maxrounds = 5;
-        for (int rounds = 1; rounds <= maxrounds; rounds++) {
+        //the max round count
+        int maxr = this.maxrounds;
+
+        //start this rounds
+        for (int rounds = 1; rounds <= maxr; rounds++) {
             //change the behavor of the player
             Enum player1symbole = behv.getBehavor(p1.getPlayerSymbole(), p2.getPlayerSymbole());
             Enum player2symbole = behv.getBehavor(p2.getPlayerSymbole(), p1.getPlayerSymbole());
@@ -177,13 +192,15 @@ public class JAVAFXDemomodusController implements Initializable {
                 changePlayerUI(p2, 2);
                 break;
             }
+
             //check if max round counter is not reached
-            if (rounds == maxrounds) {
+            if (rounds == maxr) {
                 //froce win
                 LOG.debug("froce win");
                 fightresult = Enums.Fightstat.WON;
                 break;
             }
+
             //change the round counter
             roundNr.setText(" " + rounds);
         }
@@ -198,7 +215,7 @@ public class JAVAFXDemomodusController implements Initializable {
      * @param p1
      * @param p2
      */
-    public void showLostPlayer(Enum result, Player p1, Player p2) {
+    private void showLostPlayer(Enum result, Player p1, Player p2) {
         Integer removePlayerID = 0;
 
         try {
@@ -210,6 +227,7 @@ public class JAVAFXDemomodusController implements Initializable {
         } catch (NullPointerException ex) {
             //froce win
             LOG.debug("froce win");
+            LOG.debug(ex.getMessage());
             removePlayerID = p1.getPlayerID();
         }
 
@@ -223,15 +241,18 @@ public class JAVAFXDemomodusController implements Initializable {
      * @param p
      * @param pos
      */
-    public void changePlayerUI(Player p, int pos) {
+    private void changePlayerUI(Player p, int pos) {
+        //get the player symbole
         Enum symbole = p.getPlayerSymbole();
+        //change the old Imaage
         Image playerSymbole = null;
         try {
             playerSymbole = funk.givebackImg(symbole);
         } catch (IOException ex) {
             LOG.error(ex.getMessage());
         }
-
+        
+        //witch postion have to be change
         switch (pos) {
             case 1:
                 player1Nr.setText("" + p.getPlayerID());
@@ -249,19 +270,19 @@ public class JAVAFXDemomodusController implements Initializable {
         }
     }
 
-    public void changeRemovePlayerIDLable(String input) {
+    private void changeRemovePlayerIDLable(String input) {
         removeID.setText(input);
     }
 
-    public void addToProtocol(String input) {
+    private void addToProtocol(String input) {
         data.add(input);
     }
 
-    public void getProtocol(ListView lv) {
+    private void getProtocol(ListView lv) {
         lv.setItems(data);
     }
 
-    public void getCleanProtocol(ListView lv) {
+    private void getCleanProtocol(ListView lv) {
         data.clear();
         lv.setItems(data);
     }

@@ -5,7 +5,6 @@
  */
 package rockpaperscissors;
 
-import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -31,9 +31,9 @@ public class JAVAFXSpielmodichangerController implements Initializable {
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(JAVAFXSpielmodichangerController.class);
 
     @FXML
-    private JFXButton demoButton;
+    private Button demoButton;
     @FXML
-    private JFXButton singelButton;
+    private Button singelButton;
 
     @FXML
     private void handelDemoButtonClick(ActionEvent event) {

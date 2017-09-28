@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rockpaperscissors.JAVAFXSpielmodichangerController">
@@ -20,17 +20,9 @@
                         <Font name="System Bold" size="14.0" />
                     </font>
                 </Label>
-                <JFXButton fx:id="demoButton" onAction="#handelDemoButtonClick" prefWidth="150.0" text="Demo Modus" VBox.vgrow="NEVER">
-                    <VBox.margin>
-                        <Insets left="5.0" top="5.0" />
-                    </VBox.margin>
-                </JFXButton>
-                <JFXButton fx:id="singelButton" onAction="#handelSingelButtonClick" prefWidth="150.0" text="Singel Player">
-                    <VBox.margin>
-                        <Insets left="5.0" />
-                    </VBox.margin>
-                </JFXButton>
-            </children>
+                <Button fx:id="demoButton" onAction="#handelDemoButtonClick" prefWidth="150.0" text="Demo Modus" VBox.vgrow="NEVER" />
+                <Button fx:id="singelButton" onAction="#handelSingelButtonClick" prefWidth="150.0" text="Singel Player" />
+                   </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
