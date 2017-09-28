@@ -8,11 +8,15 @@ package rockpaperscissors;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -56,6 +60,9 @@ public class Main {
 
         //run the tier
         for (int tierCounter = 1; tierCounter <= countOfTiers; tierCounter++) {
+            //build list
+            List<Callable<Player>> callableList = new LinkedList<>();
+
             //building the tier
             Tier tier = new Tier(tierCounter);
 
@@ -86,54 +93,61 @@ public class Main {
 
             LOG.debug("lets fight");
             for (int matches = 1; matches <= maxFightInNextTier; matches++) {
-                //make a new matchlog
-                Match matchlog = null;
-                
                 //check if there is a next player in the playerlist and 
                 //the loserlist is at it max. On single-elimination the loser is have to be smaller than the half remainingPlayer list.
+                //
                 if (playerListIterator.hasNext() && (loserList.size() * 2) < remainingPlayerList.size()) {
                     //set default match log
-                    matchlog = new Match(1, 2, 3);
+                    Match matchlog = new Match(1, 2, 3);
 
                     //getting the 2 player
                     Player p1 = playerListIterator.next();
                     Player p2 = playerListIterator.next();
-
-                    //start the fight
-                    Fight fight = new Fight(matches, p1, p2, calm);
 
                     //adding the right match ID into the matchlog and both player to the matchlog
                     matchlog.setId(matches);
                     matchlog.setPlayer1ID(p1.getPlayerID());
                     matchlog.setPlayer2ID(p2.getPlayerID());
 
-                    try {
-                        //adding loser of the fight to the loser List
-                        loserList.add(turnierround.submit(fight).get());
-                    } catch (InterruptedException | ExecutionException ex) {
-                        LOG.error(ex.getMessage());
-                    }
+                    callableList.add(new Fight(matches, p1, p2, calm));
 
-                    //adding the winner into the matchlog
                     try {
-                        if (matchlog.getPlayer1ID() == loserList.get(matches - 1).getPlayerID()) {
+                        //submit Callable tasks to be executed by thread pool
+                        List<Future<Player>> futureList = turnierround.invokeAll(callableList);
+                        //adding loser of the fight to the loser List
+                        for (Future<Player> p : futureList) {
+                            //there for a new Player Object have to be inis.
+                            Player newPlayer = p.get();
+                            //only add to list if not null
+                            if (newPlayer != null) {
+                                loserList.add(newPlayer);
+                            }
+
+                        }
+                        //clean the loser list
+                        List<Player> depdupeCustomers = new ArrayList<>(new LinkedHashSet<>(loserList));
+                        loserList.clear();
+                        loserList.addAll(depdupeCustomers);
+
+                        //adding the winner into the matchlog
+                        if (matchlog.getPlayer1ID() == loserList.get(matches).getPlayerID()) {
                             matchlog.setWinnerID(matchlog.getPlayer2ID());
                         } else {
                             matchlog.setWinnerID(matchlog.getPlayer1ID());
                         }
-                    } catch (IndexOutOfBoundsException | NullPointerException ex) {
+
+                    } catch (IndexOutOfBoundsException | InterruptedException | ExecutionException ex) {
                         LOG.error(ex.getMessage());
                     }
 
                     //add this matchlog to the matchlist
                     matchListForThisTier.add(matchlog);
+
                 }
             }
             LOG.debug("tier finish");
             if (calm) {
-                LOG.debug("");
                 LOG.debug("-------------------------------------------------------------------------------");
-                LOG.debug("");
             } else {
                 System.out.println("");
                 System.out.println("-------------------------------------------------------------------------------");
@@ -162,11 +176,11 @@ public class Main {
             tournament.add(tier);
 
         }
+
         turnierround.shutdown();
 
         //display in better cli
         displayTournament(tournament);
-
     }
 
     /**
@@ -201,23 +215,32 @@ public class Main {
      */
     public static void displayTournament(List<Tier> tournament) {
         for (int i = tournament.size() - 1; i >= 0; i--) {
+
+            //build a emptry string witgh 100 spaces
             StringBuilder spaces = new StringBuilder();
             spaces.append(String.join("", Collections.nCopies(100, " ")));
 
             int maxl = spaces.length();
+            //redruce this string every round
             spaces.delete((i * 10) + 30, maxl);
+
+            //output the number of the tier
             System.out.printf("%s\t%s", tournament.get(i).getTierId(), spaces.toString());
 
+            //setting the winner on the top
             for (int j = 0; j < tournament.get(i).getMatchList().size(); j++) {
                 System.out.printf("\t%s", String.format("%s", tournament.get(i).getMatchList().get(j).getWinnerID()));
             }
 
+            //line break
             System.out.println("");
+            //adding all "ID vs ID " to gether and plot it
             System.out.printf("%s\t%s", tournament.get(i).getTierId(), spaces.toString());
             for (int j = 0; j < tournament.get(i).getMatchList().size(); j++) {
                 System.out.printf("%s\t", String.format(" %s vs.%s", tournament.get(i).getMatchList().get(j).getPlayer1ID(), tournament.get(i).getMatchList().get(j).getPlayer2ID()));
             }
 
+            //line break with 200 -´s
             System.out.println("");
             System.out.println(String.join("", Collections.nCopies(200, "-")));
         }
