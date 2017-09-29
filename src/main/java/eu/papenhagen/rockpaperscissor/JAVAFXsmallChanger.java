@@ -26,7 +26,7 @@ public class JAVAFXsmallChanger extends Application {
 
         stage.setResizable(true);
         stage.setTitle("Stein Schere Papier Game");
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("files/icon.jpg")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.jpg")));
 
         stage.setScene(scene);
         stage.show();

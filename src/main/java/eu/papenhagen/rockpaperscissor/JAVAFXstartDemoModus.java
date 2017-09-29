@@ -31,7 +31,7 @@ public class JAVAFXstartDemoModus extends Application {
 
         stage.setResizable(true);
         stage.setTitle("Stein Schere Papier Game");
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resoures/icon.jpg")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.jpg")));
 
         stage.setScene(scene);
         stage.show();
