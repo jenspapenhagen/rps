@@ -20,44 +20,24 @@ public class Behavor {
     }
 
     //allways the same
-    public Enum Behavor1(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
+    public Enum Behavor1(Enum lastRoundSymbol1) {
         LOG.debug("Behavor1: take scissor");
         return Enums.Symbole.SCISSOR;
     }
 
-    public Enum Behavor2(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
-        LOG.debug("Behavor2: take rock");
-        return Enums.Symbole.ROCK;
-    }
-
-    public Enum Behavor3(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
-        LOG.debug("Behavor3: take paper");
-        return Enums.Symbole.PAPER;
-    }
-
-    public Enum OppositeOfLastRound(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
+    public Enum OppositeOfLastRound(Enum lastRoundSymbol1) {
         LOG.debug("OppositeOfLastRound");
         return getOppositeSymbole(lastRoundSymbol1);
     }
 
-
-    public Enum SameOfLastRound(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
+    public Enum SameOfLastRound(Enum lastRoundSymbol1) {
         LOG.debug("SameOfLastRound");
         return lastRoundSymbol1;
     }
 
-
     public Enum getOppositeSymbole(Enum Symbol) {
-        Enum output = Enums.Symbole.ROCK;
-        if (Symbol.equals(Enums.Symbole.SCISSOR)) {
-            output = Enums.Symbole.PAPER;
-        }
-        if (Symbol.equals(Enums.Symbole.PAPER)) {
-            output = Enums.Symbole.ROCK;
-        }
-        if (Symbol.equals(Enums.Symbole.ROCK)) {
-            output = Enums.Symbole.SCISSOR;
-        }
+        //take a random Enum but NOT default
+        Enums.Symbole output = Enums.Symbole.values()[new Random().nextInt(Enums.Symbole.values().length - 1)];
 
         return output;
     }
@@ -69,28 +49,22 @@ public class Behavor {
      * @param lastRoundSymbol2
      * @return
      */
-    public Enum getBehavor(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
-        int indexer = new Random().nextInt(5);
+    public Enum getBehavor(Enum lastRoundSymbol1) {
+        int indexer = new Random().nextInt(3);
         Enum output;
 
         switch (indexer) {
             case 1:
-                output = Behavor1(lastRoundSymbol1, lastRoundSymbol2);
+                output = Behavor1(lastRoundSymbol1);
                 break;
             case 2:
-                output = Behavor2(lastRoundSymbol1, lastRoundSymbol2);
+                output = OppositeOfLastRound(lastRoundSymbol1);
                 break;
             case 3:
-                output = Behavor3(lastRoundSymbol1, lastRoundSymbol2);
-                break;
-            case 4:
-                output = OppositeOfLastRound(lastRoundSymbol1, lastRoundSymbol2);
-                break;
-            case 5:
-                output = SameOfLastRound(lastRoundSymbol1, lastRoundSymbol2);
+                output = SameOfLastRound(lastRoundSymbol1);
                 break;
             default:
-                output = Behavor1(lastRoundSymbol1, lastRoundSymbol2);
+                output = Behavor1(lastRoundSymbol1);
 
         }
 

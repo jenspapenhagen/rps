@@ -147,7 +147,7 @@ public class JAVAFXSingelplayerController implements Initializable {
             //new symbole form player 1
             infightSymbole1 = this.symbole1;
             //new symbole for player 2
-            infightSymbole2 = behv.getBehavor(infightSymbole1, Enums.Symbole.PAPER);
+            infightSymbole2 = behv.getBehavor(infightSymbole1);
         } else {
             //start new and clean the Protocol
             getCleanProtocol(backlog);

@@ -44,7 +44,7 @@ public class Main {
         LOG.info("ID from the freeWin player " + FreeWinID);
         LOG.info("This Fight is: " + calm);
 
-        ExecutorService turnierround = Executors.newFixedThreadPool(4);
+        ExecutorService tournamentexecutor = Executors.newFixedThreadPool(4);
 
         //build up the tournament
         List<Tier> tournament = new ArrayList<>(countOfTiers);
@@ -115,7 +115,7 @@ public class Main {
                     try {
                         //submit Callable tasks to be executed by thread pool
                         //CompletableFuture
-                        List<Future<Player>> futureList = turnierround.invokeAll(callableList);
+                        List<Future<Player>> futureList = tournamentexecutor.invokeAll(callableList);
                         //adding loser of the fight to the loser List
                         for (Future<Player> p : futureList) {
                             //there for a new Player Object have to be inis.
@@ -133,15 +133,18 @@ public class Main {
                         loserList.clear();
                         loserList.addAll(depdupeCustomers);
 
-                    } catch (IndexOutOfBoundsException | InterruptedException | ExecutionException ex) {
+                    } catch (InterruptedException | ExecutionException ex) {
                         LOG.error(ex.getMessage());
                     }
 
-                    //adding the winner into the matchlog
-                        if (matchlog.getPlayer1ID() == loserList.get(matches-1).getPlayerID()) {
-                        matchlog.setWinnerID(matchlog.getPlayer2ID());
-                    } else {
+                    //adding the winner into the matchlog by check the losing 
+                    Player tempPlayer = new Player(matchlog.getPlayer1ID(), Enums.Playercondition.PLAYER);
+                    Player tempPlayer2 = new Player(matchlog.getPlayer2ID(), Enums.Playercondition.PLAYER);
+                    if (loserList.contains(tempPlayer)) {
                         matchlog.setWinnerID(matchlog.getPlayer1ID());
+                    }
+                    if (loserList.contains(tempPlayer2)) {
+                        matchlog.setWinnerID(matchlog.getPlayer2ID());
                     }
 
                     //add this matchlog to the matchlist
@@ -159,7 +162,7 @@ public class Main {
 
             //remove the loser from the remainingPlayerList
             remainingPlayerList.removeAll(loserList);
-        
+
             //reduce the fightcount
             maxFightInNextTier = remainingPlayerList.size();
 
@@ -180,7 +183,7 @@ public class Main {
 
         }
 
-        turnierround.shutdown();
+        tournamentexecutor.shutdown();
 
         //display in better cli
         displayTournament(tournament);

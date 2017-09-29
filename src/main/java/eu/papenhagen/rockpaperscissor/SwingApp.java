@@ -340,8 +340,8 @@ public final class SwingApp extends javax.swing.JDialog {
             changeRoundCounter("" + rounds);
 
             //fight
-            result = ruler.comparingSymboles(behv.getBehavor(lastPlayer1Symbole, lastPlayer2Symbole),
-                    behv.getBehavor(lastPlayer2Symbole, lastPlayer1Symbole));
+            result = ruler.comparingSymboles(behv.getBehavor(lastPlayer1Symbole),
+                    behv.getBehavor(lastPlayer2Symbole));
 
             addToProtocol("Runden "+ rounds +" Ergebnis: " + result);
             if (!result.equals(Enums.Fightstat.DRAW)) {

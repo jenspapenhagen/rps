@@ -57,7 +57,7 @@ public class Fight implements Callable<Player> {
         Enum result = null;
         //comparing the two symboles from the players
         if (player1Symbole.equals(player2Symbole)) {
-            result = Enums.Fightstat.DRAW;
+            return result = Enums.Fightstat.DRAW;
         } else if (ruler.comparingBigSymboleRange((Enums.Symbole) player1Symbole, (Enums.Symbole) player2Symbole)) {
             result = Enums.Fightstat.LOST;
         } else {
@@ -88,15 +88,15 @@ public class Fight implements Callable<Player> {
         }
 
         //the BestOf Modus
-        for (int bestOfround = 0; bestOfround < Main.getBestOf(); bestOfround++) {
+        for (int bestOfround = 1; bestOfround < Main.getBestOf(); bestOfround++) {
             //have a way to change the behavor
             Behavor behv = new Behavor();
 
             //after frist bestOf round change the behavor of the player
-            if (bestOfround > 0) {
+            if (bestOfround > 1) {
                 //getting the symboles of the player
-                player1Symbole = behv.getBehavor(player1Symbole, player2Symbole);
-                player2Symbole = behv.getBehavor(player2Symbole, player1Symbole);
+                player1Symbole = behv.getBehavor(player1Symbole);
+                player2Symbole = behv.getBehavor(player1Symbole);
             }
             
             //get back the enum for win or lost or draw
@@ -118,8 +118,8 @@ public class Fight implements Callable<Player> {
                 int maxrounds = 5;
                 //rounds
                 for (int rounds = 1; rounds < maxrounds; rounds++) {
-                    Enum roundSymbole1 = behv.getBehavor(player1Symbole, player2Symbole);
-                    Enum roundSymbole2 = behv.getBehavor(player2Symbole, player1Symbole);
+                    Enum roundSymbole1 = behv.getBehavor(player1Symbole);
+                    Enum roundSymbole2 = behv.getBehavor(player2Symbole);
 
                     //get back the enum for win or lost or draw
                     result = complainingPlayerSymboles(roundSymbole1, roundSymbole2);

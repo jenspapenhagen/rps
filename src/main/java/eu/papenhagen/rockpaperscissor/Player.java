@@ -5,19 +5,19 @@
  */
 package eu.papenhagen.rockpaperscissor;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import org.slf4j.LoggerFactory;
 
 /**
- * mostly pojo class
- * have a random player name generator
+ * mostly pojo class have a random player name generator
+ *
  * @author jens.papenhagen
  */
 public final class Player {
@@ -81,27 +81,18 @@ public final class Player {
     }
 
     public String getRandomName() {
-   String output = "";
+        String output = "";
         List<String> Namelist = new ArrayList<>();
+        //get the resources as stream
         try {
-            //read file into List
-            BufferedReader br = new BufferedReader(new FileReader(new File("./src/rockpaperscissors/files/forename.txt")));
-            String sCurrentLine;
-
-            while ((sCurrentLine = br.readLine()) != null) {
-                Namelist.add(sCurrentLine);
-            }
-
-            //get a random line
-            int randomline = new Random().nextInt(Namelist.size());
-            output = Namelist.get(randomline);
-        } catch (FileNotFoundException ex) {
-            LOG.error("forname liste emptry");
-            LOG.error(ex.getMessage());
-        } catch (IOException ex) {
-            LOG.error("forname can not be read");
+            Namelist = Files.readAllLines(Paths.get(this.getClass().getResource("/resources/forename.txt").toURI()), Charset.defaultCharset());
+        } catch (URISyntaxException | IOException ex) {
             LOG.error(ex.getMessage());
         }
+        
+        //get a random line
+        int randomline = new Random().nextInt(Namelist.size());
+        output = Namelist.get(randomline);
 
         return output;
 

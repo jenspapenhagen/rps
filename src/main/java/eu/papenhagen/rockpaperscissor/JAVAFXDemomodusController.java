@@ -165,8 +165,8 @@ public class JAVAFXDemomodusController implements Initializable {
         //start this rounds
         for (int rounds = 1; rounds <= maxr; rounds++) {
             //change the behavor of the player
-            Enum player1symbole = behv.getBehavor(p1.getPlayerSymbole(), p2.getPlayerSymbole());
-            Enum player2symbole = behv.getBehavor(p2.getPlayerSymbole(), p1.getPlayerSymbole());
+            Enum player1symbole = behv.getBehavor(p1.getPlayerSymbole());
+            Enum player2symbole = behv.getBehavor(p2.getPlayerSymbole());
 
             //set the new player symbole
             p1.setPlayerSymbole(player1symbole);
