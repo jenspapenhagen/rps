@@ -26,7 +26,8 @@ import org.slf4j.LoggerFactory;
 public class Main {
 
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Main.class);
-    private static final int bestOf = 5;
+
+    private static int bestOf;
 
     public static void main(String[] args) {
         //config area for this tournament
@@ -36,6 +37,7 @@ public class Main {
         int countOfTiers = (int) Math.sqrt(maxMatches);
         int FreeWinID = maxPlayer + 3;
         boolean calm = true;
+        bestOf = 5;
 
         LOG.info("maxplayer for this tournament " + maxPlayer);
         LOG.info("max Match games for the frist round" + maxMatches);
@@ -44,6 +46,7 @@ public class Main {
         LOG.info("ID from the freeWin player " + FreeWinID);
         LOG.info("This Fight is: " + calm);
 
+        //the Executor Service for this tournier
         ExecutorService tournamentexecutor = Executors.newFixedThreadPool(4);
 
         //build up the tournament
@@ -67,9 +70,6 @@ public class Main {
             //building the tier
             Tier tier = new Tier(tierCounter);
 
-            //make a new matchList
-            List<Match> matchListForThisTier = new ArrayList<>();
-
             //giveback the count of max games for this tier
             maxFightInNextTier = getMaxFightsInTier(maxFightInNextTier);
 
@@ -89,14 +89,19 @@ public class Main {
             }
             LOG.debug("maxFightInNextTier" + maxFightInNextTier);
 
-            List<Player> loserList = new ArrayList<>(maxFightInNextTier);
+            //make a new matchList
+            List<Match> matchListForThisTier = new ArrayList<>(maxFightInNextTier);
+
+            //build a list of Losers
+            List<Player> loserList = new ArrayList<>(maxFightInNextTier / 2);
+            //using the Iterator for getting the next player and check if there is even a nextplayer
             Iterator<Player> playerListIterator = remainingPlayerList.iterator();
 
             LOG.debug("lets fight");
             for (int matches = 1; matches <= maxFightInNextTier; matches++) {
+
                 //check if there is a next player in the playerlist and 
                 //the loserlist is at it max. On single-elimination the loser is have to be smaller than the half remainingPlayer list.
-                //
                 if (playerListIterator.hasNext() && (loserList.size() * 2) < remainingPlayerList.size()) {
                     //set default match log
                     Match matchlog = new Match(1, 2, 3);
@@ -112,30 +117,24 @@ public class Main {
 
                     callableList.add(new Fight(matches, p1, p2, calm));
 
+                    //staring the Callable
                     try {
                         //submit Callable tasks to be executed by thread pool
                         //CompletableFuture
                         List<Future<Player>> futureList = tournamentexecutor.invokeAll(callableList);
                         //adding loser of the fight to the loser List
                         for (Future<Player> p : futureList) {
-                            //there for a new Player Object have to be inis.
-
-                            Player newPlayer = p.get();
-                            //only add to list if not null
-                            if (newPlayer != null) {
-                                loserList.add(newPlayer);
-                            }
-
+                            loserList.add(p.get());
                         }
-
-                        //remove doubles form the loser list
-                        List<Player> depdupeCustomers = new ArrayList<>(new LinkedHashSet<>(loserList));
-                        loserList.clear();
-                        loserList.addAll(depdupeCustomers);
 
                     } catch (InterruptedException | ExecutionException ex) {
                         LOG.error(ex.getMessage());
                     }
+
+                    //remove doubles form the loser list
+                    List<Player> depdupeCustomers = new ArrayList<>(new LinkedHashSet<>(loserList));
+                    loserList.clear();
+                    loserList.addAll(depdupeCustomers);
 
                     //adding the winner into the matchlog by check the losing 
                     Player tempPlayer = new Player(matchlog.getPlayer1ID(), Enums.Playercondition.PLAYER);
@@ -243,7 +242,7 @@ public class Main {
             //adding all "ID vs ID " to gether and plot it
             System.out.printf("%s\t%s", tournament.get(i).getTierId(), spaces.toString());
             for (int j = 0; j < tournament.get(i).getMatchList().size(); j++) {
-                System.out.printf("%s\t", String.format(" %s vs.%s", tournament.get(i).getMatchList().get(j).getPlayer1ID(), tournament.get(i).getMatchList().get(j).getPlayer2ID()));
+                System.out.printf("%s\t", String.format(" %s vs. %s", tournament.get(i).getMatchList().get(j).getPlayer1ID(), tournament.get(i).getMatchList().get(j).getPlayer2ID()));
             }
 
             //line break with 200 -´s
@@ -252,9 +251,7 @@ public class Main {
         }
     }
 
-    //show the private int outside of this class
     public static int getBestOf() {
         return bestOf;
     }
-
 }
