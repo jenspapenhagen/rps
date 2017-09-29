@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.papenhagen.rockpaperscissor.JAVAFXSpielmodichangerController">
+    <children>
+        <VBox alignment="CENTER" spacing="5.0">
+            <children>
+                <Label text="Select your Play Modus">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+                <Button fx:id="demoButton" onAction="#handelDemoButtonClick" prefWidth="150.0" text="Demo Modus" VBox.vgrow="NEVER" />
+                <Button fx:id="singelButton" onAction="#handelSingelButtonClick" prefWidth="150.0" text="Singel Player" />
+                   </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+        </VBox>
+    </children>
+</AnchorPane>

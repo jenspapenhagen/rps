@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.papenhagen.rockpaperscissor.JAVAFXDemomodusController">
+    <children>
+        <VBox spacing="5.0">
+            <children>
+                <HBox alignment="TOP_CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
+                    <children>
+                        <VBox spacing="5.0" HBox.hgrow="NEVER">
+                            <children>
+                        <HBox VBox.vgrow="NEVER">
+                           <children>
+                              <Label text="Spielername: " />
+                              <Label fx:id="player1Name" text="name1" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </HBox>
+                                <Label text="Spieler: ">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin></Label>
+                                <Label fx:id="player1Nr" text="Nr1" />
+                                <ImageView fx:id="player1img" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS" />
+                            </children>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                        </VBox>
+                        <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" prefHeight="93.0" prefWidth="91.0" text="VS">
+                            <font>
+                                <Font name="System Bold" size="50.0" />
+                            </font>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                        </Label>
+                  <VBox layoutX="142.0" layoutY="15.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <HBox VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label text="Spielername: " />
+                              <Label fx:id="player2Name" text="name2" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets right="5.0" />
+                           </opaqueInsets>
+                        </HBox>
+                        <Label text="Spieler: ">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="player2Nr" text="Nr2" />
+                        <ImageView fx:id="player2img" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" VBox.vgrow="ALWAYS" />
+                        <Label text="images by: bardbach.com" />
+                     </children>
+                     <opaqueInsets>
+                        <Insets bottom="5.0" />
+                     </opaqueInsets>
+                  </VBox>
+                    </children>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+               <padding>
+                  <Insets bottom="5.0" right="5.0" top="5.0" />
+               </padding>
+                </HBox>
+                <HBox spacing="5.0">
+                    <children>
+                        <Label text="And the Winner is:">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding></Label>
+                        <Label fx:id="result" text="result">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font></Label>
+                    </children>
+                    <opaqueInsets>
+                        <Insets left="5.0" right="5.0" />
+                    </opaqueInsets>
+                </HBox>
+                <HBox VBox.vgrow="ALWAYS">
+                    <children>
+                        <VBox HBox.hgrow="ALWAYS">
+                            <children>
+                                <Button fx:id="matchButton" mnemonicParsing="false" onAction="#handleMatchButton" text="Match" />
+                                <HBox spacing="5.0">
+                                    <children>
+                                        <Label text="To remove ID: " />
+                                        <Label fx:id="removeID" text="removeID" />
+                                    </children>
+                                </HBox>
+                                <HBox spacing="5.0">
+                                    <children>
+                                        <Label text="Round Counter:" />
+                                        <Label fx:id="roundNr" text="roundNr" />
+                                    </children>
+                                </HBox>
+                            </children>
+                            <opaqueInsets>
+                                <Insets bottom="5.0" top="5.0" />
+                            </opaqueInsets>
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                        </VBox>
+                  <ListView fx:id="backlog" HBox.hgrow="ALWAYS" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
