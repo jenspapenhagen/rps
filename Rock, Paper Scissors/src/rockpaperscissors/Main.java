@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 public class Main {
 
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Main.class);
+    private static int bestOf = 3;
 
     public static void main(String[] args) {
         //config area for this tournament
@@ -34,7 +35,7 @@ public class Main {
         int maxFightInNextTier = 0;
         int countOfTiers = (int) Math.sqrt(maxMatches);
         int FreeWinID = maxPlayer + 3;
-        boolean calm = true;
+        boolean calm = false;
 
         LOG.info("maxplayer for this tournament " + maxPlayer);
         LOG.info("max Match games for the frist round" + maxMatches);
@@ -113,10 +114,12 @@ public class Main {
 
                     try {
                         //submit Callable tasks to be executed by thread pool
+                        //CompletableFuture
                         List<Future<Player>> futureList = turnierround.invokeAll(callableList);
                         //adding loser of the fight to the loser List
                         for (Future<Player> p : futureList) {
                             //there for a new Player Object have to be inis.
+
                             Player newPlayer = p.get();
                             //only add to list if not null
                             if (newPlayer != null) {
@@ -124,10 +127,13 @@ public class Main {
                             }
 
                         }
+                        
                         //clean the loser list
                         List<Player> depdupeCustomers = new ArrayList<>(new LinkedHashSet<>(loserList));
                         loserList.clear();
                         loserList.addAll(depdupeCustomers);
+                        
+                        
 
                         //adding the winner into the matchlog
                         if (matchlog.getPlayer1ID() == loserList.get(matches).getPlayerID()) {
@@ -244,7 +250,11 @@ public class Main {
             System.out.println("");
             System.out.println(String.join("", Collections.nCopies(200, "-")));
         }
+    }
 
+    //show the private int outside of this class
+    public static int getBestOf() {
+        return bestOf;
     }
 
 }

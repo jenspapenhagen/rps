@@ -5,12 +5,14 @@
  */
 package rockpaperscissors;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import org.apache.commons.io.FileUtils;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -25,6 +27,7 @@ public final class Player {
     private Enum symbole;
     private final int ID;
     private Enum condition;
+    private int won;
 
     public Player(int ID, Enum condition) {
         this.name = getRandomName();
@@ -49,6 +52,10 @@ public final class Player {
         return this.condition;
     }
 
+    public int getWon() {
+        return won;
+    }
+
     public void setPlayerName(String name) {
         this.name = name;
     }
@@ -61,26 +68,35 @@ public final class Player {
         this.condition = condition;
     }
 
+    public void setWon(int won) {
+        this.won = won;
+    }
+
     public Enum getRandomSymbole() {
         //so not select the default Enum
-        int indexer = new Random().nextInt(Enums.Symbole.values().length-1);
+        int indexer = new Random().nextInt(Enums.Symbole.values().length - 1);
 
         return (Enums.Symbole.values()[indexer]);
     }
 
     public String getRandomName() {
-        String output = "";
+   String output = "";
+        List<String> Namelist = new ArrayList<>();
         try {
-            List<String> Namelist = FileUtils.readLines(
-                    new File("./src/rockpaperscissors/files/forename.txt"), "utf-8");
+            //read file into List
+            BufferedReader br = new BufferedReader(new FileReader(new File("./src/rockpaperscissors/files/forename.txt")));
+            String sCurrentLine;
 
+            while ((sCurrentLine = br.readLine()) != null) {
+                Namelist.add(sCurrentLine);
+            }
+
+            //get a random line
             int randomline = new Random().nextInt(Namelist.size());
             output = Namelist.get(randomline);
-
         } catch (FileNotFoundException ex) {
             LOG.error("forname liste emptry");
             LOG.error(ex.getMessage());
-
         } catch (IOException ex) {
             LOG.error("forname can not be read");
             LOG.error(ex.getMessage());
