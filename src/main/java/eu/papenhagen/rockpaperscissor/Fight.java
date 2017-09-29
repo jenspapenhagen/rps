@@ -72,14 +72,23 @@ public class Fight implements Callable<Player> {
             return loser;
         }
 
-        //
+        //the BestOf Modus
         for (int bestOfround = 0; bestOfround < Main.getBestOf(); bestOfround++) {
+            //have a way to change the behavor
+            Behavor behv = new Behavor();
+
+            //after frist bestOf round change the behavor of the player
+            if (bestOfround > 0) {
+                //getting the symboles of the player
+                player1Symbole = behv.getBehavor(player1Symbole, player2Symbole);
+                player2Symbole = behv.getBehavor(player2Symbole, player1Symbole);
+            }
 
             //comparing the two symboles from the players
-            if (ruler.comparingBigSymboleRange((Enums.Symbole) player1Symbole, (Enums.Symbole) player2Symbole)) {
-                result = Enums.Fightstat.LOST;
-            } else if (player1Symbole.equals(player2Symbole)) {
+            if (player1Symbole.equals(player2Symbole)) {
                 result = Enums.Fightstat.DRAW;
+            } else if (ruler.comparingBigSymboleRange((Enums.Symbole) player1Symbole, (Enums.Symbole) player2Symbole)) {
+                result = Enums.Fightstat.LOST;
             } else {
                 result = Enums.Fightstat.WON;
             }
@@ -98,12 +107,10 @@ public class Fight implements Callable<Player> {
             //playing rounds if the frist fight was a draw
             if (result.equals(Enums.Fightstat.DRAW)) {
                 int maxrounds = 5;
-                Behavor behv = new Behavor();
-
                 //rounds
                 for (int rounds = 1; rounds < maxrounds; rounds++) {
-                    result = ruler.comparingSymboles(behv.getBehavor(player2Symbole, player2Symbole),
-                            behv.getBehavor(player2Symbole, player2Symbole));
+                    result = ruler.comparingSymboles(behv.getBehavor(player1Symbole, player2Symbole),
+                            behv.getBehavor(player2Symbole, player1Symbole));
                     if (calm) {
                         LOG.debug("Result of Round: " + rounds + " is: " + result);
                     } else {
@@ -133,13 +140,14 @@ public class Fight implements Callable<Player> {
 
             /**
              * check if more then the half of bestOF rounds have won by a player
-             * to skip next rounds of this bestOf
-             * on division the lower number get use 5 / 2 = 2 NOT 3 
-             * therefor we can use the > operator
+             * to skip next rounds of this bestOf on division the lower number
+             * get use 5 / 2 = 2 NOT 3 therefor we can use the > operator
              */
             if (player1.getWon() > (Main.getBestOf() / 2)) {
                 result = Enums.Fightstat.WON;
-            } else if (player2.getWon() > (Main.getBestOf() / 2)) {
+            } 
+            
+            if (player2.getWon() > (Main.getBestOf() / 2)) {
                 result = Enums.Fightstat.LOST;
             }
 

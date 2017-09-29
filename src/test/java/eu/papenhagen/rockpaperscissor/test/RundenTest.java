@@ -12,10 +12,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import static org.assertj.core.api.Assertions.*;
 import eu.papenhagen.rockpaperscissor.Enums;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import eu.papenhagen.rockpaperscissor.Fight;
@@ -30,22 +26,6 @@ public class RundenTest {
     public RundenTest() {
     }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test of fightround method, of class Runden.
      */

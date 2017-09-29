@@ -16,7 +16,8 @@ import java.util.Random;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * mostly pojo class
+ * have a random player name generator
  * @author jens.papenhagen
  */
 public final class Player {

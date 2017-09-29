@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 public class Main {
 
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Main.class);
-    private static int bestOf = 3;
+    private static final int bestOf = 5;
 
     public static void main(String[] args) {
         //config area for this tournament
@@ -35,7 +35,7 @@ public class Main {
         int maxFightInNextTier = 0;
         int countOfTiers = (int) Math.sqrt(maxMatches);
         int FreeWinID = maxPlayer + 3;
-        boolean calm = false;
+        boolean calm = true;
 
         LOG.info("maxplayer for this tournament " + maxPlayer);
         LOG.info("max Match games for the frist round" + maxMatches);
@@ -127,42 +127,39 @@ public class Main {
                             }
 
                         }
-                        
-                        //clean the loser list
+
+                        //remove doubles form the loser list
                         List<Player> depdupeCustomers = new ArrayList<>(new LinkedHashSet<>(loserList));
                         loserList.clear();
                         loserList.addAll(depdupeCustomers);
-                        
-                        
-
-                        //adding the winner into the matchlog
-                        if (matchlog.getPlayer1ID() == loserList.get(matches).getPlayerID()) {
-                            matchlog.setWinnerID(matchlog.getPlayer2ID());
-                        } else {
-                            matchlog.setWinnerID(matchlog.getPlayer1ID());
-                        }
 
                     } catch (IndexOutOfBoundsException | InterruptedException | ExecutionException ex) {
                         LOG.error(ex.getMessage());
                     }
 
+                    //adding the winner into the matchlog
+                        if (matchlog.getPlayer1ID() == loserList.get(matches-1).getPlayerID()) {
+                        matchlog.setWinnerID(matchlog.getPlayer2ID());
+                    } else {
+                        matchlog.setWinnerID(matchlog.getPlayer1ID());
+                    }
+
                     //add this matchlog to the matchlist
                     matchListForThisTier.add(matchlog);
-
                 }
             }
             LOG.debug("tier finish");
             if (calm) {
-                LOG.debug("-------------------------------------------------------------------------------");
+                LOG.debug(String.join("", Collections.nCopies(100, "-")));
             } else {
                 System.out.println("");
-                System.out.println("-------------------------------------------------------------------------------");
+                System.out.println(String.join("", Collections.nCopies(100, "-")));
                 System.out.println("");
             }
 
-            //renove the loser from the remainingPlayerList
+            //remove the loser from the remainingPlayerList
             remainingPlayerList.removeAll(loserList);
-
+        
             //reduce the fightcount
             maxFightInNextTier = remainingPlayerList.size();
 

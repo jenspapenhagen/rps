@@ -11,12 +11,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import static org.assertj.core.api.Assertions.*;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 import eu.papenhagen.rockpaperscissor.Player;
 
 
@@ -29,24 +26,7 @@ public class MatchTest {
     public MatchTest() {
     }
 
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-
-    }
-
-    @After
-    public void tearDown() {
-
-    }
-
+   
     /**
      * Test of call method, of class Fight.
      */
