@@ -40,20 +40,12 @@ public class Behavor {
         return getOppositeSymbole(lastRoundSymbol1);
     }
 
-    public Enum OppositeOfEnemieFromLastRound(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
-        LOG.debug("OppositeOfEnemieFromLastRound");
-        return getOppositeSymbole(lastRoundSymbol2);
-    }
 
     public Enum SameOfLastRound(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
         LOG.debug("SameOfLastRound");
         return lastRoundSymbol1;
     }
 
-    public Enum SameOfEnemieFromLastRound(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
-        LOG.debug("SameOfEnemieFromLastRound");
-        return lastRoundSymbol2;
-    }
 
     public Enum getOppositeSymbole(Enum Symbol) {
         Enum output = Enums.Symbole.ROCK;
@@ -78,7 +70,7 @@ public class Behavor {
      * @return
      */
     public Enum getBehavor(Enum lastRoundSymbol1, Enum lastRoundSymbol2) {
-        int indexer = new Random().nextInt(7);
+        int indexer = new Random().nextInt(5);
         Enum output;
 
         switch (indexer) {
@@ -92,15 +84,9 @@ public class Behavor {
                 output = Behavor3(lastRoundSymbol1, lastRoundSymbol2);
                 break;
             case 4:
-                output = OppositeOfEnemieFromLastRound(lastRoundSymbol1, lastRoundSymbol2);
-                break;
-            case 5:
                 output = OppositeOfLastRound(lastRoundSymbol1, lastRoundSymbol2);
                 break;
-            case 6:
-                output = SameOfEnemieFromLastRound(lastRoundSymbol1, lastRoundSymbol2);
-                break;
-            case 7:
+            case 5:
                 output = SameOfLastRound(lastRoundSymbol1, lastRoundSymbol2);
                 break;
             default:
