@@ -15,6 +15,7 @@ import eu.papenhagen.rockpaperscissor.Enums;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import eu.papenhagen.rockpaperscissor.Fight;
+import eu.papenhagen.rockpaperscissor.Match;
 import eu.papenhagen.rockpaperscissor.Player;
 
 /**
@@ -31,26 +32,25 @@ public class RundenTest {
      */
     @Test
     public void testFightround() throws InterruptedException, ExecutionException {
-        //only log the fight to the debug log
-        boolean calm = true;
-
+        
         Player p1 = new Player(5, Enums.Playercondition.FREEWIN);
         Player p2 = new Player(3, Enums.Playercondition.PLAYER);
         
-        p1.setPlayerSymbole(Enums.Symbole.PAPER);
-        p2.setPlayerSymbole(Enums.Symbole.PAPER);
+        p1.setSymbole(Enums.Symbole.PAPER);
+        p2.setSymbole(Enums.Symbole.PAPER);
         
         ExecutorService es = Executors.newSingleThreadExecutor();
 
-        Fight game = new Fight(1, p1, p2, calm);
+         Match match = new Match(1, p1, p2);
+        Fight game = new Fight(1, match);
         //give back the loser
         Future<Player> result10 = es.submit(game);
 
         es.shutdown();
-        assertThat(p2.getPlayerID()).isNotEqualTo(result10.get().getPlayerID()).as("Vergleich player2 id zu gewinner");
+        assertThat(p2.getID()).isNotEqualTo(result10.get().getID()).as("Vergleich player2 id zu gewinner");
         
         
-        assertThat( result10.get().getPlayerCondtion() ).isEqualTo(p1.getPlayerCondtion()).as("Vergleich Playercondition");
+        assertThat( result10.get().getCondition()).isEqualTo(p1.getCondition()).as("Vergleich Playercondition");
        
     }
     

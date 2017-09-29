@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import org.slf4j.LoggerFactory;
+import lombok.*;
 
 /**
  * mostly pojo class have a random player name generator
@@ -24,10 +25,23 @@ public final class Player {
 
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Player.class);
 
-    private String name;
-    private Enum symbole;
+    @Getter
     private final int ID;
+    
+    @Setter
+    @Getter
+    private String name;
+    
+    @Setter
+    @Getter
+    private Enum symbole;
+
+    @Setter
+    @Getter
     private Enum condition;
+    
+    @Setter
+    @Getter
     private int won;
 
     public Player(int ID, Enum condition) {
@@ -35,42 +49,6 @@ public final class Player {
         this.ID = ID;
         this.condition = condition;
         this.symbole = getRandomSymbole();
-    }
-
-    public String getPlayerName() {
-        return this.name;
-    }
-
-    public Enum getPlayerSymbole() {
-        return this.symbole;
-    }
-
-    public int getPlayerID() {
-        return this.ID;
-    }
-
-    public Enum getPlayerCondtion() {
-        return this.condition;
-    }
-
-    public int getWon() {
-        return won;
-    }
-
-    public void setPlayerName(String name) {
-        this.name = name;
-    }
-
-    public void setPlayerSymbole(Enum symbole) {
-        this.symbole = symbole;
-    }
-
-    public void setPlayerCondition(Enum condition) {
-        this.condition = condition;
-    }
-
-    public void setWon(int won) {
-        this.won = won;
     }
 
     public Enum getRandomSymbole() {
@@ -89,7 +67,7 @@ public final class Player {
         } catch (URISyntaxException | IOException ex) {
             LOG.error(ex.getMessage());
         }
-        
+
         //get a random line
         int randomline = new Random().nextInt(Namelist.size());
         output = Namelist.get(randomline);

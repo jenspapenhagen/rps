@@ -82,7 +82,7 @@ public class JAVAFXSingelplayerController implements Initializable {
     private void handleSelectedCombobox(ActionEvent event) {
         //build new player object 
         Player p = new Player(1, Enums.Playercondition.PLAYER);
-        p.setPlayerSymbole((Enum) combobox.getValue());
+        p.setSymbole((Enum) combobox.getValue());
 
         //set player to ready
         player1ready = true;
@@ -93,12 +93,12 @@ public class JAVAFXSingelplayerController implements Initializable {
 
         //only add to log it the game is not ended
         if (!fightended) {
-            addToProtocol("Player1: " + p.getPlayerSymbole());
-            LOG.debug("Player1: " + p.getPlayerSymbole());
+            addToProtocol("Player1: " + p.getSymbole());
+            LOG.debug("Player1: " + p.getSymbole());
         }
         
         //set the globle enum
-        symbole1 = p.getPlayerSymbole();
+        symbole1 = p.getSymbole();
     }
 
     @FXML
@@ -156,11 +156,11 @@ public class JAVAFXSingelplayerController implements Initializable {
 
             //get both symboles
             infightSymbole1 = this.symbole1;
-            infightSymbole2 = p2.getPlayerSymbole();
+            infightSymbole2 = p2.getSymbole();
         }
 
         //set the given symbole
-        p1.setPlayerSymbole(infightSymbole1);
+        p1.setSymbole(infightSymbole1);
 
         //change UI
         changePlayerUI(p1, 1);
@@ -187,7 +187,7 @@ public class JAVAFXSingelplayerController implements Initializable {
             stillInFight = true;
 
             //change player 1 symbole to defauled symbole
-            p1.setPlayerSymbole(Enums.Symbole.DEFAULED);
+            p1.setSymbole(Enums.Symbole.DEFAULED);
 
             //change UI
             changePlayerUI(p1, 1);
@@ -228,7 +228,7 @@ public class JAVAFXSingelplayerController implements Initializable {
      */
     private void changePlayerUI(Player p, int pos) {
         //get the player symbole
-        Enum symbole = p.getPlayerSymbole();
+        Enum symbole = p.getSymbole();
         //change the old Imaage
         Image playerSymbole = null;
         try {
@@ -243,8 +243,8 @@ public class JAVAFXSingelplayerController implements Initializable {
                 player1img.setImage(playerSymbole);
                 break;
             case 2:
-                player2Nr.setText("" + p.getPlayerID());
-                player2Name.setText(p.getPlayerName());
+                player2Nr.setText("" + p.getID());
+                player2Name.setText(p.getName());
                 player2img.setImage(playerSymbole);
                 break;
             default:

@@ -13,6 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -28,6 +29,7 @@ public class Main {
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Main.class);
 
     private static int bestOf;
+    private static boolean calm;
 
     public static void main(String[] args) {
         //config area for this tournament
@@ -36,7 +38,7 @@ public class Main {
         int maxFightInNextTier = 0;
         int countOfTiers = (int) Math.sqrt(maxMatches);
         int FreeWinID = maxPlayer + 3;
-        boolean calm = true;
+        calm = true;
         bestOf = 5;
 
         LOG.info("maxplayer for this tournament " + maxPlayer);
@@ -47,7 +49,7 @@ public class Main {
         LOG.info("This Fight is: " + calm);
 
         //the Executor Service for this tournier
-        ExecutorService tournamentexecutor = Executors.newFixedThreadPool(4);
+        ExecutorService tournamentexecutor = Executors.newCachedThreadPool();
 
         //build up the tournament
         List<Tier> tournament = new ArrayList<>(countOfTiers);
@@ -84,7 +86,7 @@ public class Main {
                 Collections.shuffle(remainingPlayerList, new Random(seed));
                 //shuffle symbole;
                 remainingPlayerList.forEach((p) -> {
-                    p.setPlayerSymbole(p.getRandomSymbole());
+                    p.setSymbole(p.getRandomSymbole());
                 });
             }
             LOG.debug("maxFightInNextTier" + maxFightInNextTier);
@@ -98,69 +100,67 @@ public class Main {
             Iterator<Player> playerListIterator = remainingPlayerList.iterator();
 
             LOG.debug("lets fight");
-            for (int matches = 1; matches <= maxFightInNextTier; matches++) {
+            for (int matchcount = 1; matchcount <= maxFightInNextTier; matchcount++) {
 
                 //check if there is a next player in the playerlist and 
                 //the loserlist is at it max. On single-elimination the loser is have to be smaller than the half remainingPlayer list.
                 if (playerListIterator.hasNext() && (loserList.size() * 2) < remainingPlayerList.size()) {
-                    //set default match log
-                    Match matchlog = new Match(1, 2, 3);
-
                     //getting the 2 player
                     Player p1 = playerListIterator.next();
                     Player p2 = playerListIterator.next();
 
-                    //adding the right match ID into the matchlog and both player to the matchlog
-                    matchlog.setId(matches);
-                    matchlog.setPlayer1ID(p1.getPlayerID());
-                    matchlog.setPlayer2ID(p2.getPlayerID());
+                    //set match 
+                    Match match = new Match(matchcount, p1, p2);
 
-                    callableList.add(new Fight(matches, p1, p2, calm));
-
-                    //staring the Callable
-                    try {
-                        //submit Callable tasks to be executed by thread pool
-                        //CompletableFuture
-                        List<Future<Player>> futureList = tournamentexecutor.invokeAll(callableList);
-                        //adding loser of the fight to the loser List
-                        for (Future<Player> p : futureList) {
-                            loserList.add(p.get());
-                        }
-
-                    } catch (InterruptedException | ExecutionException ex) {
-                        LOG.error(ex.getMessage());
-                    }
-
-                    //remove doubles form the loser list
-                    List<Player> depdupeCustomers = new ArrayList<>(new LinkedHashSet<>(loserList));
-                    loserList.clear();
-                    loserList.addAll(depdupeCustomers);
-
-                    //adding the winner into the matchlog by check the losing 
-                    Player tempPlayer = new Player(matchlog.getPlayer1ID(), Enums.Playercondition.PLAYER);
-                    Player tempPlayer2 = new Player(matchlog.getPlayer2ID(), Enums.Playercondition.PLAYER);
-                    if (loserList.contains(tempPlayer)) {
-                        matchlog.setWinnerID(matchlog.getPlayer1ID());
-                    }
-                    if (loserList.contains(tempPlayer2)) {
-                        matchlog.setWinnerID(matchlog.getPlayer2ID());
-                    }
+                    //addin the fight
+                    callableList.add(new Fight(matchcount, match));
 
                     //add this matchlog to the matchlist
-                    matchListForThisTier.add(matchlog);
+                    matchListForThisTier.add(match);
                 }
             }
-            LOG.debug("tier finish");
-            if (calm) {
-                LOG.debug(String.join("", Collections.nCopies(100, "-")));
-            } else {
-                System.out.println("");
-                System.out.println(String.join("", Collections.nCopies(100, "-")));
-                System.out.println("");
+
+            //staring the Callable
+            try {
+                //make a CountDownLatch
+                CountDownLatch latch = new CountDownLatch(callableList.size());
+
+                //submit Callable tasks to be executed by thread pool
+                //CompletableFuture
+                List<Future<Player>> futureList = tournamentexecutor.invokeAll(callableList);
+                //adding loser of the fight to the loser List
+                for (Future<Player> p : futureList) {
+                    if (p.isCancelled()) {
+                        LOG.info("error task get canceled");
+                    }
+                    loserList.add(p.get());
+                    //count the latch down to "wait" for all player get added to list
+                    latch.countDown();
+                }
+
+                //wait for countdown
+                latch.await();
+            } catch (InterruptedException | ExecutionException ex) {
+                LOG.error(ex.getMessage());
             }
+
+            //remove doubles form the loser list
+            List<Player> depdupeCustomers = new ArrayList<>(new LinkedHashSet<>(loserList));
+            loserList.clear();
+            loserList.addAll(depdupeCustomers);
 
             //remove the loser from the remainingPlayerList
             remainingPlayerList.removeAll(loserList);
+
+
+            //adding the winner into the matchlog by check the losing
+            matchListForThisTier.forEach((m) -> {
+                if(m.getPlayer1().getWon() > m.getPlayer2().getWon()){
+                    m.setWinner(m.getPlayer1());
+                }else{
+                    m.setWinner(m.getPlayer2());
+                }
+            });
 
             //reduce the fightcount
             maxFightInNextTier = remainingPlayerList.size();
@@ -179,6 +179,14 @@ public class Main {
 
             //adding this tier to the tournament (lsit of tiers)
             tournament.add(tier);
+
+            //log the end of the tier
+            LOG.debug("tier finish");
+            if (calm) {
+                LOG.debug(String.join("", Collections.nCopies(100, "-")));
+            } else {
+                System.out.println("\n" + String.join("", Collections.nCopies(100, "-")) + "\n");
+            }
 
         }
 
@@ -234,7 +242,7 @@ public class Main {
 
             //setting the winner on the top
             for (int j = 0; j < tournament.get(i).getMatchList().size(); j++) {
-                System.out.printf("\t%s", String.format("%s", tournament.get(i).getMatchList().get(j).getWinnerID()));
+                System.out.printf("\t%s", String.format("%s", tournament.get(i).getMatchList().get(j).getWinner().getID()));
             }
 
             //line break
@@ -242,7 +250,7 @@ public class Main {
             //adding all "ID vs ID " to gether and plot it
             System.out.printf("%s\t%s", tournament.get(i).getTierId(), spaces.toString());
             for (int j = 0; j < tournament.get(i).getMatchList().size(); j++) {
-                System.out.printf("%s\t", String.format(" %s vs. %s", tournament.get(i).getMatchList().get(j).getPlayer1ID(), tournament.get(i).getMatchList().get(j).getPlayer2ID()));
+                System.out.printf("%s\t", String.format(" %s vs. %s", tournament.get(i).getMatchList().get(j).getPlayer1().getID(), tournament.get(i).getMatchList().get(j).getPlayer2().getID()));
             }
 
             //line break with 200 -´s
@@ -254,4 +262,9 @@ public class Main {
     public static int getBestOf() {
         return bestOf;
     }
+
+    public static boolean isCalm() {
+        return calm;
+    }
+
 }

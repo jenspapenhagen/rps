@@ -110,17 +110,17 @@ public class JAVAFXDemomodusController implements Initializable {
 
         //fight
         Enum resultFromfight = null;
-        if (ruler.comparingBigSymboleRange((Enums.Symbole) p1.getPlayerSymbole(), (Enums.Symbole) p2.getPlayerSymbole())) {
+        if (ruler.comparingBigSymboleRange((Enums.Symbole) p1.getSymbole(), (Enums.Symbole) p2.getSymbole())) {
             resultFromfight = Enums.Fightstat.LOST;
-        } else if (p1.getPlayerSymbole().equals(p2.getPlayerSymbole())) {
+        } else if (p1.getSymbole().equals(p2.getSymbole())) {
             resultFromfight = Enums.Fightstat.DRAW;
         } else {
             resultFromfight = Enums.Fightstat.WON;
         }
 
         //fill the Protocol
-        addToProtocol("Player1: " + p1.getPlayerSymbole());
-        addToProtocol("Player2: " + p2.getPlayerSymbole());
+        addToProtocol("Player1: " + p1.getSymbole());
+        addToProtocol("Player2: " + p2.getSymbole());
         addToProtocol("Ausgabe normal Fight: " + resultFromfight);
 
         //fight again if the fight was a draw
@@ -165,12 +165,12 @@ public class JAVAFXDemomodusController implements Initializable {
         //start this rounds
         for (int rounds = 1; rounds <= maxr; rounds++) {
             //change the behavor of the player
-            Enum player1symbole = behv.getBehavor(p1.getPlayerSymbole());
-            Enum player2symbole = behv.getBehavor(p2.getPlayerSymbole());
+            Enum player1symbole = behv.getBehavor(p1.getSymbole());
+            Enum player2symbole = behv.getBehavor(p2.getSymbole());
 
             //set the new player symbole
-            p1.setPlayerSymbole(player1symbole);
-            p2.setPlayerSymbole(player2symbole);
+            p1.setSymbole(player1symbole);
+            p2.setSymbole(player2symbole);
 
             //fill the Protocol
             addToProtocol("Player1: " + player1symbole);
@@ -220,15 +220,15 @@ public class JAVAFXDemomodusController implements Initializable {
 
         try {
             if (result.equals(Enums.Fightstat.WON)) {
-                removePlayerID = p2.getPlayerID();
+                removePlayerID = p2.getID();
             } else {
-                removePlayerID = p1.getPlayerID();
+                removePlayerID = p1.getID();
             }
         } catch (NullPointerException ex) {
             //froce win
             LOG.debug("froce win");
             LOG.debug(ex.getMessage());
-            removePlayerID = p1.getPlayerID();
+            removePlayerID = p1.getID();
         }
 
         //show the player id, whitch has lost the game
@@ -243,7 +243,7 @@ public class JAVAFXDemomodusController implements Initializable {
      */
     private void changePlayerUI(Player p, int pos) {
         //get the player symbole
-        Enum symbole = p.getPlayerSymbole();
+        Enum symbole = p.getSymbole();
         //change the old Imaage
         Image playerSymbole = null;
         try {
@@ -255,14 +255,14 @@ public class JAVAFXDemomodusController implements Initializable {
         //witch postion have to be change
         switch (pos) {
             case 1:
-                player1Nr.setText("" + p.getPlayerID());
-                player1Name.setText(p.getPlayerName());
+                player1Nr.setText("" + p.getID());
+                player1Name.setText(p.getName());
                 player1img.setImage(playerSymbole);
                 break;
 
             case 2:
-                player2Nr.setText("" + p.getPlayerID());
-                player2Name.setText(p.getPlayerName());
+                player2Nr.setText("" + p.getID());
+                player2Name.setText(p.getName());
                 player2img.setImage(playerSymbole);
                 break;
             default:

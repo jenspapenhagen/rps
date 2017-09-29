@@ -19,15 +19,16 @@ public class Fight implements Callable<Player> {
     private final int matchNr;
     private final Player player1;
     private final Player player2;
-    private final boolean calm;
+    private final boolean calm = Main.isCalm();
 
-    public Fight(int matchID, Player p1, Player p2, boolean calm) {
+    public Fight(int matchID, Match m) {
+
         this.matchNr = matchID;
-        this.player1 = p1;
-        this.player2 = p2;
-        this.calm = calm;
+        this.player1 = m.getPlayer1();
+        this.player2 = m.getPlayer2();
+        
         LOG.debug("Match with ID:" + matchNr);
-        LOG.debug(" getstarted." + player1.getPlayerID() + " vs. " + player2.getPlayerID());
+        LOG.debug(" getstarted." + player1.getID() + " vs. " + player2.getID());
         LOG.debug("This Fight is: " + this.calm);
     }
 
@@ -39,11 +40,11 @@ public class Fight implements Callable<Player> {
      * @return the the non player als instant loser
      */
     public Player comparingPlayerCondition(Player p1, Player p2) {
-        if (!p1.getPlayerCondtion().equals(Enums.Playercondition.PLAYER)) {
+        if (!p1.getCondition().equals(Enums.Playercondition.PLAYER)) {
             LOG.debug("Player 1 was a non Player object");
             return p1;
         }
-        if (!p2.getPlayerCondtion().equals(Enums.Playercondition.PLAYER)) {
+        if (!p2.getCondition().equals(Enums.Playercondition.PLAYER)) {
             LOG.debug("Player 2 was a non Player object");
             return p2;
         }
@@ -75,8 +76,8 @@ public class Fight implements Callable<Player> {
     @Override
     public Player call() {
         //getting the symboles of the player
-        Enum player1Symbole = player1.getPlayerSymbole();
-        Enum player2Symbole = player2.getPlayerSymbole();
+        Enum player1Symbole = player1.getSymbole();
+        Enum player2Symbole = player2.getSymbole();
 
         Enum result = null;
 
@@ -103,13 +104,13 @@ public class Fight implements Callable<Player> {
             result = complainingPlayerSymboles(player1Symbole, player2Symbole);
 
             if (calm) {
-                LOG.debug("Match " + matchNr + ": Player 1 Name: " + player1.getPlayerName() + " mit der Nr." + player1.getPlayerID() + " nimmt: " + player2Symbole
-                        + " gegen Player 2 Name: " + player2.getPlayerName() + " mit der Nr. " + player2.getPlayerID() + " mit " + player2Symbole
+                LOG.debug("Match " + matchNr + ": Player 1 Name: " + player1.getName() + " mit der Nr." + player1.getID() + " nimmt: " + player2Symbole
+                        + " gegen Player 2 Name: " + player2.getName() + " mit der Nr. " + player2.getID() + " mit " + player2Symbole
                         + " -- Player1 hat: " + result);
             } else {
                 //the cli output
-                System.out.println("Match " + matchNr + ": Player 1 Name: " + player1.getPlayerName() + " mit der Nr." + player1.getPlayerID() + " nimmt: " + player2Symbole
-                        + " gegen Player 2 Name: " + player2.getPlayerName() + " mit der Nr. " + player2.getPlayerID() + " mit " + player2Symbole
+                System.out.println("Match " + matchNr + ": Player 1 Name: " + player1.getName() + " mit der Nr." + player1.getID() + " nimmt: " + player2Symbole
+                        + " gegen Player 2 Name: " + player2.getName() + " mit der Nr. " + player2.getID() + " mit " + player2Symbole
                         + " -- Player1 hat: " + result);
             }
 

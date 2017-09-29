@@ -404,13 +404,13 @@ public final class SwingApp extends javax.swing.JDialog {
     public Enum showPlayer1(int playerID1) throws IOException {
         Player p1 = new Player(playerID1, Enums.Playercondition.PLAYER );
 
-        Enum symbole1 = p1.getPlayerSymbole();
+        Enum symbole1 = p1.getSymbole();
 
         BufferedImage playerSymbole = givebackImg(symbole1);
         ImageIcon imageIcon = new ImageIcon(playerSymbole);
 
         player1symbole.setIcon(imageIcon);
-        player1Name.setText(p1.getPlayerName());
+        player1Name.setText(p1.getName());
         player1Nr.setText(playerID1 + "");
 
         addToProtocol("Player1: " + symbole1);
@@ -422,13 +422,13 @@ public final class SwingApp extends javax.swing.JDialog {
     public Enum showPlayer2(int playerID2) throws IOException {
         Player p2 = new Player(playerID2, Enums.Playercondition.PLAYER);
 
-        Enum symbole2 = p2.getPlayerSymbole();
+        Enum symbole2 = p2.getSymbole();
 
         BufferedImage playerSymbole = givebackImg(symbole2);
         ImageIcon imageIcon = new ImageIcon(playerSymbole);
 
         player2symbole.setIcon(imageIcon);
-        player2Name.setText(p2.getPlayerName());
+        player2Name.setText(p2.getName());
         player2Nr.setText("" + playerID2);
 
         addToProtocol("Player2: " + symbole2);
