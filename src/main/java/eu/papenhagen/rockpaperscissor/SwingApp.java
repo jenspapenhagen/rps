@@ -439,15 +439,15 @@ public final class SwingApp extends javax.swing.JDialog {
     public BufferedImage givebackImg(Enum symbole) throws IOException {
         BufferedImage myPicture;
         if (symbole.equals(Enums.Symbole.SCISSOR)) {
-            myPicture = ImageIO.read(new File("/images/scissor.png"));
+            myPicture = ImageIO.read(SwingApp.class.getResource("/images/scissor.png"));
         }
         if (symbole.equals(Enums.Symbole.PAPER)) {
-            myPicture = ImageIO.read(new File("/images/paper.png"));
+            myPicture = ImageIO.read(SwingApp.class.getResource("/images/paper.png"));
         }
         if (symbole.equals(Enums.Symbole.ROCK)) {
-            myPicture = ImageIO.read(new File("/images/stone.png"));
+            myPicture = ImageIO.read(SwingApp.class.getResource("/images/rock.png"));
         } else {
-            myPicture = ImageIO.read(new File("/images/paper.png"));
+            myPicture = ImageIO.read(SwingApp.class.getResource("/images/scissor.png"));
         }
 
         return myPicture;
