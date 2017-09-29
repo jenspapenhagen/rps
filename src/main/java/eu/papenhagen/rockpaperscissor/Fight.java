@@ -109,8 +109,18 @@ public class Fight implements Callable<Player> {
                 int maxrounds = 5;
                 //rounds
                 for (int rounds = 1; rounds < maxrounds; rounds++) {
-                    result = ruler.comparingSymboles(behv.getBehavor(player1Symbole, player2Symbole),
-                            behv.getBehavor(player2Symbole, player1Symbole));
+                    Enum roundSymbole1 = behv.getBehavor(player1Symbole, player2Symbole);
+                    Enum roundSymbole2 = behv.getBehavor(player2Symbole, player1Symbole);
+
+                    if (roundSymbole1.equals(roundSymbole2)) {
+                        result = Enums.Fightstat.DRAW;
+                    }
+                    if (ruler.comparingBigSymboleRange((Enums.Symbole) roundSymbole1, (Enums.Symbole) roundSymbole2)) {
+                        result = Enums.Fightstat.LOST;
+                    }else{
+                       result = Enums.Fightstat.WON; 
+                    }
+
                     if (calm) {
                         LOG.debug("Result of Round: " + rounds + " is: " + result);
                     } else {
@@ -145,8 +155,8 @@ public class Fight implements Callable<Player> {
              */
             if (player1.getWon() > (Main.getBestOf() / 2)) {
                 result = Enums.Fightstat.WON;
-            } 
-            
+            }
+
             if (player2.getWon() > (Main.getBestOf() / 2)) {
                 result = Enums.Fightstat.LOST;
             }
@@ -154,7 +164,7 @@ public class Fight implements Callable<Player> {
         }
 
         //giveback the lost player 
-        loser = removeLosingPlayer(result, player1, player2);
+        loser = givebackLosingPlayer(result, player1, player2);
 
         return loser;
     }
@@ -167,7 +177,7 @@ public class Fight implements Callable<Player> {
      * @param player2
      * @return the lost player
      */
-    public Player removeLosingPlayer(Enum result, Player player1, Player player2) {
+    public Player givebackLosingPlayer(Enum result, Player player1, Player player2) {
         try {
             if (result.equals(Enums.Fightstat.WON)) {
                 return player2;
