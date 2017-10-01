@@ -32,6 +32,11 @@ public class Fight implements Callable<Player> {
         LOG.debug("This Fight is: " + this.calm);
     }
 
+    
+    private void resetWonStatForPlayers(Player p1, Player p2){
+        p1.setWon(0);
+        p2.setWon(0);
+    }
     /**
      * checking the condition of to player object
      *
@@ -87,6 +92,9 @@ public class Fight implements Callable<Player> {
             LOG.debug("Fastgame one player was a non player object");
             return loser;
         }
+        
+        //reset the Won counter of all player
+        resetWonStatForPlayers(player1, player2);
 
         //the BestOf Modus
         for (int bestOfround = 1; bestOfround < Main.getBestOf(); bestOfround++) {
