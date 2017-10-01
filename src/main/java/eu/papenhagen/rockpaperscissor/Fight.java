@@ -20,6 +20,7 @@ public class Fight implements Callable<Player> {
     private final Player player1;
     private final Player player2;
     private final boolean calm = Main.isCalm();
+    private static int maxrounds = 5;
 
     public Fight(int matchID, Match m) {
 
@@ -124,7 +125,7 @@ public class Fight implements Callable<Player> {
 
             //playing rounds if the frist fight was a draw
             if (result.equals(Enums.Fightstat.DRAW)) {
-                int maxrounds = 5;
+                int maxrounds = this.maxrounds;
                 //rounds
                 for (int rounds = 1; rounds < maxrounds; rounds++) {
                     Enum roundSymbole1 = behv.getBehavor(player1Symbole);
@@ -188,7 +189,7 @@ public class Fight implements Callable<Player> {
      * @param player2
      * @return the lost player
      */
-    public Player givebackLosingPlayer(Enum result, Player player1, Player player2) {
+    private Player givebackLosingPlayer(Enum result, Player player1, Player player2) {
         try {
             if (result.equals(Enums.Fightstat.WON)) {
                 return player2;

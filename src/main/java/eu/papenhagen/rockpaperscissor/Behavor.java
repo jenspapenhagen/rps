@@ -20,22 +20,22 @@ public class Behavor {
     }
 
     //allways the same
-    public Enum Behavor1(Enum lastRoundSymbol1) {
+    private Enum Behavor1(Enum lastRoundSymbol1) {
         LOG.debug("Behavor1: take scissor");
         return Enums.Symbole.SCISSOR;
     }
 
-    public Enum OppositeOfLastRound(Enum lastRoundSymbol1) {
+    private Enum OppositeOfLastRound(Enum lastRoundSymbol1) {
         LOG.debug("OppositeOfLastRound");
         return getOppositeSymbole(lastRoundSymbol1);
     }
 
-    public Enum SameOfLastRound(Enum lastRoundSymbol1) {
+    private Enum SameOfLastRound(Enum lastRoundSymbol1) {
         LOG.debug("SameOfLastRound");
         return lastRoundSymbol1;
     }
 
-    public Enum getOppositeSymbole(Enum Symbol) {
+    private Enum getOppositeSymbole(Enum Symbol) {
         //take a random Enum but NOT default
         Enums.Symbole output = Enums.Symbole.values()[new Random().nextInt(Enums.Symbole.values().length - 1)];
 

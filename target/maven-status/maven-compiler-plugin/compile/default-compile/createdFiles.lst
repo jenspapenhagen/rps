@@ -6,6 +6,7 @@ eu\papenhagen\rockpaperscissor\Ruler.class
 eu\papenhagen\rockpaperscissor\UtilityMethodes.class
 eu\papenhagen\rockpaperscissor\Enums$Symbole.class
 eu\papenhagen\rockpaperscissor\JAVAFXDemomodusController.class
+eu\papenhagen\rockpaperscissor\MatchBuilder.class
 eu\papenhagen\rockpaperscissor\SwingApp.class
 eu\papenhagen\rockpaperscissor\Tier.class
 eu\papenhagen\rockpaperscissor\SwingApp$1.class

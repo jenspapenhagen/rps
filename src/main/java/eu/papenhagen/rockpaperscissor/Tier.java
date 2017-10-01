@@ -7,6 +7,7 @@ package eu.papenhagen.rockpaperscissor;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.*;
 
 /**
  *
@@ -14,29 +15,17 @@ import java.util.List;
  */
 public class Tier {
 
+    @Getter
+    @Setter
     private int tierId;
+    
+    @Getter
+    @Setter
     private List<Match> matchList;
 
     public Tier(int tierId) {
         this.matchList = new ArrayList<>();
         this.tierId = tierId;
     }
-
-    public int getTierId() {
-        return tierId;
-    }
-
-    public List<Match> getMatchList() {
-        return matchList;
-    }
-
-    public void setTierId(int tierId) {
-        this.tierId = tierId;
-    }
-
-    public void setMatchList(List<Match> matchList) {
-        this.matchList = matchList;
-    }
-    
 
 }

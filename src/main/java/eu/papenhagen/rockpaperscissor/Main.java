@@ -7,9 +7,7 @@ package eu.papenhagen.rockpaperscissor;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Callable;
@@ -19,19 +17,26 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import org.slf4j.LoggerFactory;
+import lombok.*;
 
 /**
  *
  * @author jens.papenhagen
  */
 public class Main {
-
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Main.class);
 
+    @Getter
     private static int bestOf;
+    @Getter
     private static boolean calm;
 
+    @Getter
+    @Setter
     private static List<Player> loserList;
+    
+    @Getter
+    @Setter
     private static List<Match> matchListForThisTier;
 
     public static void main(String[] args) {
@@ -96,8 +101,8 @@ public class Main {
             //build a list of Losers
             loserList = new ArrayList<>(maxMatchesInNextTier / 2);
 
-            //build all Matches
-            List<Callable<Player>> callableList = matchbuilder(maxMatchesInNextTier, remainingPlayerList);
+            //build all Matchs in a Callable List
+            List<Callable<Player>> callableList = new MatchBuilder().build(maxMatchesInNextTier, remainingPlayerList);
 
             //staring the Callable
             try {
@@ -165,51 +170,12 @@ public class Main {
             } else {
                 System.out.println("\n" + String.join("", Collections.nCopies(100, "-")) + "\n");
             }
-
         }
-
+        //try to politly shutdown the executer
         tournamentexecutor.shutdown();
 
         //display in better cli
         displayTournament(tournament);
-    }
-
-    /**
-     * build the matches in a extra methode
-     *
-     * @param maxMatchesInNextTier
-     * @param remainingPlayerList
-     * @return
-     */
-    private static List<Callable<Player>> matchbuilder(int maxMatchesInNextTier, List<Player> remainingPlayerList) {
-        //build list
-        List<Callable<Player>> callableList = new LinkedList<>();
-
-        //using the Iterator for getting the next player and check if there is even a nextplayer
-        Iterator<Player> playerListIterator = remainingPlayerList.iterator();
-
-        LOG.debug("lets fight");
-        for (int matchcount = 1; matchcount <= maxMatchesInNextTier; matchcount++) {
-
-            //check if there is a next player in the playerlist and 
-            //the loserlist is at it max. On single-elimination the loser is have to be smaller than the half remainingPlayer list.
-            if (playerListIterator.hasNext() && (loserList.size() * 2) < remainingPlayerList.size()) {
-                //getting the 2 player
-                Player p1 = playerListIterator.next();
-                Player p2 = playerListIterator.next();
-
-                //set match 
-                Match match = new Match(matchcount, p1, p2);
-
-                //addin the fight
-                callableList.add(new Fight(matchcount, match));
-
-                //add this matchlog to the matchlist
-                matchListForThisTier.add(match);
-            }
-        }
-
-        return callableList;
     }
 
     /**
@@ -220,7 +186,7 @@ public class Main {
      * @param numbersOfFights
      * @return maxfights for next tier
      */
-    public static int getMaxFightsInTier(int numbersOfFights) {
+    private static int getMaxFightsInTier(int numbersOfFights) {
         int output;
         if (numbersOfFights == 2) {
             //if onyl 2 player are left
@@ -242,7 +208,7 @@ public class Main {
      *
      * @param tournament
      */
-    public static void displayTournament(List<Tier> tournament) {
+    private static void displayTournament(List<Tier> tournament) {
         for (int i = tournament.size() - 1; i >= 0; i--) {
 
             //build a emptry string witgh 100 spaces
@@ -273,14 +239,6 @@ public class Main {
             System.out.println("");
             System.out.println(String.join("", Collections.nCopies(200, "-")));
         }
-    }
-
-    public static int getBestOf() {
-        return bestOf;
-    }
-
-    public static boolean isCalm() {
-        return calm;
     }
 
 }
