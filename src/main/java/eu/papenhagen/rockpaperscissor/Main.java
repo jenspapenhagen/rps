@@ -30,7 +30,7 @@ public class Main {
 
     private static int bestOf;
     private static boolean calm;
-    
+
     private static List<Player> loserList;
     private static List<Match> matchListForThisTier;
 
@@ -57,10 +57,10 @@ public class Main {
         //build up the tournament
         List<Tier> tournament = new ArrayList<>(countOfTiers);
 
-        //build two moving list
+        //build moving list for all the player
         List<Player> remainingPlayerList = new ArrayList<>();
 
-        //build up the rawPlayerList
+        //build up the PlayerList
         for (int i = 1; i <= maxPlayer; i++) {
             Player p1 = new Player(i, Enums.Playercondition.PLAYER);
             remainingPlayerList.add(p1);
@@ -90,18 +90,18 @@ public class Main {
             }
             LOG.debug("maxMatchesInNextTier" + maxMatchesInNextTier);
 
-            //build a list of Losers
-            loserList = new ArrayList<>(maxMatchesInNextTier / 2);
-
             //make a new matchList
             matchListForThisTier = new ArrayList<>(maxMatchesInNextTier);
 
-            //build alle Matches
+            //build a list of Losers
+            loserList = new ArrayList<>(maxMatchesInNextTier / 2);
+
+            //build all Matches
             List<Callable<Player>> callableList = matchbuilder(maxMatchesInNextTier, remainingPlayerList);
 
             //staring the Callable
             try {
-                //make a CountDownLatch
+                //make a CountDownLatch for waiting all matches in a tier are finish to go to the next tier
                 CountDownLatch latch = new CountDownLatch(callableList.size());
 
                 //submit Callable tasks to be executed by thread pool
@@ -123,7 +123,7 @@ public class Main {
                 LOG.error(ex.getMessage());
             }
 
-            //remove doubles form the loser list
+            //remove doubles form the loser list agains threadhandling fails
             List<Player> depdupeCustomers = new ArrayList<>(new LinkedHashSet<>(loserList));
             loserList.clear();
             loserList.addAll(depdupeCustomers);
@@ -176,9 +176,10 @@ public class Main {
 
     /**
      * build the matches in a extra methode
+     *
      * @param maxMatchesInNextTier
      * @param remainingPlayerList
-     * @return 
+     * @return
      */
     private static List<Callable<Player>> matchbuilder(int maxMatchesInNextTier, List<Player> remainingPlayerList) {
         //build list
