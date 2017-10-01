@@ -30,12 +30,15 @@ public class Main {
 
     private static int bestOf;
     private static boolean calm;
+    
+    private static List<Player> loserList;
+    private static List<Match> matchListForThisTier;
 
     public static void main(String[] args) {
         //config area for this tournament
         int maxPlayer = 100;
         int maxMatches = maxPlayer / 2;
-        int maxFightInNextTier = 0;
+        int maxMatchesInNextTier = 0;
         int countOfTiers = (int) Math.sqrt(maxMatches);
         int FreeWinID = maxPlayer + 3;
         calm = true;
@@ -43,7 +46,7 @@ public class Main {
 
         LOG.info("maxplayer for this tournament " + maxPlayer);
         LOG.info("max Match games for the frist round" + maxMatches);
-        LOG.info("maxGamesNextTier " + maxFightInNextTier);
+        LOG.info("maxGamesNextTier " + maxMatchesInNextTier);
         LOG.info("count of tiers " + countOfTiers);
         LOG.info("ID from the freeWin player " + FreeWinID);
         LOG.info("This Fight is: " + calm);
@@ -56,30 +59,26 @@ public class Main {
 
         //build two moving list
         List<Player> remainingPlayerList = new ArrayList<>();
-        List<Player> playerListForTier = new ArrayList<>();
 
         //build up the rawPlayerList
         for (int i = 1; i <= maxPlayer; i++) {
             Player p1 = new Player(i, Enums.Playercondition.PLAYER);
-            playerListForTier.add(p1);
+            remainingPlayerList.add(p1);
         }
 
         //run the tier
         for (int tierCounter = 1; tierCounter <= countOfTiers; tierCounter++) {
-            //build list
-            List<Callable<Player>> callableList = new LinkedList<>();
 
             //building the tier
             Tier tier = new Tier(tierCounter);
 
             //giveback the count of max games for this tier
-            maxFightInNextTier = getMaxFightsInTier(maxFightInNextTier);
+            maxMatchesInNextTier = getMaxFightsInTier(maxMatchesInNextTier);
 
             if (tierCounter == 1) {
                 //first round
                 LOG.debug("first round");
-                maxFightInNextTier = maxMatches;
-                remainingPlayerList.addAll(playerListForTier);
+                maxMatchesInNextTier = maxMatches;
             } else {
                 //shuffle the playerlist
                 long seed = System.nanoTime();
@@ -89,36 +88,16 @@ public class Main {
                     p.setSymbole(p.getRandomSymbole());
                 });
             }
-            LOG.debug("maxFightInNextTier" + maxFightInNextTier);
-
-            //make a new matchList
-            List<Match> matchListForThisTier = new ArrayList<>(maxFightInNextTier);
+            LOG.debug("maxMatchesInNextTier" + maxMatchesInNextTier);
 
             //build a list of Losers
-            List<Player> loserList = new ArrayList<>(maxFightInNextTier / 2);
-            //using the Iterator for getting the next player and check if there is even a nextplayer
-            Iterator<Player> playerListIterator = remainingPlayerList.iterator();
+            loserList = new ArrayList<>(maxMatchesInNextTier / 2);
 
-            LOG.debug("lets fight");
-            for (int matchcount = 1; matchcount <= maxFightInNextTier; matchcount++) {
+            //make a new matchList
+            matchListForThisTier = new ArrayList<>(maxMatchesInNextTier);
 
-                //check if there is a next player in the playerlist and 
-                //the loserlist is at it max. On single-elimination the loser is have to be smaller than the half remainingPlayer list.
-                if (playerListIterator.hasNext() && (loserList.size() * 2) < remainingPlayerList.size()) {
-                    //getting the 2 player
-                    Player p1 = playerListIterator.next();
-                    Player p2 = playerListIterator.next();
-
-                    //set match 
-                    Match match = new Match(matchcount, p1, p2);
-
-                    //addin the fight
-                    callableList.add(new Fight(matchcount, match));
-
-                    //add this matchlog to the matchlist
-                    matchListForThisTier.add(match);
-                }
-            }
+            //build alle Matches
+            List<Callable<Player>> callableList = matchbuilder(maxMatchesInNextTier, remainingPlayerList);
 
             //staring the Callable
             try {
@@ -152,23 +131,22 @@ public class Main {
             //remove the loser from the remainingPlayerList
             remainingPlayerList.removeAll(loserList);
 
-
             //adding the winner into the matchlog by check the losing
             matchListForThisTier.forEach((m) -> {
-                if(m.getPlayer1().getWon() > m.getPlayer2().getWon()){
+                if (m.getPlayer1().getWon() > m.getPlayer2().getWon()) {
                     m.setWinner(m.getPlayer1());
-                }else{
+                } else {
                     m.setWinner(m.getPlayer2());
                 }
             });
 
             //reduce the fightcount
-            maxFightInNextTier = remainingPlayerList.size();
+            maxMatchesInNextTier = remainingPlayerList.size();
 
             //fillup the remainingplayer with Freewin
             //adding FREEWIN odd size of remainingPlayerList
             //not in the last round
-            if (maxFightInNextTier != 1 && remainingPlayerList.size() % 2 != 0) {
+            if (maxMatchesInNextTier != 1 && remainingPlayerList.size() % 2 != 0) {
                 Player p1 = new Player(FreeWinID, Enums.Playercondition.FREEWIN);
                 remainingPlayerList.add(p1);
                 LOG.debug("added Freewin player");
@@ -194,6 +172,43 @@ public class Main {
 
         //display in better cli
         displayTournament(tournament);
+    }
+
+    /**
+     * build the matches in a extra methode
+     * @param maxMatchesInNextTier
+     * @param remainingPlayerList
+     * @return 
+     */
+    private static List<Callable<Player>> matchbuilder(int maxMatchesInNextTier, List<Player> remainingPlayerList) {
+        //build list
+        List<Callable<Player>> callableList = new LinkedList<>();
+
+        //using the Iterator for getting the next player and check if there is even a nextplayer
+        Iterator<Player> playerListIterator = remainingPlayerList.iterator();
+
+        LOG.debug("lets fight");
+        for (int matchcount = 1; matchcount <= maxMatchesInNextTier; matchcount++) {
+
+            //check if there is a next player in the playerlist and 
+            //the loserlist is at it max. On single-elimination the loser is have to be smaller than the half remainingPlayer list.
+            if (playerListIterator.hasNext() && (loserList.size() * 2) < remainingPlayerList.size()) {
+                //getting the 2 player
+                Player p1 = playerListIterator.next();
+                Player p2 = playerListIterator.next();
+
+                //set match 
+                Match match = new Match(matchcount, p1, p2);
+
+                //addin the fight
+                callableList.add(new Fight(matchcount, match));
+
+                //add this matchlog to the matchlist
+                matchListForThisTier.add(match);
+            }
+        }
+
+        return callableList;
     }
 
     /**
