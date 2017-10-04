@@ -115,7 +115,7 @@ public class Main {
                 //adding loser of the fight to the loser List
                 for (Future<Player> p : futureList) {
                     if (p.isCancelled()) {
-                        LOG.info("error task get canceled");
+                        LOG.error("error task get canceled");
                     }
                     loserList.add(p.get());
                     //count the latch down to "wait" for all player get added to list
