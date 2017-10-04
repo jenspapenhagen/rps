@@ -125,9 +125,9 @@ public class Fight implements Callable<Player> {
 
             //playing rounds if the frist fight was a draw
             if (result.equals(Enums.Fightstat.DRAW)) {
-                int maxrounds = this.maxrounds;
+                
                 //rounds
-                for (int rounds = 1; rounds < maxrounds; rounds++) {
+                for (int rounds = 1; rounds < Fight.maxrounds; rounds++) {
                     Enum roundSymbole1 = behv.getBehavor(player1Symbole);
                     Enum roundSymbole2 = behv.getBehavor(player2Symbole);
 

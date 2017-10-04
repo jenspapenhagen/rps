@@ -26,7 +26,7 @@ public final class Ruler {
      * check the bigger range of symbole
      * @param symbole1
      * @param symbole2
-     * @return true symbole1 have lost
+     * @return true symbole1 have lost, false symbole 1 have won
      */
     public boolean comparingBigSymboleRange(Symbole symbole1, Symbole symbole2) {
         return symbole1.loseAgaist(symbole1,symbole2);
