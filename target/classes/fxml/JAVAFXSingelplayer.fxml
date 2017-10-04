@@ -12,11 +12,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.papenhagen.rockpaperscissor.JAVAFXSingelplayerController">
+<AnchorPane id="AnchorPane" maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.papenhagen.rockpaperscissor.JAVAFXSingelplayerController">
     <children>
-        <VBox spacing="5.0">
+        <VBox alignment="TOP_LEFT" spacing="5.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <HBox alignment="TOP_CENTER" spacing="10.0" VBox.vgrow="NEVER">
+                <HBox alignment="TOP_LEFT" spacing="10.0" VBox.vgrow="NEVER">
                     <children>
                         <VBox spacing="5.0" HBox.hgrow="NEVER">
                             <children>
@@ -43,7 +43,7 @@
                                 <Insets left="5.0" />
                             </padding>
                         </VBox>
-                        <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" prefHeight="93.0" prefWidth="91.0" text="VS">
+                        <Label alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="93.0" prefWidth="91.0" text="VS">
                             <font>
                                 <Font name="System Bold" size="50.0" />
                             </font>
@@ -51,9 +51,9 @@
                                 <Insets />
                             </opaqueInsets>
                         </Label>
-                        <VBox layoutX="142.0" layoutY="15.0" prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="NEVER">
+                        <VBox alignment="TOP_LEFT" layoutX="142.0" layoutY="15.0" prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="NEVER">
                             <children>
-                                <HBox prefHeight="50.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                                <HBox alignment="TOP_LEFT" prefHeight="50.0" prefWidth="200.0" VBox.vgrow="NEVER">
                                     <children>
                                         <Label text="Spielername: " />
                                         <Label fx:id="player2Name" text="name2" />
@@ -63,12 +63,10 @@
                                     </opaqueInsets>
                                 </HBox>
                                 <Label text="Spieler: ">
-                                    <VBox.margin>
-                                        <Insets />
-                                    </VBox.margin>
                                 </Label>
                                 <Label fx:id="player2Nr" text="Nr2" />
                                 <ImageView fx:id="player2img" fitHeight="150.0" fitWidth="222.0" pickOnBounds="true" />
+                                <Label text="images by: bardbach.com" />
                             </children>
                             <opaqueInsets>
                                 <Insets bottom="5.0" />

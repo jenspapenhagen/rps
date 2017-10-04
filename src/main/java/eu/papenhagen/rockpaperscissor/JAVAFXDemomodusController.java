@@ -83,8 +83,8 @@ public class JAVAFXDemomodusController implements Initializable {
 
         //generate 2 random numbers
         Random random = new Random();
-        int ID1 = random.nextInt((10 - 1) + 1) + 1;
-        int ID2 = random.nextInt((10 - 1) + 1) + 1;
+        int ID1 = random.nextInt(9) + 1;//onyl show 1-9 NOT 10
+        int ID2 = random.nextInt(10) + 1;
         LOG.debug("Player1ID" + ID1);
         LOG.debug("Player2ID" + ID2);
 
@@ -93,6 +93,7 @@ public class JAVAFXDemomodusController implements Initializable {
             ID2 = ID1 + 1;
             LOG.debug("Change Player ID2 to " + ID2);
         }
+       
 
         //build the two player objects
         Player p1 = new Player(ID1, Enums.Playercondition.PLAYER);

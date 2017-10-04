@@ -25,13 +25,16 @@ public class JAVAFXstartSingelplayerModus extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/JAVAFXSingelplayer.fxml"));
 
         Scene scene = new Scene(root);
-        
+
         //css get added in teh fxml files
         scene.getStylesheets().add(getClass().getResource("/styles/javafxdialog.css").toExternalForm());
 
-        stage.setResizable(false);
+        stage.setResizable(true);
         stage.setTitle("Stein Schere Papier Game");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.jpg")));
+        //keep resize in a dianginal way
+        stage.minWidthProperty().bind(scene.heightProperty().multiply(1.5));
+        stage.minHeightProperty().bind(scene.widthProperty().divide(1.5));
 
         stage.setScene(scene);
         stage.show();
