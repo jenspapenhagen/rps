@@ -63,10 +63,11 @@ public class Main {
                 maxPlayer = maxPlayer + 1;
             }
         }
+        int countOfTiers = maxLevle;
+        
         //change maxplayer back to orgianl size
         maxPlayer = maxMatches * 2;
-        int countOfTiers = maxLevle;
-
+        
         LOG.info("maxplayer for this tournament " + maxPlayer);
         LOG.info("max Match games for the frist round" + maxMatches);
         LOG.info("maxGamesNextTier " + maxMatchesInNextTier);
@@ -89,8 +90,8 @@ public class Main {
             remainingPlayerList.add(p1);
         }
 
-        //give next bigger playernumberback
-        int missingPlayer = nextMatchibleSize(maxPlayer) - remainingPlayerList.size();
+        //give next bigger amount of player
+        int missingPlayer = nextBiggerPlayerCount(maxPlayer) - remainingPlayerList.size();
         //adding FreePlayer to the List in the first round 
         for (int i = 1; i <= missingPlayer; i++) {
             Player p1 = new Player(FreeWinID + i, Enums.Playercondition.FREEWIN);
@@ -100,8 +101,7 @@ public class Main {
         }
         //calc new machcount
         maxMatches = remainingPlayerList.size() / 2;
-        
-        
+
 
         //run the tier
         for (int tierCounter = 0; tierCounter <= countOfTiers - 1; tierCounter++) {
@@ -180,6 +180,19 @@ public class Main {
 
             //reduce the fightcount
             maxMatchesInNextTier = remainingPlayerList.size();
+            
+            //fillup the remainingplayer with Freewin
+            //adding FREEWIN odd size of remainingPlayerList
+            //not in the last round
+            if (maxMatchesInNextTier != 1 && remainingPlayerList.size() % 2 != 0) {
+                Player p1 = new Player(FreeWinID, Enums.Playercondition.FREEWIN);
+                p1.setName("FreeWin");
+                //add to random postion in the remainingPlayerList
+                int ranhdomIndex = new Random().nextInt(remainingPlayerList.size()-1);
+                remainingPlayerList.add(ranhdomIndex,p1);
+                LOG.debug("added Freewin player");
+            }
+            
 
             //adding the matchlist to this tier
             tier.setMatchList(matchListForThisTier);
@@ -277,7 +290,7 @@ public class Main {
     private static void saveToJson(List<Tier> tournament) {
         //build a simle nested list cauz the orgianl json is very nested
         List< List< List<ExportPlayer>>> exportMatchList = new ArrayList<>();
-
+      
         //fill the HashMap
         tournament.forEach((t) -> {
             List<List<ExportPlayer>> list = new ArrayList<>();
@@ -330,26 +343,12 @@ public class Main {
      * @param maxPlayer
      * @return
      */
-    private static int nextMatchibleSize(int maxPlayer) {
-        if (maxPlayer < 8) {
-            return 8;
-        } else if (maxPlayer < 16) {
-            return 16;
-        } else if (maxPlayer < 32) {
-            return 32;
-        } else if (maxPlayer < 64) {
-            return 64;
-        } else if (maxPlayer < 128) {
-            return 128;
-        } else if (maxPlayer < 256) {
-            return 128;
-        } else if (maxPlayer < 512) {
-            return 512;
-        } else if (maxPlayer < 1024) {
-            return 1024;
+    private static int nextBiggerPlayerCount(int maxPlayer) {
+        if (maxPlayer % 2 != 0){
+            return maxPlayer + 1;
         }
-
-        return 2048;
+        
+        return maxPlayer;
     }
 
 }
