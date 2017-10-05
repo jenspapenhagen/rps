@@ -98,6 +98,10 @@ public class Main {
             remainingPlayerList.add(p1);
             LOG.debug("added Freewin player");
         }
+        //calc new machcount
+        maxMatches = remainingPlayerList.size() / 2;
+        
+        
 
         //run the tier
         for (int tierCounter = 0; tierCounter <= countOfTiers - 1; tierCounter++) {
@@ -112,11 +116,12 @@ public class Main {
                 //first round
                 LOG.debug("first round");
                 maxMatchesInNextTier = maxMatches;
+                
                 //shuffle the playerlist
                 long seed = System.nanoTime();
                 Collections.shuffle(remainingPlayerList, new Random(seed));
             } else {
-                //shuffle symbole;
+                //shuffle symbole for eath tier;
                 remainingPlayerList.forEach((p) -> {
                     p.setSymbole(p.getRandomSymbole());
                 });
@@ -197,7 +202,7 @@ public class Main {
         displayTournament(tournament);
 
         //export to JSON
-        //saveToJson(tournament);
+        saveToJson(tournament);
     }
 
     /**
@@ -298,8 +303,8 @@ public class Main {
         String jsonString = gson.toJson(exportMatchList);
         //save to file
         try {
-            //FileWriter fileWriter = new FileWriter("C:\\Users\\jens.papenhagen\\Documents\\NetBeansProjects\\rps\\src\\main\\resources\\resources\\tournament.json");
-            FileWriter fileWriter = new FileWriter(Main.class.getClassLoader().getResource("\resources\tournament.json").toString());
+            FileWriter fileWriter = new FileWriter("C:\\Users\\jens.papenhagen\\Documents\\NetBeansProjects\\rps\\src\\main\\resources\\resources\\tournament.json");
+//            FileWriter fileWriter = new FileWriter(Main.class.getClassLoader().getResource("\resources\tournament.json").toString());
             fileWriter.write(jsonString);
             fileWriter.close();
         } catch (IOException ex) {
