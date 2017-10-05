@@ -17,6 +17,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import org.slf4j.LoggerFactory;
+import com.google.gson.Gson;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
 import lombok.*;
 
 /**
@@ -24,6 +28,7 @@ import lombok.*;
  * @author jens.papenhagen
  */
 public class Main {
+
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Main.class);
 
     @Getter
@@ -34,7 +39,7 @@ public class Main {
     @Getter
     @Setter
     private static List<Player> loserList;
-    
+
     @Getter
     @Setter
     private static List<Match> matchListForThisTier;
@@ -176,6 +181,9 @@ public class Main {
 
         //display in better cli
         displayTournament(tournament);
+
+        //export to JSON
+        saveToJson(tournament);
     }
 
     /**
@@ -239,6 +247,49 @@ public class Main {
             System.out.println("");
             System.out.println(String.join("", Collections.nCopies(200, "-")));
         }
+    }
+
+    private static void saveToJson(List<Tier> tournament) {
+        //build a simle HashMap
+        List<List<ExportPlayer>> exportMatchList = new ArrayList<>();
+
+        //fill the HashMap
+        tournament.forEach((t) -> {
+            //newlist for Player
+            List<ExportPlayer> exportPlayerList = new ArrayList<>();
+            t.getMatchList().forEach((m) -> {
+                //convert player
+                ExportPlayer exp1 = createExportplayerOutOfPlayer(m.getPlayer1());
+                ExportPlayer exp2 = createExportplayerOutOfPlayer(m.getPlayer2());
+                //add to exportPlayer list
+                exportPlayerList.add(exp1);
+                exportPlayerList.add(exp2);
+            });
+            exportMatchList.add(exportPlayerList);
+        });
+
+        //Convert object to JSON string
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(exportMatchList);
+        try {
+            
+            FileWriter fileWriter = new FileWriter("C:\\Users\\jens.papenhagen\\Documents\\NetBeansProjects\\rps\\src\\main\\resources\\resources\\tournament.json");
+            fileWriter.write(jsonString);
+            fileWriter.close();
+        } catch (IOException ex) {
+            LOG.error(ex.getMessage());
+        }
+
+    }
+
+    private static ExportPlayer createExportplayerOutOfPlayer(Player p) {
+        ExportPlayer exp = new ExportPlayer();
+        exp.setId(p);
+        exp.setName(p);
+        exp.setSeed(p);
+
+        return exp;
+
     }
 
 }
