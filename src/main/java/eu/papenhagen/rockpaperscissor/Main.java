@@ -45,7 +45,7 @@ public class Main {
 
     public static void main(String[] args) {
         //config area for this tournament
-        int maxPlayer = 100;
+        int maxPlayer = 128;
         int maxMatches = maxPlayer / 2;
         int maxMatchesInNextTier = 0;
         int countOfTiers = (int) Math.sqrt(maxMatches);
@@ -76,7 +76,7 @@ public class Main {
         }
 
         //run the tier
-        for (int tierCounter = 1; tierCounter <= countOfTiers; tierCounter++) {
+        for (int tierCounter = 0; tierCounter < countOfTiers - 1; tierCounter++) {
 
             //building the tier
             Tier tier = new Tier(tierCounter);
@@ -84,7 +84,7 @@ public class Main {
             //giveback the count of max games for this tier
             maxMatchesInNextTier = getMaxFightsInTier(maxMatchesInNextTier);
 
-            if (tierCounter == 1) {
+            if (tierCounter == 0) {
                 //first round
                 LOG.debug("first round");
                 maxMatchesInNextTier = maxMatches;
@@ -183,7 +183,7 @@ public class Main {
         displayTournament(tournament);
 
         //export to JSON
-        //saveToJson(tournament);
+        saveToJson(tournament);
     }
 
     /**
@@ -230,7 +230,7 @@ public class Main {
             spaces.delete((i * 10) + 30, maxl);
 
             //output the number of the tier
-            System.out.printf("%s\t%s", tournament.get(i).getTierId(), spaces.toString());
+            System.out.printf("%s\t%s", tournament.get(i).getTierId()+1, spaces.toString());
 
             //setting the winner on the top
             for (int j = 0; j < tournament.get(i).getMatchList().size(); j++) {
@@ -240,7 +240,7 @@ public class Main {
             //line break
             System.out.println("");
             //adding all "ID vs ID " to gether and plot it
-            System.out.printf("%s\t%s", tournament.get(i).getTierId(), spaces.toString());
+            System.out.printf("%s\t%s", tournament.get(i).getTierId()+1, spaces.toString());
             for (int j = 0; j < tournament.get(i).getMatchList().size(); j++) {
                 System.out.printf("%s\t", String.format(" %s vs. %s", tournament.get(i).getMatchList().get(j).getPlayer1().getID(), tournament.get(i).getMatchList().get(j).getPlayer2().getID()));
             }
@@ -284,6 +284,7 @@ public class Main {
         String jsonString = gson.toJson(exportMatchList);
         //save to file
         try {
+            //FileWriter fileWriter = new FileWriter("C:\\Users\\jens.papenhagen\\Documents\\NetBeansProjects\\rps\\src\\main\\resources\\resources\\tournament.json");
             FileWriter fileWriter = new FileWriter( Main.class.getClassLoader().getResource("\resources\tournament.json").toString() );
             fileWriter.write(jsonString);
             fileWriter.close();
