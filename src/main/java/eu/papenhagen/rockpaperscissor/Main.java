@@ -157,6 +157,7 @@ public class Main {
             //not in the last round
             if (maxMatchesInNextTier != 1 && remainingPlayerList.size() % 2 != 0) {
                 Player p1 = new Player(FreeWinID, Enums.Playercondition.FREEWIN);
+                p1.setName("FreeWin");
                 remainingPlayerList.add(p1);
                 LOG.debug("added Freewin player");
             }
@@ -182,7 +183,7 @@ public class Main {
         displayTournament(tournament);
 
         //export to JSON
-        saveToJson(tournament);
+        //saveToJson(tournament);
     }
 
     /**
@@ -211,11 +212,13 @@ public class Main {
 
     /**
      * Try to build a tournament grid in console. using a List of Tier Objects
-     * for this
+     * for this.
+     * Winner on the top and than to the button
      *
      * @param tournament
      */
     private static void displayTournament(List<Tier> tournament) {
+        //go from last to frist Tier
         for (int i = tournament.size() - 1; i >= 0; i--) {
 
             //build a emptry string witgh 100 spaces
@@ -248,6 +251,10 @@ public class Main {
         }
     }
 
+    /**
+     * Save the tournament to a JSON file for the output in webview
+     * @param tournament 
+     */
     private static void saveToJson(List<Tier> tournament) {
         //build a simle nested list cauz the orgianl json is very nested
         List< List < List<ExportPlayer> > > exportMatchList = new ArrayList<>();
@@ -275,8 +282,8 @@ public class Main {
         //Convert object to JSON string
         Gson gson = new Gson();
         String jsonString = gson.toJson(exportMatchList);
+        //save to file
         try {
-
             FileWriter fileWriter = new FileWriter( Main.class.getClassLoader().getResource("\resources\tournament.json").toString() );
             fileWriter.write(jsonString);
             fileWriter.close();
@@ -286,7 +293,9 @@ public class Main {
 
     }
 
+    
     private static ExportPlayer createExportplayerOutOfPlayer(Player p) {
+        //sonvert the Player to a much simpler Object
         ExportPlayer exp = new ExportPlayer();
         exp.setId(p);
         exp.setName(p);
