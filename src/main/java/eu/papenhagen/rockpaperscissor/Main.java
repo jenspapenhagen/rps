@@ -47,7 +47,7 @@ public class Main {
 
     public static void main(String[] args) {
         //config area for this tournament
-        int maxPlayer = 128;
+        int maxPlayer = 100;
         int maxMatches = maxPlayer / 2;
         int maxMatchesInNextTier = 0;
         FreeWinID = maxPlayer + 3;
