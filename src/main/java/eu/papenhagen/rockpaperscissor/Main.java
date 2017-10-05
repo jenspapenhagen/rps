@@ -47,6 +47,7 @@ public class Main {
 
     public static void main(String[] args) {
         //config area for this tournament
+        //there are 8/16/32/64/128 tournaments please select a number near this
         int maxPlayer = 100;
         int maxMatches = maxPlayer / 2;
         int maxMatchesInNextTier = 0;
@@ -344,11 +345,30 @@ public class Main {
      * @return
      */
     private static int nextBiggerPlayerCount(int maxPlayer) {
+        int  outout = 0;
         if (maxPlayer % 2 != 0){
-            return maxPlayer + 1;
+             outout = maxPlayer + 1;
         }
+       
         
-        return maxPlayer;
+        if (maxPlayer < 8) {
+             outout = 8;
+         } else if (maxPlayer < 16) {
+             outout = 16;
+         } else if (maxPlayer < 32) {
+             outout = 32;
+         } else if (maxPlayer < 64) {
+             outout = 64;
+         }else if (maxPlayer < 128) {
+             outout = 128;
+         }
+        
+        //max limeted on added freewin player
+        if(outout - maxPlayer >= 6 ){
+            outout = maxPlayer + 6;
+        }
+
+        return outout;
     }
 
 }
