@@ -45,7 +45,15 @@ public class MatchBuilder {
             if (playerListIterator.hasNext() && (Main.getLoserList().size() * 2) < remainingPlayerList.size()) {
                 //getting the 2 player
                 Player p1 = playerListIterator.next();
-                Player p2 = playerListIterator.next();
+                //agains the java.util.NoSuchElementException adding a FreeWIn player
+                Player p2 = null;
+                if(playerListIterator.hasNext()){
+                   p2 = playerListIterator.next();
+                }else{
+                    p2 = new Player(Main.getFreeWinID(), Enums.Playercondition.FREEWIN);
+                    p2.setName("FreeWin");
+                }
+                
 
                 //set match 
                 Match match = new Match(matchcount, p1, p2);
