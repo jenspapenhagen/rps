@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
 import lombok.*;
 
 /**
