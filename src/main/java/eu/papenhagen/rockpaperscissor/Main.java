@@ -250,30 +250,35 @@ public class Main {
     }
 
     private static void saveToJson(List<Tier> tournament) {
-        //build a simle HashMap
-        List<List<ExportPlayer>> exportMatchList = new ArrayList<>();
+        //build a simle nested list cauz the orgianl json is very nested
+        List< List < List<ExportPlayer> > > exportMatchList = new ArrayList<>();
 
         //fill the HashMap
         tournament.forEach((t) -> {
-            //newlist for Player
-            List<ExportPlayer> exportPlayerList = new ArrayList<>();
+            List<List<ExportPlayer>> list = new ArrayList<>();
             t.getMatchList().forEach((m) -> {
+                //newlist for Player
+                List<ExportPlayer> exportPlayerList = new ArrayList<>();
                 //convert player
                 ExportPlayer exp1 = createExportplayerOutOfPlayer(m.getPlayer1());
                 ExportPlayer exp2 = createExportplayerOutOfPlayer(m.getPlayer2());
                 //add to exportPlayer list
                 exportPlayerList.add(exp1);
                 exportPlayerList.add(exp2);
+                
+                //nest it again
+                list.add(exportPlayerList);
             });
-            exportMatchList.add(exportPlayerList);
+            //next nested lvl
+            exportMatchList.add(list);
         });
 
         //Convert object to JSON string
         Gson gson = new Gson();
         String jsonString = gson.toJson(exportMatchList);
         try {
-            
-            FileWriter fileWriter = new FileWriter("C:\\Users\\jens.papenhagen\\Documents\\NetBeansProjects\\rps\\src\\main\\resources\\resources\\tournament.json");
+
+            FileWriter fileWriter = new FileWriter( Main.class.getClassLoader().getResource("\resources\tournament.json").toString() );
             fileWriter.write(jsonString);
             fileWriter.close();
         } catch (IOException ex) {
