@@ -20,7 +20,7 @@ public class Fight implements Callable<Player> {
     private final Player player1;
     private final Player player2;
     private final boolean calm = Main.isCalm();
-    private static int maxrounds = 5;
+    private static final int maxrounds = 5;
 
     public Fight(int matchID, Match m) {
 
