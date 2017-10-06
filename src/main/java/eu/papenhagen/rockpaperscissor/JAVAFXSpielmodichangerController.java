@@ -39,19 +39,29 @@ public class JAVAFXSpielmodichangerController implements Initializable {
     private void handelDemoButtonClick(ActionEvent event) {
         try {
             demoButton.setDisable(true);
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/JAVAFXDemomodus.fxml"));
-            Parent root1 = (Parent) fxmlLoader.load();
+            FXMLLoader fxmlLoader = FXMLLoader.load(getClass().getResource("/fxml/JAVAFXDemomodus.fxml"));
+            Parent root = (Parent) fxmlLoader.load();
             LOG.debug("DemoButton get pressed");
-
+            
+            //builde stage
             Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.DECORATED);
-            stage.setResizable(false);
-            stage.setTitle("Stein Schere Papier Demo Modus");
-            stage.getIcons().add(new Image(getClass().getResourceAsStream("/resoures/icon.jpg")));
+            //build scene
+            Scene scene = new Scene(root);
 
-            stage.setScene(new Scene(root1));
+            //css get added in teh fxml files
+            scene.getStylesheets().add(getClass().getResource("/styles/javafxdialog.css").toExternalForm());
+
+            stage.setResizable(true);
+            stage.setTitle("Stein Schere Papier Game");
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.jpg")));
+
+            //keep resize in a dianginal way
+            stage.minWidthProperty().bind(scene.heightProperty().multiply(1.5));
+            stage.minHeightProperty().bind(scene.widthProperty().divide(1.5));
+
+            stage.setScene(scene);
             stage.show();
+
             demoButton.setDisable(false);
         } catch (IOException ex) {
             LOG.error(ex.getMessage());
