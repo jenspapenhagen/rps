@@ -45,12 +45,28 @@ public class Main {
     @Setter
     private static List<Match> matchListForThisTier;
 
+    @Getter
+    @Setter
+    private static int maxPlayer;
+
+    @Getter
+    @Setter
+    private static int maxMatches;
+
+    @Getter
+    @Setter
+    private static int maxMatchesInNextTier;
+
+    @Getter
+    @Setter
+    private static int countOfTiers;
+
     public static void main(String[] args) {
         //config area for this tournament
         //there are 8/16/32/64/128 tournaments please select a number near this
-        int maxPlayer = 100;
-        int maxMatches = maxPlayer / 2;
-        int maxMatchesInNextTier = 0;
+        maxPlayer = 100;
+        maxMatches = maxPlayer / 2;
+        maxMatchesInNextTier = 0;
         FreeWinID = maxPlayer + 3;
         calm = true;
         bestOf = 5;
@@ -64,11 +80,11 @@ public class Main {
                 maxPlayer = maxPlayer + 1;
             }
         }
-        int countOfTiers = maxLevle;
-        
+        countOfTiers = maxLevle;
+
         //change maxplayer back to orgianl size
         maxPlayer = maxMatches * 2;
-        
+
         LOG.info("maxplayer for this tournament " + maxPlayer);
         LOG.info("max Match games for the frist round" + maxMatches);
         LOG.info("maxGamesNextTier " + maxMatchesInNextTier);
@@ -93,6 +109,7 @@ public class Main {
 
         //give next bigger amount of player
         int missingPlayer = nextBiggerPlayerCount(maxPlayer) - remainingPlayerList.size();
+
         //adding FreePlayer to the List in the first round 
         for (int i = 1; i <= missingPlayer; i++) {
             Player p1 = new Player(FreeWinID + i, Enums.Playercondition.FREEWIN);
@@ -100,10 +117,25 @@ public class Main {
             remainingPlayerList.add(p1);
             LOG.debug("added Freewin player");
         }
-        //calc new machcount
+        
+        //calc new matchcount
         maxMatches = remainingPlayerList.size() / 2;
+        
+        //run Tiers
+        tournament = runTiers(tournamentexecutor, remainingPlayerList, tournament);
+        
 
+        //try to politly shutdown the executer
+        tournamentexecutor.shutdown();
 
+        //display in better cli
+        displayTournament(tournament);
+
+        //export to JSON
+        //saveToJson(tournament);
+    }
+
+    private static List<Tier> runTiers(ExecutorService es, List<Player> remainingPlayerList, List<Tier> tournament) {
         //run the tier
         for (int tierCounter = 0; tierCounter <= countOfTiers - 1; tierCounter++) {
 
@@ -114,10 +146,9 @@ public class Main {
             maxMatchesInNextTier = getMaxFightsInTier(maxMatchesInNextTier);
 
             if (tierCounter == 0) {
-                //first round
                 LOG.debug("first round");
                 maxMatchesInNextTier = maxMatches;
-                
+
                 //shuffle the playerlist
                 long seed = System.nanoTime();
                 Collections.shuffle(remainingPlayerList, new Random(seed));
@@ -145,7 +176,7 @@ public class Main {
 
                 //submit Callable tasks to be executed by thread pool
                 //CompletableFuture
-                List<Future<Player>> futureList = tournamentexecutor.invokeAll(callableList);
+                List<Future<Player>> futureList = es.invokeAll(callableList);
                 //adding loser of the fight to the loser List
                 for (Future<Player> p : futureList) {
                     if (p.isCancelled()) {
@@ -181,7 +212,7 @@ public class Main {
 
             //reduce the fightcount
             maxMatchesInNextTier = remainingPlayerList.size();
-            
+
             //fillup the remainingplayer with Freewin
             //adding FREEWIN odd size of remainingPlayerList
             //not in the last round
@@ -189,11 +220,10 @@ public class Main {
                 Player p1 = new Player(FreeWinID, Enums.Playercondition.FREEWIN);
                 p1.setName("FreeWin");
                 //add to random postion in the remainingPlayerList
-                int ranhdomIndex = new Random().nextInt(remainingPlayerList.size()-1);
-                remainingPlayerList.add(ranhdomIndex,p1);
+                int ranhdomIndex = new Random().nextInt(remainingPlayerList.size() - 1);
+                remainingPlayerList.add(ranhdomIndex, p1);
                 LOG.debug("added Freewin player");
             }
-            
 
             //adding the matchlist to this tier
             tier.setMatchList(matchListForThisTier);
@@ -209,14 +239,9 @@ public class Main {
                 System.out.println("\n" + String.join("", Collections.nCopies(100, "-")) + "\n");
             }
         }
-        //try to politly shutdown the executer
-        tournamentexecutor.shutdown();
+        
+        return tournament;
 
-        //display in better cli
-        displayTournament(tournament);
-
-        //export to JSON
-        saveToJson(tournament);
     }
 
     /**
@@ -291,7 +316,7 @@ public class Main {
     private static void saveToJson(List<Tier> tournament) {
         //build a simle nested list cauz the orgianl json is very nested
         List< List< List<ExportPlayer>>> exportMatchList = new ArrayList<>();
-      
+
         //fill the HashMap
         tournament.forEach((t) -> {
             List<List<ExportPlayer>> list = new ArrayList<>();
@@ -317,8 +342,8 @@ public class Main {
         String jsonString = gson.toJson(exportMatchList);
         //save to file
         try {
-            FileWriter fileWriter = new FileWriter("C:\\Users\\jens.papenhagen\\Documents\\NetBeansProjects\\rps\\src\\main\\resources\\resources\\tournament.json");
-//            FileWriter fileWriter = new FileWriter(Main.class.getClassLoader().getResource("\resources\tournament.json").toString());
+//            FileWriter fileWriter = new FileWriter("C:\\Users\\jens.papenhagen\\Documents\\NetBeansProjects\\rps\\src\\main\\resources\\resources\\tournament.json");
+            FileWriter fileWriter = new FileWriter(Main.class.getClassLoader().getResource("\resources\tournament.json").toString());
             fileWriter.write(jsonString);
             fileWriter.close();
         } catch (IOException ex) {
@@ -345,26 +370,25 @@ public class Main {
      * @return
      */
     private static int nextBiggerPlayerCount(int maxPlayer) {
-        int  outout = 0;
-        if (maxPlayer % 2 != 0){
-             outout = maxPlayer + 1;
+        int outout = 0;
+        if (maxPlayer % 2 != 0) {
+            outout = maxPlayer + 1;
         }
-       
-        
+
         if (maxPlayer < 8) {
-             outout = 8;
-         } else if (maxPlayer < 16) {
-             outout = 16;
-         } else if (maxPlayer < 32) {
-             outout = 32;
-         } else if (maxPlayer < 64) {
-             outout = 64;
-         }else if (maxPlayer < 128) {
-             outout = 128;
-         }
-        
+            outout = 8;
+        } else if (maxPlayer < 16) {
+            outout = 16;
+        } else if (maxPlayer < 32) {
+            outout = 32;
+        } else if (maxPlayer < 64) {
+            outout = 64;
+        } else if (maxPlayer < 128) {
+            outout = 128;
+        }
+
         //max limeted on added freewin player
-        if(outout - maxPlayer >= 6 ){
+        if (outout - maxPlayer >= 6) {
             outout = maxPlayer + 6;
         }
 
