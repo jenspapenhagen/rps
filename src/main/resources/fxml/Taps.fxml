@@ -17,14 +17,14 @@
     <children>
         <TabPane fx:id="tabPane" layoutY="154.0" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <tabs>
-                <Tab closable="false" text="Demo Modus" fx:id="JAVAFXDemomodusTap">
+                <Tab closable="false" text="Demo Modus" fx:id="DemomodusTap">
                     <content>
-                       <fx:include fx:id="JAVAFXDemomodus" source="JAVAFXDemomodus.fxml"/>
+                       <fx:include fx:id="Demomodus" source="Demomodus.fxml"/>
                     </content>
                 </Tab>
-                <Tab closable="false" text="Singel Player Modus" fx:id="JAVAFXSingelplayerTap">
+                <Tab closable="false" text="Singel Player Modus" fx:id="SingelplayerTap">
                     <content>
-                        <fx:include fx:id="JAVAFXSingelplayer" source="JAVAFXSingelplayer.fxml"/>
+                        <fx:include fx:id="Singelplayer" source="Singelplayer.fxml"/>
                     </content>
                 </Tab>
                 <Tab closable="false" text="1vs1 Modus" fx:id="1vs1">

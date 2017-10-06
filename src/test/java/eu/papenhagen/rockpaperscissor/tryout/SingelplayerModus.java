@@ -33,7 +33,7 @@ public class SingelplayerModus {
 
             Parent root;
             try {
-                root = FXMLLoader.load(getClass().getResource("/fxml/JAVAFXSingelplayer.fxml"));
+                root = FXMLLoader.load(getClass().getResource("/fxml/Singelplayer.fxml"));
 
                 Scene scene = new Scene(root);
 

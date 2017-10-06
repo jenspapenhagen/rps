@@ -33,7 +33,7 @@ public class DemoModus {
 
             Parent root;
             try {
-                root = FXMLLoader.load(getClass().getResource("/fxml/JAVAFXDemomodus.fxml"));
+                root = FXMLLoader.load(getClass().getResource("/fxml/Demomodus.fxml"));
 
                 Scene scene = new Scene(root);
 

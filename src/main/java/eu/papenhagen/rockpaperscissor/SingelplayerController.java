@@ -28,9 +28,9 @@ import org.slf4j.LoggerFactory;
  *
  * @author jens.papenhagen
  */
-public class JAVAFXSingelplayerController implements Initializable {
+public class SingelplayerController implements Initializable {
 
-    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(JAVAFXDemomodusController.class);
+    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(DemomodusController.class);
 
     @FXML
     private ListView backlog;
