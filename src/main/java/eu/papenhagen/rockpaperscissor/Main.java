@@ -18,8 +18,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import lombok.*;
 
 /**
@@ -117,13 +120,12 @@ public class Main {
             remainingPlayerList.add(p1);
             LOG.debug("added Freewin player");
         }
-        
+
         //calc new matchcount
         maxMatches = remainingPlayerList.size() / 2;
-        
+
         //run Tiers
         tournament = runTiers(tournamentexecutor, remainingPlayerList, tournament);
-        
 
         //try to politly shutdown the executer
         tournamentexecutor.shutdown();
@@ -239,7 +241,7 @@ public class Main {
                 System.out.println("\n" + String.join("", Collections.nCopies(100, "-")) + "\n");
             }
         }
-        
+
         return tournament;
 
     }
@@ -340,12 +342,15 @@ public class Main {
         //Convert object to JSON string
         Gson gson = new Gson();
         String jsonString = gson.toJson(exportMatchList);
-        //save to file
+        
+        //save to file as OutputStream
         try {
-//            FileWriter fileWriter = new FileWriter("C:\\Users\\jens.papenhagen\\Documents\\NetBeansProjects\\rps\\src\\main\\resources\\resources\\tournament.json");
-            FileWriter fileWriter = new FileWriter(Main.class.getClassLoader().getResource("\resources\tournament.json").toString());
-            fileWriter.write(jsonString);
-            fileWriter.close();
+            File file = new File(Main.class.getClassLoader().getResource("\resources\tournament.json").toString());
+            file.createNewFile();
+            FileOutputStream fOut = new FileOutputStream(file);
+            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
+            myOutWriter.append(jsonString);
+            myOutWriter.close();
         } catch (IOException ex) {
             LOG.error(ex.getMessage());
         }
