@@ -133,7 +133,7 @@ public class Main {
         displayTournament(tournament);
 
         //export to JSON
-        //saveToJson(tournament);
+        saveToJson(tournament);
     }
 
     private static List<Tier> runTiers(ExecutorService es, List<Player> remainingPlayerList, List<Tier> tournament) {
@@ -341,17 +341,23 @@ public class Main {
         //Convert object to JSON string
         Gson gson = new Gson();
         String jsonString = gson.toJson(exportMatchList);
-        
+
+        //safe to Extern file
+        String fileName = "C:\\EAI\\tournament.json";
+        File file = new File(fileName);
         //save to file as OutputStream
         try {
-            File file = new File(Main.class.getClassLoader().getResource("\resources\tournament.json").toString());
             file.createNewFile();
-            FileOutputStream fOut = new FileOutputStream(file);
-            try (OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut)) {
-                myOutWriter.append(jsonString);
-            }
-        } catch (IOException ex) {
-            LOG.error(ex.getMessage());
+            FileOutputStream fos = new FileOutputStream(file);
+            LOG.info("Tournament file: " + fileName + " created");
+
+            fos.write(jsonString.getBytes());
+
+            //move all to file befor close it
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
