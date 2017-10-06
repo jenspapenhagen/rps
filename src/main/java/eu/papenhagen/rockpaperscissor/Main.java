@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import lombok.*;
@@ -326,8 +325,8 @@ public class Main {
                 //newlist for Player
                 List<ExportPlayer> exportPlayerList = new ArrayList<>();
                 //convert player
-                ExportPlayer exp1 = createExportplayerOutOfPlayer(m.getPlayer1());
-                ExportPlayer exp2 = createExportplayerOutOfPlayer(m.getPlayer2());
+                ExportPlayer exp1 = createExportPlayerOutOfPlayer(m.getPlayer1());
+                ExportPlayer exp2 = createExportPlayerOutOfPlayer(m.getPlayer2());
                 //add to exportPlayer list
                 exportPlayerList.add(exp1);
                 exportPlayerList.add(exp2);
@@ -348,16 +347,16 @@ public class Main {
             File file = new File(Main.class.getClassLoader().getResource("\resources\tournament.json").toString());
             file.createNewFile();
             FileOutputStream fOut = new FileOutputStream(file);
-            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-            myOutWriter.append(jsonString);
-            myOutWriter.close();
+            try (OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut)) {
+                myOutWriter.append(jsonString);
+            }
         } catch (IOException ex) {
             LOG.error(ex.getMessage());
         }
 
     }
 
-    private static ExportPlayer createExportplayerOutOfPlayer(Player p) {
+    private static ExportPlayer createExportPlayerOutOfPlayer(Player p) {
         //sonvert the Player to a much simpler Object
         ExportPlayer exp = new ExportPlayer();
         exp.setId(p);
@@ -376,10 +375,12 @@ public class Main {
      */
     private static int nextBiggerPlayerCount(int maxPlayer) {
         int outout = 0;
+        //never start with an odd player count
         if (maxPlayer % 2 != 0) {
             outout = maxPlayer + 1;
         }
 
+        //round up to next biger tournament
         if (maxPlayer < 8) {
             outout = 8;
         } else if (maxPlayer < 16) {

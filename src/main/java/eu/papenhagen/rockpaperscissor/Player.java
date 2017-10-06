@@ -70,6 +70,7 @@ public final class Player {
 
         //get a random line
         int randomline = new Random().nextInt(Namelist.size());
+
         output = Namelist.get(randomline);
 
         return output;
