@@ -12,8 +12,15 @@ import eu.papenhagen.rockpaperscissor.Enums.Symbole;
  * @author jens.papenhagen
  */
 public final class Ruler {
+    
+    private static Ruler instance;
 
     public Ruler() {
+        instance = this;
+    }
+    
+    public static Ruler getInstance(){
+        return instance;
     }
 
     public Ruler(Enum symbole1, Enum symbole2) {

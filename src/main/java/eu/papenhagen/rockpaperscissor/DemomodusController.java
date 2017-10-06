@@ -78,9 +78,6 @@ public class DemomodusController implements Initializable {
      * starting the fight
      */
     private void fight() {
-        //get the ruler to determinate the winner or loser
-        Ruler ruler = new Ruler();
-
         //generate 2 random numbers
         Random random = new Random();
         int ID1 = random.nextInt(9) + 1;//onyl show 1-9 NOT 10
@@ -111,7 +108,7 @@ public class DemomodusController implements Initializable {
 
         //fight
         Enum resultFromfight = null;
-        if (ruler.comparingBigSymboleRange((Enums.Symbole) p1.getSymbole(), (Enums.Symbole) p2.getSymbole())) {
+        if (Ruler.getInstance().comparingBigSymboleRange((Enums.Symbole) p1.getSymbole(), (Enums.Symbole) p2.getSymbole())) {
             resultFromfight = Enums.Fightstat.LOST;
         } else if (p1.getSymbole().equals(p2.getSymbole())) {
             resultFromfight = Enums.Fightstat.DRAW;
@@ -154,9 +151,9 @@ public class DemomodusController implements Initializable {
      */
     private Enum figthinground(Player p1, Player p2) {
         Enum fightresult = null;
-        //get the ruler to determinate the winner or loser
-        Ruler ruler = new Ruler();
+        //get the ruler to determinate the winner or loser as instance of Ruler
 
+        
         //get new behavor for next round
         Behavor behv = new Behavor();
 
@@ -182,7 +179,7 @@ public class DemomodusController implements Initializable {
             changePlayerUI(p2, 2);
 
             //fight
-            fightresult = ruler.comparingSymboles(player1symbole, player2symbole);
+            fightresult = Ruler.getInstance().comparingSymboles(player1symbole, player2symbole);
 
             //fill the Protocol
             addToProtocol("Runden " + rounds + " Ergebnis: " + fightresult);

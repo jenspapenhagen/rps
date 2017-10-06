@@ -59,13 +59,13 @@ public class Fight implements Callable<Player> {
 
     private Enum complainingPlayerSymboles(Enum player1Symbole, Enum player2Symbole) {
         //adding a rulter to check the result
-        Ruler ruler = new Ruler();
-
+        Ruler.getInstance();
+        
         Enum result = null;
         //comparing the two symboles from the players
         if (player1Symbole.equals(player2Symbole)) {
             return result = Enums.Fightstat.DRAW;
-        } else if (ruler.comparingBigSymboleRange((Enums.Symbole) player1Symbole, (Enums.Symbole) player2Symbole)) {
+        } else if (Ruler.getInstance().comparingBigSymboleRange((Enums.Symbole) player1Symbole, (Enums.Symbole) player2Symbole)) {
             result = Enums.Fightstat.LOST;
         } else {
             result = Enums.Fightstat.WON;

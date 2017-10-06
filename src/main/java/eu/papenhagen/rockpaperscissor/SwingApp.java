@@ -299,7 +299,6 @@ public final class SwingApp extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     public void fight(int ID1, int ID2) {
-        Ruler ruler = new Ruler();
         getCleanProtocol(); //clean the protocol
 
         try {
@@ -310,7 +309,7 @@ public final class SwingApp extends javax.swing.JDialog {
             changeRoundCounter(0 + "");
 
             //fight
-            Enum result = ruler.comparingSymboles(symbole1, symbole2);
+            Enum result = Ruler.getInstance().comparingSymboles(symbole1, symbole2);
             addToProtocol("Ausgabe normal Fight: " + result);
             //fight again if the fight was a draw
             if (result.equals(Enums.Fightstat.DRAW)) {
@@ -332,7 +331,6 @@ public final class SwingApp extends javax.swing.JDialog {
 
     public Enum runde(int ID1, int ID2, Enum lastPlayer1Symbole, Enum lastPlayer2Symbole)  {
         Enum result = null;
-        Ruler ruler = new Ruler();
         Behavor behv = new Behavor();
 
         int maxrounds = 5;
@@ -340,7 +338,7 @@ public final class SwingApp extends javax.swing.JDialog {
             changeRoundCounter("" + rounds);
 
             //fight
-            result = ruler.comparingSymboles(behv.getBehavor(lastPlayer1Symbole),
+            result = Ruler.getInstance().comparingSymboles(behv.getBehavor(lastPlayer1Symbole),
                     behv.getBehavor(lastPlayer2Symbole));
 
             addToProtocol("Runden "+ rounds +" Ergebnis: " + result);

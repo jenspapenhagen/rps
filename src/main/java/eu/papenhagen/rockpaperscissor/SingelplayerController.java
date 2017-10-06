@@ -132,9 +132,6 @@ public class SingelplayerController implements Initializable {
         Player p1 = new Player(Player1ID, Enums.Playercondition.PLAYER);
         Player p2 = new Player(Player2ID, Enums.Playercondition.PLAYER);
 
-        //get the ruler to determinate the winner or loser
-        Ruler ruler = new Ruler();
-
         //get new behavor for next round
         Behavor behv = new Behavor();
 
@@ -168,7 +165,7 @@ public class SingelplayerController implements Initializable {
 
         //fight
         Enum figtresult = null;
-        if (ruler.comparingBigSymboleRange((Enums.Symbole) infightSymbole1, (Enums.Symbole) infightSymbole2)) {
+        if (Ruler.getInstance().comparingBigSymboleRange((Enums.Symbole) infightSymbole1, (Enums.Symbole) infightSymbole2)) {
             //player 1 have lost
             figtresult = Enums.Fightstat.LOST;
         } else if (infightSymbole1.equals(infightSymbole2)) {
