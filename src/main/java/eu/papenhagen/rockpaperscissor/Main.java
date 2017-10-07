@@ -355,8 +355,8 @@ public class Main {
             //move all to file befor close it
             fos.flush();
             fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            LOG.error(ex.getMessage());
         }
 
     }
