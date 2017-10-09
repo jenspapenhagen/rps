@@ -50,18 +50,12 @@ public class DemomodusController implements Initializable {
     @FXML
     private Label removeID;
 
-    private int maxrounds = 5;
+    private final int maxrounds = 5;
 
-    private UtilityMethodes funk = new UtilityMethodes();
+    private final UtilityMethodes funk = new UtilityMethodes();
 
     ObservableList<String> data = FXCollections.observableArrayList();
 
-    /**
-     * Initializes the controller class.
-     *
-     * @param url
-     * @param rb
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         LOG.debug("staring the fight");

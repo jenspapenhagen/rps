@@ -29,9 +29,6 @@ public final class SwingApp extends javax.swing.JDialog {
     //icon
     Image img = new ImageIcon(SwingApp.class.getResource("/images/icon.jpg")).getImage();
 
-    /**
-     * Creates new form SwingDialog
-     */
     public SwingApp(java.awt.Frame parent, boolean modal) throws IOException {
         super(parent, modal);
         this.protocolModel = new DefaultListModel();

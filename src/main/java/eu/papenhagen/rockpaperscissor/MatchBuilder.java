@@ -27,9 +27,10 @@ public class MatchBuilder {
     /**
      * build the matches in a extra methode
      *
-     * @param maxMatchesInNextTier
-     * @param remainingPlayerList
-     * @return
+     * @param maxMatchesInNextTier an int for the maxiaml amout of machtes in this tier
+     * @param remainingPlayerList a list of player
+     * @param matchListForThisTier a list of matches for logging pr.
+     * @return a returnobject a list of callables and a list of matches
      */
     public ReturnObject build(int maxMatchesInNextTier, List<Player> remainingPlayerList, List<Match> matchListForThisTier) {
         //build list

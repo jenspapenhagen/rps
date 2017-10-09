@@ -45,26 +45,25 @@ public class Behavor {
     /**
      * get a random behavor
      *
-     * @param lastRoundSymbol1
-     * @param lastRoundSymbol2
-     * @return
+     * @param Symbole Enum form typ Symbole
+     * @return get random Enum back
      */
-    public Enum getBehavor(Enum lastRoundSymbol1) {
+    public Enum getBehavor(Enum Symbole) {
         int indexer = new Random().nextInt(3);
         Enum output;
 
         switch (indexer) {
             case 1:
-                output = Behavor1(lastRoundSymbol1);
+                output = Behavor1(Symbole);
                 break;
             case 2:
-                output = OppositeOfLastRound(lastRoundSymbol1);
+                output = OppositeOfLastRound(Symbole);
                 break;
             case 3:
-                output = SameOfLastRound(lastRoundSymbol1);
+                output = SameOfLastRound(Symbole);
                 break;
             default:
-                output = Behavor1(lastRoundSymbol1);
+                output = Behavor1(Symbole);
 
         }
 

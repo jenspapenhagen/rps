@@ -41,8 +41,8 @@ public class Fight implements Callable<Player> {
     /**
      * checking the condition of to player object
      *
-     * @param p1
-     * @param p2
+     * @param p1 player 1
+     * @param p2 player 2
      * @return the the non player als instant loser
      */
     public Player comparingPlayerCondition(Player p1, Player p2) {
@@ -77,7 +77,7 @@ public class Fight implements Callable<Player> {
     /**
      * the fight of the 2 player
      *
-     * @return
+     * @return the lost player
      */
     @Override
     public Player call() {

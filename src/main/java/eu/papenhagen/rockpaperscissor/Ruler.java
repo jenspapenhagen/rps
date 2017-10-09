@@ -31,8 +31,8 @@ public final class Ruler {
     
     /**
      * check the bigger range of symbole
-     * @param symbole1
-     * @param symbole2
+     * @param symbole1 getting symbole form player 1
+     * @param symbole2 getting symbole form player 2
      * @return true symbole1 have lost, false symbole 1 have won
      */
     public boolean comparingBigSymboleRange(Symbole symbole1, Symbole symbole2) {
@@ -40,9 +40,9 @@ public final class Ruler {
     }
 
     /**
-     *
-     * @param symbole1
-     * @param symbole2
+     * old methode with smaller symbole set
+     * @param symbole1 getting symbole form player 1
+     * @param symbole2 getting symbole form player 2
      * @return Schere gewinnt gegen Papier, Papier gewinnt gegen Stein, Stein
      * gewinnt gegen Schere
      */

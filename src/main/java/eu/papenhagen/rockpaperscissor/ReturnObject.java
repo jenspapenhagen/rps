@@ -9,7 +9,7 @@ package eu.papenhagen.rockpaperscissor;
 /**
  *
  * @author jens.papenhagen
- * @param <T>
+ * @param <T> ome object
  */
 public class ReturnObject<T> {
 

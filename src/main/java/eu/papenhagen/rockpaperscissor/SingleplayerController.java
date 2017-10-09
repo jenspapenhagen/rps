@@ -63,12 +63,6 @@ public class SingleplayerController implements Initializable {
 
     private Enum symbole1 = null;
 
-    /**
-     * Initializes the controller class.
-     *
-     * @param url
-     * @param rb
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //show a text animate the singel player to start the game
@@ -222,8 +216,8 @@ public class SingleplayerController implements Initializable {
     /**
      * changing the player in the UI on a given postion
      *
-     * @param p
-     * @param pos
+     * @param p player object
+     * @param pos postion in the UI 
      */
     private void changePlayerUI(Player p, int pos) {
         //get the player symbole
