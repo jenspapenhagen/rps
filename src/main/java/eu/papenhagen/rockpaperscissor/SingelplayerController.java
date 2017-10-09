@@ -200,8 +200,8 @@ public class SingelplayerController implements Initializable {
         changePlayerUI(p2, 2);
 
         //fill the protocol
-        addToProtocol("Player1: " + infightSymbole1);
-        addToProtocol("Player2: " + infightSymbole2);
+        addToProtocol("Player1: " + p1.getSymbole());
+        addToProtocol("Player2: " + p2.getSymbole());
         addToProtocol("Player 1 has: " + figtresult);
 
         //change UI
