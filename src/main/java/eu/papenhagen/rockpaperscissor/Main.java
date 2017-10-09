@@ -192,17 +192,16 @@ public class Main {
                 //submit Callable tasks to be executed by thread pool
                 //CompletableFuture
                 List<Future<Player>> futureList = tournamentexecutor.invokeAll(callableList);
-                System.out.println("size of futureList" + futureList.size());
+                LOG.debug("size of futureList" + futureList.size());
                 //adding loser of the fight to the loser List
                 for (Future<Player> p : futureList) {
-                    System.out.println("list of futures ");
-                    if (p.isCancelled()) {
+                      if (p.isCancelled()) {
                         LOG.error("error task get canceled");
                     }
-                    System.out.println("the get " + p.get().getName());
+                    LOG.debug("the get " + p.get().getName());
                     loserList.add(p.get());
                     //count the latch down to "wait" for all player get added to list
-                    System.out.println("latch get count down");
+                    LOG.debug("latch get count down");
                     latch.countDown();
                 }
 
