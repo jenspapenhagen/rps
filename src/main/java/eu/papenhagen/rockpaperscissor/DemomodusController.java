@@ -84,7 +84,6 @@ public class DemomodusController implements Initializable {
             ID2 = ID1 + 1;
             LOG.debug("Change Player ID2 to " + ID2);
         }
-       
 
         //build the two player objects
         Player p1 = new Player(ID1, Enums.Playercondition.PLAYER);
@@ -102,9 +101,9 @@ public class DemomodusController implements Initializable {
 
         //fight
         Enum resultFromfight = null;
-       
-        Enums.Symbole symbole1 = (Enums.Symbole)p1.getSymbole();       
-        if ( symbole1.loseAgaist( (Enums.Symbole)p1.getSymbole(), (Enums.Symbole) p2.getSymbole()) ) {
+
+        Enums.Symbole symbole1 = (Enums.Symbole) p1.getSymbole();
+        if (symbole1.loseAgaist((Enums.Symbole) p1.getSymbole(), (Enums.Symbole) p2.getSymbole())) {
             resultFromfight = Enums.Fightstat.LOST;
         } else if (p1.getSymbole().equals(p2.getSymbole())) {
             resultFromfight = Enums.Fightstat.DRAW;
@@ -147,9 +146,7 @@ public class DemomodusController implements Initializable {
      */
     private Enum figthinground(Player p1, Player p2) {
         Enum fightresult = null;
-        //get the ruler to determinate the winner or loser as instance of Ruler
-        Ruler ruler = new Ruler();
-        
+
         //get new behavor for next round
         Behavor behv = new Behavor();
 
@@ -174,8 +171,16 @@ public class DemomodusController implements Initializable {
             changePlayerUI(p1, 1);
             changePlayerUI(p2, 2);
 
+
             //fight
-            fightresult = ruler.comparingSymboles(player1symbole, player2symbole);
+            Enums.Symbole symbole1 = (Enums.Symbole) player1symbole;
+            if (symbole1.loseAgaist((Enums.Symbole) player1symbole, (Enums.Symbole) player2symbole)) {
+                fightresult = Enums.Fightstat.LOST;
+            } else if (player1symbole.equals(player2symbole)) {
+                fightresult = Enums.Fightstat.DRAW;
+            } else {
+                fightresult = Enums.Fightstat.WON;
+            }
 
             //fill the Protocol
             addToProtocol("Runden " + rounds + " Ergebnis: " + fightresult);
@@ -245,7 +250,7 @@ public class DemomodusController implements Initializable {
         } catch (IOException ex) {
             LOG.error(ex.getMessage());
         }
-        
+
         //witch postion have to be change
         switch (pos) {
             case 1:

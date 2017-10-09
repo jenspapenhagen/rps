@@ -2,7 +2,6 @@ eu\papenhagen\rockpaperscissor\Behavor.class
 eu\papenhagen\rockpaperscissor\OneonOneController.class
 eu\papenhagen\rockpaperscissor\SwingApp$3.class
 eu\papenhagen\rockpaperscissor\Match.class
-eu\papenhagen\rockpaperscissor\Ruler.class
 eu\papenhagen\rockpaperscissor\UtilityMethodes.class
 eu\papenhagen\rockpaperscissor\Enums$Symbole.class
 eu\papenhagen\rockpaperscissor\MatchBuilder.class
@@ -16,7 +15,6 @@ eu\papenhagen\rockpaperscissor\DemomodusController.class
 eu\papenhagen\rockpaperscissor\Enums$1.class
 eu\papenhagen\rockpaperscissor\SwingApp$2.class
 eu\papenhagen\rockpaperscissor\Player.class
-eu\papenhagen\rockpaperscissor\ReturnObject.class
 eu\papenhagen\rockpaperscissor\ExportPlayer.class
 eu\papenhagen\rockpaperscissor\Enums.class
 eu\papenhagen\rockpaperscissor\Enums$Fightstat.class

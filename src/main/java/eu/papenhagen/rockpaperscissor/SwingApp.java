@@ -306,13 +306,29 @@ public final class SwingApp extends javax.swing.JDialog {
             changeRoundCounter(0 + "");
 
             //fight
-            Enum result = Ruler.getInstance().comparingSymboles(symbole1, symbole2);
+            Enum result = null;
+            
+            Enums.Symbole tempsymbole = (Enums.Symbole) symbole1;
+            if (tempsymbole.loseAgaist((Enums.Symbole) symbole1, (Enums.Symbole) symbole2)) {
+                result = Enums.Fightstat.LOST;
+            } else if (player1symbole.equals(player2symbole)) {
+                result = Enums.Fightstat.DRAW;
+            } else {
+                result = Enums.Fightstat.WON;
+            }
+            
+            
+            
             addToProtocol("Ausgabe normal Fight: " + result);
             //fight again if the fight was a draw
             if (result.equals(Enums.Fightstat.DRAW)) {
                 addToProtocol("First Match was a draw, NOW Round 1");
                 result = runde(ID1, ID2, symbole1, symbole2);
             }
+            
+            
+            
+            
             //removce the lost player
             toRemoveID(result, ID1, ID2);
 
@@ -335,8 +351,18 @@ public final class SwingApp extends javax.swing.JDialog {
             changeRoundCounter("" + rounds);
 
             //fight
-            result = Ruler.getInstance().comparingSymboles(behv.getBehavor(lastPlayer1Symbole),
-                    behv.getBehavor(lastPlayer2Symbole));
+            result = null;
+            
+            Enums.Symbole tempsymbole = (Enums.Symbole) lastPlayer1Symbole;
+            if (tempsymbole.loseAgaist((Enums.Symbole) behv.getBehavor(lastPlayer1Symbole), (Enums.Symbole) behv.getBehavor(lastPlayer2Symbole))) {
+                result = Enums.Fightstat.LOST;
+            } else if (player1symbole.equals(player2symbole)) {
+                result = Enums.Fightstat.DRAW;
+            } else {
+                result = Enums.Fightstat.WON;
+            }
+            
+            
 
             addToProtocol("Runden "+ rounds +" Ergebnis: " + result);
             if (!result.equals(Enums.Fightstat.DRAW)) {
