@@ -170,11 +170,11 @@ public class Main {
             LOG.debug("matchListForThisTier size before " + matchListForThisTier.size());
 
             //build all Matchs in a Callable List and log all match wighback both in a ReturnObject
-            ReturnObject matchbuild = new MatchBuilder().build(maxMatchesInNextTier, playerList, matchListForThisTier);
+            List<Object> matchbuild = new MatchBuilder().build(maxMatchesInNextTier, playerList, matchListForThisTier);
 
             //split the both return objects 
-            List<Callable<Player>> callableList = (List<Callable<Player>>) matchbuild.object;
-            matchListForThisTier = (List<Match>) matchbuild.object2;
+            List<Callable<Player>> callableList = (List<Callable<Player>>) matchbuild.get(0);
+            matchListForThisTier = (List<Match>) matchbuild.get(1);
             LOG.debug("callableList size after fwilling with match " + callableList.size());
             LOG.debug("matchListForThisTier size afther filling with match " + matchListForThisTier.size());
 

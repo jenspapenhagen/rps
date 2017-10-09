@@ -53,13 +53,12 @@ public class OneonOneController implements Initializable {
     @FXML
     private Label roundNr;
 
-    private Boolean player2ready = false;
-
     private final UtilityMethodes funk = new UtilityMethodes();
 
     ObservableList<String> data = FXCollections.observableArrayList();
 
-    private Enum symbole1 = null;
+    Player p1 = new Player(1, Enums.Playercondition.PLAYER);
+    Player p2 = new Player(1, Enums.Playercondition.PLAYER);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -69,117 +68,74 @@ public class OneonOneController implements Initializable {
         //fill the combox
         combobox1.getItems().addAll(EnumSet.allOf(Enums.Symbole.class));
         combobox2.getItems().addAll(EnumSet.allOf(Enums.Symbole.class));
+        
+        //desable matchbutton
+        matchButton.setVisible(false);
+        
+        backlog.setVisible(false);
     }
 
     @FXML
     private void handleSelectedCombobox1(ActionEvent event) {
-        //build new player object 
-        Player p = new Player(1, Enums.Playercondition.PLAYER);
-        p.setSymbole((Enum) combobox1.getValue());
+        //clean the log
+        getCleanProtocol(backlog);
+        //set the player symbole
+        p1.setSymbole((Enum) combobox1.getValue());
 
         //fill Protocoll
         result.setText("lets go");
 
-        //only add to log it the game is not ended
-        addToProtocol("Player1: " + p.getSymbole());
-
-        //set the globle enum
-        symbole1 = p.getSymbole();
-
         //move to next player
-        nextPlayer();
-
+        //hide combobox 1
+        combobox1.setVisible(false);
     }
 
     @FXML
     private void handleSelectedCombobox2(ActionEvent event) {
-        //build new player object 
-        Player p = new Player(1, Enums.Playercondition.PLAYER);
-        p.setSymbole((Enum) combobox2.getValue());
-
-        //fill Protocoll
-        result.setText("lets go");
-
-        //only add to log it the game is not ended
-        addToProtocol("Player1: " + p.getSymbole());
-
+        p2.setSymbole((Enum) combobox2.getValue());
+        
+        //set matchButton to visable
+        matchButton.setVisible(true);
     }
 
     @FXML
     private void handleMatchButton(ActionEvent event) throws InterruptedException {
-        //playerready get set true on button pressed
-        if (player2ready) {
-            fight();
-        } else {
-            //give out that you are waiting on player input
-            LOG.debug("new player input requested");
-            result.setText("Bitte noch Symbol wählen");
-        }
+        fight();
     }
 
-    private void nextPlayer() {
-        //set to defaule
-        combobox1.getSelectionModel().clearSelection();
-
-        //set player 2 for ready
-        player2ready = true;
-    }
-
+    
     /**
      * Starting the fight
      */
     private void fight() {
-        //set to defaule
-        combobox1.getSelectionModel().selectFirst();
-
-        //get random ID´s for nicer UI output
-        Random random = new Random();
-        int Player2ID = random.nextInt((10 - 1) + 1) + 1;
-
-        //building the 2 player objects 
-        Player p1 = new Player(Player2ID, Enums.Playercondition.PLAYER);
-        Player p2 = new Player(Player2ID, Enums.Playercondition.PLAYER);
-
-        //fight
-        Enum infightSymbole1 = null;
-        Enum infightSymbole2 = null;
+        
+        //show log again
+        backlog.setVisible(true);
+        
+        
+        //show comboox1 again
+        combobox1.setVisible(true);
+               
 
         //change UI
         changePlayerUI(p1, 1);
+        changePlayerUI(p2, 2);
         roundNr.setText(0 + "");
 
         //fight
         Enum figtresult = null;
-        Enums.Symbole tempsymbole = (Enums.Symbole) infightSymbole1;
-        if (tempsymbole.loseAgaist((Enums.Symbole) infightSymbole1, (Enums.Symbole) infightSymbole2)) {
+        Enums.Symbole tempsymbole = (Enums.Symbole) p1.getSymbole();
+        if (tempsymbole.loseAgaist((Enums.Symbole) p1.getSymbole(), (Enums.Symbole) p2.getSymbole())) {
             //player 1 have lost
             figtresult = Enums.Fightstat.LOST;
-        } else if (infightSymbole1.equals(infightSymbole2)) {
+        } else if (p1.getSymbole().equals(p2.getSymbole())) {
             //can happend but raw
             figtresult = Enums.Fightstat.DRAW;
-
-            //fight was draw
-            //waiting on new user input
-            addToProtocol("First Match was a draw");
-            addToProtocol("Please select a Symbole and klick match again");
-
-            LOG.debug("First Match was a draw");
-            //unset the player ready (this will be set on button press)
-            player2ready = false;
-
-            //change player 1 symbole to defauled symbole
-            p1.setSymbole(Enums.Symbole.DEFAULT);
-
-            //change UI
-            changePlayerUI(p1, 1);
-
         } else {
             //player 1 have won
             figtresult = Enums.Fightstat.WON;
         }
 
-        //change the UI
-        changePlayerUI(p2, 2);
 
         //fill the protocol
         addToProtocol("Player1: " + p1.getSymbole());

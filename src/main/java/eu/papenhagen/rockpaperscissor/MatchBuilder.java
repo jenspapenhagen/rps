@@ -5,6 +5,7 @@
  */
 package eu.papenhagen.rockpaperscissor;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class MatchBuilder {
      * @param matchListForThisTier a list of matches for logging pr.
      * @return a returnobject a list of callables and a list of matches
      */
-    public ReturnObject build(int maxMatchesInNextTier, List<Player> remainingPlayerList, List<Match> matchListForThisTier) {
+    public List<Object> build(int maxMatchesInNextTier, List<Player> remainingPlayerList, List<Match> matchListForThisTier) {
         //build list
         List<Callable<Player>> callableList = new LinkedList<>();
 
@@ -65,10 +66,12 @@ public class MatchBuilder {
                 matchListForThisTier.add(match);
             }
         }
+        List<Object> returnlist = new ArrayList<>();
+        returnlist.add(callableList);
+        returnlist.add(matchListForThisTier);
 
-        ReturnObject ro = new ReturnObject(callableList, matchListForThisTier);
         
-        return ro;
+        return returnlist;
     }
 
 }
