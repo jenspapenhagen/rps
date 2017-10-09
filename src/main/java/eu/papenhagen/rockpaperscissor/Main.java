@@ -61,7 +61,7 @@ public class Main {
         maxMatches = maxPlayer / 2;
         maxMatchesInNextTier = maxMatches;
         FreeWinID = maxPlayer + 3;
-        calm = false;
+        calm = true;
         bestOf = 5;
 
         //calculate the maxTiers
@@ -78,15 +78,13 @@ public class Main {
         //change maxplayer back to orgianl size
         maxPlayer = maxMatches * 2;
 
-        System.out.println("maxplayer for this tournament " + maxPlayer);
-        System.out.println("max Match games for the frist round " + maxMatches);
-        System.out.println("maxGamesNextTier " + maxMatchesInNextTier);
-        System.out.println("count of tiers " + countOfTiers);
-        System.out.println("ID from the freeWin player " + FreeWinID);
-        System.out.println("This Fight is calm: " + calm);
+        LOG.debug("maxplayer for this tournament " + maxPlayer);
+        LOG.debug("max Match games for the frist round " + maxMatches);
+        LOG.debug("maxGamesNextTier " + maxMatchesInNextTier);
+        LOG.debug("count of tiers " + countOfTiers);
+        LOG.debug("ID from the freeWin player " + FreeWinID);
+        LOG.debug("This Fight is calm: " + calm);
 
-        //the Executor Service for this tournier
-        ExecutorService tournamentexecutor = Executors.newCachedThreadPool();
 
         //build up the tournament
         List<Tier> tournament = new ArrayList<>(countOfTiers);
@@ -103,9 +101,9 @@ public class Main {
         //give next bigger amount of player
         int missingPlayer = nextBiggerPlayerCount(maxPlayer) - remainingPlayerList.size();
 
-        System.out.println("missingPlayer " + missingPlayer);
-        System.out.println("nextBiggerPlayerCount(maxPlayer) " + nextBiggerPlayerCount(maxPlayer));
-        System.out.println("remainingPlayerList size " + remainingPlayerList.size());
+        LOG.debug("missingPlayer " + missingPlayer);
+        LOG.debug("nextBiggerPlayerCount(maxPlayer) " + nextBiggerPlayerCount(maxPlayer));
+        LOG.debug("remainingPlayerList size " + remainingPlayerList.size());
 
         //adding FreePlayer to the List in the first round 
         for (int i = 1; i <= missingPlayer; i++) {
@@ -115,26 +113,28 @@ public class Main {
             LOG.debug("added Freewin player");
         }
 
-        //calc new matchcount
-        maxMatches = remainingPlayerList.size() / 2;
-
-        System.out.println("maxMatches " + maxMatches);
-
         //run Tiers
-        tournament = runTiers(tournamentexecutor, remainingPlayerList, tournament);
+        List<Tier>listOfTier = runTiers(remainingPlayerList, tournament);
 
-        //try to politly shutdown the executer
-        tournamentexecutor.shutdown();
 
         //display in better cli
-        displayTournament(tournament);
+        displayTournament(listOfTier);
 
         //export to JSON
-        saveToJson(tournament);
+        //saveToJson(listOfTier);
     }
 
-    private static List<Tier> runTiers(ExecutorService executor, List<Player> remainingPlayerList, List<Tier> tournament) {
+    private static List<Tier> runTiers(List<Player> playerList, List<Tier> tournament) {
+        
+        //the Executor Service for this tournier
+        ExecutorService tournamentexecutor = Executors.newCachedThreadPool();
+        
         boolean firstround = true;
+
+        //calc new matchcount
+        maxMatches = playerList.size() / 2;
+
+        LOG.debug("maxMatches " + maxMatches);
 
         //run the tier
         for (int tierCounter = 0; tierCounter <= countOfTiers - 1; tierCounter++) {
@@ -144,45 +144,45 @@ public class Main {
 
             //giveback the count of max games for this tier
             maxMatchesInNextTier = getMaxFightsInTier(maxMatchesInNextTier);
-            System.out.println("maxMatchesInNextTier " + maxMatchesInNextTier);
+            LOG.debug("maxMatchesInNextTier " + maxMatchesInNextTier);
 
             if (firstround) {
                 LOG.debug("first round");
                 maxMatchesInNextTier = maxMatches;
                 //shuffle the playerlist
                 long seed = System.nanoTime();
-                Collections.shuffle(remainingPlayerList, new Random(seed));
+                Collections.shuffle(playerList, new Random(seed));
                 //set firstorut of false
                 firstround = false;
-                System.out.println("First round");
+                LOG.debug("First round");
             } else {
                 //shuffle symbole for eath tier;
-                remainingPlayerList.forEach((p) -> {
+                playerList.forEach((p) -> {
                     p.setSymbole(p.getRandomSymbole());
                 });
-                System.out.println("Round nr: " + tierCounter);
+                LOG.debug("Round nr: " + tierCounter);
             }
             LOG.debug("maxMatchesInNextTier" + maxMatchesInNextTier);
-            System.out.println("maxMatchesInNextTier output " + maxMatchesInNextTier);
+            LOG.debug("maxMatchesInNextTier output " + maxMatchesInNextTier);
 
             //make a new matchList
             List<Match> matchListForThisTier = new ArrayList<>(maxMatchesInNextTier);
-            System.out.println("matchListForThisTier size before " + matchListForThisTier.size());
+            LOG.debug("matchListForThisTier size before " + matchListForThisTier.size());
 
             //build all Matchs in a Callable List and log all match wighback both in a ReturnObject
-            ReturnObject matchbuild = new MatchBuilder().build(maxMatchesInNextTier, remainingPlayerList, matchListForThisTier);
+            ReturnObject matchbuild = new MatchBuilder().build(maxMatchesInNextTier, playerList, matchListForThisTier);
 
             //split the both return objects 
             List<Callable<Player>> callableList = (List<Callable<Player>>) matchbuild.object;
             matchListForThisTier = (List<Match>) matchbuild.object2;
-            System.out.println("callableList size after fwilling with match " + callableList.size());
-            System.out.println("matchListForThisTier size afther filling with match " + matchListForThisTier.size());
+            LOG.debug("callableList size after fwilling with match " + callableList.size());
+            LOG.debug("matchListForThisTier size afther filling with match " + matchListForThisTier.size());
 
             //build a list of Losers
-            int sizeOfLoserlist = ( matchListForThisTier.size()/2);
-            System.out.println("sizeOfLoserlist " + sizeOfLoserlist);
-            List<Player> loserList = new ArrayList<>(sizeOfLoserlist);
-            System.out.println("loserList size  afther filling with match " + loserList.size());
+            int sizeOfLoserlist = (matchListForThisTier.size() / 2);
+            LOG.debug("sizeOfLoserlist " + sizeOfLoserlist);
+            List<Player> loserList = new ArrayList<>();
+            LOG.debug("loserList size  afther filling with match " + loserList.size());
 
             //staring the Callable
             try {
@@ -191,14 +191,17 @@ public class Main {
 
                 //submit Callable tasks to be executed by thread pool
                 //CompletableFuture
-                List<Future<Player>> futureList = executor.invokeAll(callableList);
+                List<Future<Player>> futureList = tournamentexecutor.invokeAll(callableList);
                 //adding loser of the fight to the loser List
                 for (Future<Player> p : futureList) {
+                    System.out.println("list of futures");
                     if (p.isCancelled()) {
                         LOG.error("error task get canceled");
                     }
+                    
                     loserList.add(p.get());
                     //count the latch down to "wait" for all player get added to list
+                    System.out.println("latch get count down");
                     latch.countDown();
                 }
 
@@ -208,16 +211,16 @@ public class Main {
                 LOG.error(ex.getMessage());
             }
 
-            System.out.println("loserList size after run " + loserList.size());
+            LOG.debug("loserList size after run " + loserList.size());
             //remove doubles form the loser list agains threadhandling fails
             List<Player> depdupeCustomers = new ArrayList<>(new LinkedHashSet<>(loserList));
             loserList.clear();
             loserList.addAll(depdupeCustomers);
-            System.out.println("loserList size after remove doubles " + loserList.size());
+            LOG.debug("loserList size after remove doubles " + loserList.size());
 
             //remove the loser from the remainingPlayerList
-            remainingPlayerList.removeAll(loserList);
-            System.out.println("remainingPlayerList size after " + remainingPlayerList.size());
+            playerList.removeAll(loserList);
+            LOG.debug("remainingPlayerList size after " + playerList.size());
 
             //adding the winner into the matchlog by check the losing
             matchListForThisTier.forEach((m) -> {
@@ -229,17 +232,17 @@ public class Main {
             });
 
             //reduce the fightcount
-            maxMatchesInNextTier = remainingPlayerList.size();
+            maxMatchesInNextTier = playerList.size();
 
             //fillup the remainingplayer with Freewin
             //adding FREEWIN odd size of remainingPlayerList
             //not in the last round
-            if (maxMatchesInNextTier != 1 && remainingPlayerList.size() % 2 != 0) {
+            if (maxMatchesInNextTier != 1 && playerList.size() % 2 != 0) {
                 Player p1 = new Player(FreeWinID, Enums.Playercondition.FREEWIN);
                 p1.setName("FreeWin");
                 //add to random postion in the remainingPlayerList
-                int ranhdomIndex = new Random().nextInt(remainingPlayerList.size() - 1);
-                remainingPlayerList.add(ranhdomIndex, p1);
+                int ranhdomIndex = new Random().nextInt(playerList.size() - 1);
+                playerList.add(ranhdomIndex, p1);
                 LOG.debug("added Freewin player");
             }
 
@@ -257,6 +260,10 @@ public class Main {
                 System.out.println("\n" + String.join("", Collections.nCopies(100, "-")) + "\n");
             }
         }
+        
+        
+        //try to politly shutdown the executer
+        tournamentexecutor.shutdown();
 
         return tournament;
 
