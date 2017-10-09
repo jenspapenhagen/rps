@@ -57,7 +57,11 @@ public final class Player {
         //so not select the default Enum
         int indexer = new Random().nextInt(Enums.Symbole.values().length - 1);
 
-        return (Enums.Symbole.values()[indexer]);
+        Enums.Symbole output = Enums.Symbole.values()[indexer];
+        if(output.equals(Enums.Symbole.DEFAULT)){
+            output = Enums.Symbole.AIR;
+        }
+        return output;
     }
 
     public String getRandomName() {
