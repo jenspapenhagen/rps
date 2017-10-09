@@ -30,7 +30,7 @@ public class MatchBuilder {
      * @param remainingPlayerList
      * @return
      */
-    public List<Callable<Player>> build(int maxMatchesInNextTier, List<Player> remainingPlayerList) {
+    public List<Callable<Player>> build(int maxMatchesInNextTier, List<Player> remainingPlayerList ) {
         //build list
         List<Callable<Player>> callableList = new LinkedList<>();
 
@@ -41,8 +41,7 @@ public class MatchBuilder {
         for (int matchcount = 1; matchcount <= maxMatchesInNextTier; matchcount++) {
 
             //check if there is a next player in the playerlist and 
-            //the loserlist is at it max. On single-elimination the loser is have to be smaller than the half remainingPlayer list.
-            if (playerListIterator.hasNext() && (Main.getLoserList().size() * 2) < remainingPlayerList.size()) {
+            if (playerListIterator.hasNext() ) {
                 //getting the 2 player
                 Player p1 = playerListIterator.next();
                 //agains the java.util.NoSuchElementException adding a FreeWIn player

@@ -37,13 +37,8 @@ public class Main {
     private static boolean calm;
     @Getter
     private static int FreeWinID;
-
+    
     @Getter
-    @Setter
-    private static List<Player> loserList;
-
-    @Getter
-    @Setter
     private static List<Match> matchListForThisTier;
 
     @Getter
@@ -65,11 +60,11 @@ public class Main {
     public static void main(String[] args) {
         //config area for this tournament
         //there are 8/16/32/64/128 tournaments please select a number near this
-        maxPlayer = 100;
+        maxPlayer = 64;
         maxMatches = maxPlayer / 2;
-        maxMatchesInNextTier = 0;
+        maxMatchesInNextTier = maxMatches;
         FreeWinID = maxPlayer + 3;
-        calm = true;
+        calm = false;
         bestOf = 5;
 
         //calculate the maxTiers
@@ -86,12 +81,12 @@ public class Main {
         //change maxplayer back to orgianl size
         maxPlayer = maxMatches * 2;
 
-        LOG.info("maxplayer for this tournament " + maxPlayer);
-        LOG.info("max Match games for the frist round" + maxMatches);
-        LOG.info("maxGamesNextTier " + maxMatchesInNextTier);
-        LOG.info("count of tiers " + countOfTiers);
-        LOG.info("ID from the freeWin player " + FreeWinID);
-        LOG.info("This Fight is: " + calm);
+        System.out.println("maxplayer for this tournament " + maxPlayer);
+        System.out.println("max Match games for the frist round " + maxMatches);
+        System.out.println("maxGamesNextTier " + maxMatchesInNextTier);
+        System.out.println("count of tiers " + countOfTiers);
+        System.out.println("ID from the freeWin player " + FreeWinID);
+        System.out.println("This Fight is calm: " + calm);
 
         //the Executor Service for this tournier
         ExecutorService tournamentexecutor = Executors.newCachedThreadPool();
@@ -111,6 +106,10 @@ public class Main {
         //give next bigger amount of player
         int missingPlayer = nextBiggerPlayerCount(maxPlayer) - remainingPlayerList.size();
 
+        System.out.println("missingPlayer " + missingPlayer);
+        System.out.println("nextBiggerPlayerCount(maxPlayer) " + nextBiggerPlayerCount(maxPlayer));
+        System.out.println("remainingPlayerList size " + remainingPlayerList.size());
+
         //adding FreePlayer to the List in the first round 
         for (int i = 1; i <= missingPlayer; i++) {
             Player p1 = new Player(FreeWinID + i, Enums.Playercondition.FREEWIN);
@@ -121,6 +120,8 @@ public class Main {
 
         //calc new matchcount
         maxMatches = remainingPlayerList.size() / 2;
+
+        System.out.println("maxMatches " + maxMatches);
 
         //run Tiers
         tournament = runTiers(tournamentexecutor, remainingPlayerList, tournament);
@@ -135,7 +136,9 @@ public class Main {
         saveToJson(tournament);
     }
 
-    private static List<Tier> runTiers(ExecutorService es, List<Player> remainingPlayerList, List<Tier> tournament) {
+    private static List<Tier> runTiers(ExecutorService executor, List<Player> remainingPlayerList, List<Tier> tournament) {
+        boolean firstround = true;
+
         //run the tier
         for (int tierCounter = 0; tierCounter <= countOfTiers - 1; tierCounter++) {
 
@@ -144,30 +147,38 @@ public class Main {
 
             //giveback the count of max games for this tier
             maxMatchesInNextTier = getMaxFightsInTier(maxMatchesInNextTier);
+            System.out.println("maxMatchesInNextTier " + maxMatchesInNextTier);
 
-            if (tierCounter == 0) {
+            if (firstround) {
                 LOG.debug("first round");
                 maxMatchesInNextTier = maxMatches;
-
                 //shuffle the playerlist
                 long seed = System.nanoTime();
                 Collections.shuffle(remainingPlayerList, new Random(seed));
+                //set firstorut of false
+                firstround = false;
+                System.out.println("First round");
             } else {
                 //shuffle symbole for eath tier;
                 remainingPlayerList.forEach((p) -> {
                     p.setSymbole(p.getRandomSymbole());
                 });
+                System.out.println("Round nr: " + tierCounter);
             }
             LOG.debug("maxMatchesInNextTier" + maxMatchesInNextTier);
+            System.out.println("maxMatchesInNextTier output " + maxMatchesInNextTier);
 
             //make a new matchList
             matchListForThisTier = new ArrayList<>(maxMatchesInNextTier);
+            System.out.println("matchListForThisTier size before " + matchListForThisTier.size());
 
             //build a list of Losers
-            loserList = new ArrayList<>(maxMatchesInNextTier / 2);
+            List<Player> loserList = new ArrayList<>(matchListForThisTier.size() / 2);
+            System.out.println("loserList size before " + loserList.size());
 
             //build all Matchs in a Callable List
             List<Callable<Player>> callableList = new MatchBuilder().build(maxMatchesInNextTier, remainingPlayerList);
+            
 
             //staring the Callable
             try {
@@ -176,7 +187,7 @@ public class Main {
 
                 //submit Callable tasks to be executed by thread pool
                 //CompletableFuture
-                List<Future<Player>> futureList = es.invokeAll(callableList);
+                List<Future<Player>> futureList = executor.invokeAll(callableList);
                 //adding loser of the fight to the loser List
                 for (Future<Player> p : futureList) {
                     if (p.isCancelled()) {
@@ -193,13 +204,16 @@ public class Main {
                 LOG.error(ex.getMessage());
             }
 
+            System.out.println("loserList size after run " + loserList.size());
             //remove doubles form the loser list agains threadhandling fails
             List<Player> depdupeCustomers = new ArrayList<>(new LinkedHashSet<>(loserList));
             loserList.clear();
             loserList.addAll(depdupeCustomers);
+            System.out.println("loserList size after remove doubles" + loserList.size());
 
             //remove the loser from the remainingPlayerList
             remainingPlayerList.removeAll(loserList);
+            System.out.println("remainingPlayerList size after " + remainingPlayerList.size());
 
             //adding the winner into the matchlog by check the losing
             matchListForThisTier.forEach((m) -> {
@@ -388,13 +402,13 @@ public class Main {
         //round up to next biger tournament
         if (maxPlayer < 8) {
             outout = 8;
-        } else if (maxPlayer < 16) {
+        } else if (maxPlayer <= 16) {
             outout = 16;
-        } else if (maxPlayer < 32) {
+        } else if (maxPlayer <= 32) {
             outout = 32;
-        } else if (maxPlayer < 64) {
+        } else if (maxPlayer <= 64) {
             outout = 64;
-        } else if (maxPlayer < 128) {
+        } else if (maxPlayer <= 128) {
             outout = 128;
         }
 

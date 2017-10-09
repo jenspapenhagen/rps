@@ -108,7 +108,8 @@ public class DemomodusController implements Initializable {
 
         //fight
         Enum resultFromfight = null;
-        if (Ruler.getInstance().comparingBigSymboleRange((Enums.Symbole) p1.getSymbole(), (Enums.Symbole) p2.getSymbole())) {
+        Ruler ruler = new Ruler();
+        if (ruler.comparingBigSymboleRange((Enums.Symbole) p1.getSymbole(), (Enums.Symbole) p2.getSymbole())) {
             resultFromfight = Enums.Fightstat.LOST;
         } else if (p1.getSymbole().equals(p2.getSymbole())) {
             resultFromfight = Enums.Fightstat.DRAW;
@@ -152,7 +153,7 @@ public class DemomodusController implements Initializable {
     private Enum figthinground(Player p1, Player p2) {
         Enum fightresult = null;
         //get the ruler to determinate the winner or loser as instance of Ruler
-
+        Ruler ruler = new Ruler();
         
         //get new behavor for next round
         Behavor behv = new Behavor();
@@ -179,7 +180,7 @@ public class DemomodusController implements Initializable {
             changePlayerUI(p2, 2);
 
             //fight
-            fightresult = Ruler.getInstance().comparingSymboles(player1symbole, player2symbole);
+            fightresult = ruler.comparingSymboles(player1symbole, player2symbole);
 
             //fill the Protocol
             addToProtocol("Runden " + rounds + " Ergebnis: " + fightresult);

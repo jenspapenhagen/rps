@@ -162,10 +162,12 @@ public class SingelplayerController implements Initializable {
         //change UI
         changePlayerUI(p1, 1);
         roundNr.setText(0 + "");
+        
+        Ruler ruler = new Ruler();
 
         //fight
         Enum figtresult = null;
-        if (Ruler.getInstance().comparingBigSymboleRange((Enums.Symbole) infightSymbole1, (Enums.Symbole) infightSymbole2)) {
+        if (ruler.comparingBigSymboleRange((Enums.Symbole) infightSymbole1, (Enums.Symbole) infightSymbole2)) {
             //player 1 have lost
             figtresult = Enums.Fightstat.LOST;
         } else if (infightSymbole1.equals(infightSymbole2)) {

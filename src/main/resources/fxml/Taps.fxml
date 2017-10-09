@@ -19,12 +19,12 @@
             <tabs>
                 <Tab closable="false" text="Demo Modus" fx:id="DemomodusTap">
                     <content>
-                       <fx:include fx:id="Demomodus" source="Demomodus.fxml"/>
+                       <fx:include fx:id="Demomodus" source="/fxml/Demomodus.fxml"/>
                     </content>
                 </Tab>
                 <Tab closable="false" text="Singel Player Modus" fx:id="SingelplayerTap">
                     <content>
-                        <fx:include fx:id="Singelplayer" source="Singelplayer.fxml"/>
+                        <fx:include fx:id="Singelplayer" source="/fxml/Singelplayer.fxml"/>
                     </content>
                 </Tab>
                 <Tab closable="false" text="1vs1 Modus" fx:id="1vs1">
