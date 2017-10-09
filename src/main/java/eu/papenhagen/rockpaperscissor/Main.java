@@ -37,9 +37,6 @@ public class Main {
     private static boolean calm;
     @Getter
     private static int FreeWinID;
-    
-    @Getter
-    private static List<Match> matchListForThisTier;
 
     @Getter
     @Setter
@@ -169,16 +166,23 @@ public class Main {
             System.out.println("maxMatchesInNextTier output " + maxMatchesInNextTier);
 
             //make a new matchList
-            matchListForThisTier = new ArrayList<>(maxMatchesInNextTier);
+            List<Match> matchListForThisTier = new ArrayList<>(maxMatchesInNextTier);
             System.out.println("matchListForThisTier size before " + matchListForThisTier.size());
 
-            //build a list of Losers
-            List<Player> loserList = new ArrayList<>(matchListForThisTier.size() / 2);
-            System.out.println("loserList size before " + loserList.size());
+            //build all Matchs in a Callable List and log all match wighback both in a ReturnObject
+            ReturnObject matchbuild = new MatchBuilder().build(maxMatchesInNextTier, remainingPlayerList, matchListForThisTier);
 
-            //build all Matchs in a Callable List
-            List<Callable<Player>> callableList = new MatchBuilder().build(maxMatchesInNextTier, remainingPlayerList);
-            
+            //split the both return objects 
+            List<Callable<Player>> callableList = (List<Callable<Player>>) matchbuild.object;
+            matchListForThisTier = (List<Match>) matchbuild.object2;
+            System.out.println("callableList size after fwilling with match " + callableList.size());
+            System.out.println("matchListForThisTier size afther filling with match " + matchListForThisTier.size());
+
+            //build a list of Losers
+            int sizeOfLoserlist = ( matchListForThisTier.size()/2);
+            System.out.println("sizeOfLoserlist " + sizeOfLoserlist);
+            List<Player> loserList = new ArrayList<>(sizeOfLoserlist);
+            System.out.println("loserList size  afther filling with match " + loserList.size());
 
             //staring the Callable
             try {
@@ -209,7 +213,7 @@ public class Main {
             List<Player> depdupeCustomers = new ArrayList<>(new LinkedHashSet<>(loserList));
             loserList.clear();
             loserList.addAll(depdupeCustomers);
-            System.out.println("loserList size after remove doubles" + loserList.size());
+            System.out.println("loserList size after remove doubles " + loserList.size());
 
             //remove the loser from the remainingPlayerList
             remainingPlayerList.removeAll(loserList);

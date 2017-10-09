@@ -13,10 +13,11 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Build up the matches
+ *
  * @author jens.papenhagen
  */
 public class MatchBuilder {
-    
+
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(MatchBuilder.class);
 
     MatchBuilder() {
@@ -30,7 +31,7 @@ public class MatchBuilder {
      * @param remainingPlayerList
      * @return
      */
-    public List<Callable<Player>> build(int maxMatchesInNextTier, List<Player> remainingPlayerList ) {
+    public ReturnObject build(int maxMatchesInNextTier, List<Player> remainingPlayerList, List<Match> matchListForThisTier) {
         //build list
         List<Callable<Player>> callableList = new LinkedList<>();
 
@@ -41,18 +42,17 @@ public class MatchBuilder {
         for (int matchcount = 1; matchcount <= maxMatchesInNextTier; matchcount++) {
 
             //check if there is a next player in the playerlist and 
-            if (playerListIterator.hasNext() ) {
+            if (playerListIterator.hasNext()) {
                 //getting the 2 player
                 Player p1 = playerListIterator.next();
                 //agains the java.util.NoSuchElementException adding a FreeWIn player
                 Player p2 = null;
-                if(playerListIterator.hasNext()){
-                   p2 = playerListIterator.next();
-                }else{
+                if (playerListIterator.hasNext()) {
+                    p2 = playerListIterator.next();
+                } else {
                     p2 = new Player(Main.getFreeWinID(), Enums.Playercondition.FREEWIN);
                     p2.setName("FreeWin");
                 }
-                
 
                 //set match 
                 Match match = new Match(matchcount, p1, p2);
@@ -61,10 +61,15 @@ public class MatchBuilder {
                 callableList.add(new Fight(matchcount, match));
 
                 //add this matchlog to the matchlist
-                Main.getMatchListForThisTier().add(match);
+                matchListForThisTier.add(match);
             }
         }
 
-        return callableList;
+        ReturnObject ro = new ReturnObject(callableList, matchListForThisTier);
+        
+        return ro;
     }
+
 }
+
+
