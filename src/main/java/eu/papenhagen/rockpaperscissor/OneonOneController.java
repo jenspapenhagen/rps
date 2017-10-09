@@ -5,6 +5,7 @@
  */
 package eu.papenhagen.rockpaperscissor;
 
+import eu.papenhagen.rockpaperscissor.Entities.Player;
 import java.io.IOException;
 import java.net.URL;
 import java.util.EnumSet;

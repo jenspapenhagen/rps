@@ -5,6 +5,8 @@
  */
 package eu.papenhagen.rockpaperscissor;
 
+import eu.papenhagen.rockpaperscissor.EntitiesService.*;
+import eu.papenhagen.rockpaperscissor.Entities.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -85,7 +87,6 @@ public class Main {
         LOG.debug("ID from the freeWin player " + FreeWinID);
         LOG.debug("This Fight is calm: " + calm);
 
-
         //build up the tournament
         List<Tier> tournament = new ArrayList<>(countOfTiers);
 
@@ -93,10 +94,7 @@ public class Main {
         List<Player> remainingPlayerList = new ArrayList<>(maxPlayer);
 
         //build up the PlayerList
-        for (int i = 1; i <= maxPlayer; i++) {
-            Player p1 = new Player(i, Enums.Playercondition.PLAYER);
-            remainingPlayerList.add(p1);
-        }
+        remainingPlayerList = PlayerService.getListOfPlayerWithCondition(maxPlayer, Enums.Playercondition.PLAYER);
 
         //give next bigger amount of player
         int missingPlayer = nextBiggerPlayerCount(maxPlayer) - remainingPlayerList.size();
@@ -106,16 +104,12 @@ public class Main {
         LOG.debug("remainingPlayerList size " + remainingPlayerList.size());
 
         //adding FreePlayer to the List in the first round 
-        for (int i = 1; i <= missingPlayer; i++) {
-            Player p1 = new Player(FreeWinID + i, Enums.Playercondition.FREEWIN);
-            p1.setName("FreeWIN");
-            remainingPlayerList.add(p1);
-            LOG.debug("added Freewin player");
-        }
+        List<Player> missingPlayerList = PlayerService.getListOfPlayerWithCondition(missingPlayer, Enums.Playercondition.FREEWIN);
+        remainingPlayerList.addAll(missingPlayerList);
+        LOG.debug("added Freewin player");
 
         //run Tiers
-        List<Tier>listOfTier = runTiers(remainingPlayerList, tournament);
-
+        List<Tier> listOfTier = runTiers(remainingPlayerList, tournament);
 
         //display in better cli
         displayTournament(listOfTier);
@@ -125,10 +119,10 @@ public class Main {
     }
 
     private static List<Tier> runTiers(List<Player> playerList, List<Tier> tournament) {
-        
+
         //the Executor Service for this tournier
         ExecutorService tournamentexecutor = Executors.newCachedThreadPool();
-        
+
         boolean firstround = true;
 
         //calc new matchcount
@@ -170,7 +164,7 @@ public class Main {
             LOG.debug("matchListForThisTier size before " + matchListForThisTier.size());
 
             //build all Matchs in a Callable List and log all match wighback both in a ReturnObject
-            List<Object> matchbuild = new MatchBuilder().build(maxMatchesInNextTier, playerList, matchListForThisTier);
+            List<Object> matchbuild = MatchService.buildMatches(maxMatchesInNextTier, playerList, matchListForThisTier);
 
             //split the both return objects 
             List<Callable<Player>> callableList = (List<Callable<Player>>) matchbuild.get(0);
@@ -195,7 +189,7 @@ public class Main {
                 LOG.debug("size of futureList" + futureList.size());
                 //adding loser of the fight to the loser List
                 for (Future<Player> p : futureList) {
-                      if (p.isCancelled()) {
+                    if (p.isCancelled()) {
                         LOG.error("error task get canceled");
                     }
                     LOG.debug("the get " + p.get().getName());
@@ -260,8 +254,7 @@ public class Main {
                 System.out.println("\n" + String.join("", Collections.nCopies(100, "-")) + "\n");
             }
         }
-        
-        
+
         //try to politly shutdown the executer
         tournamentexecutor.shutdown();
 
@@ -294,7 +287,7 @@ public class Main {
     }
 
     /**
-     * Try to build a tournament grid in console. using a List of Tier Objects
+     * Try to buildMatches a tournament grid in console. using a List of Tier Objects
      * for this. Winner on the top and than to the button
      *
      * @param tournament

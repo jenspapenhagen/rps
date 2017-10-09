@@ -5,6 +5,7 @@
  */
 package eu.papenhagen.rockpaperscissor;
 
+import eu.papenhagen.rockpaperscissor.Entities.Player;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
@@ -55,6 +56,9 @@ public class DemomodusController implements Initializable {
     private final UtilityMethodes funk = new UtilityMethodes();
 
     ObservableList<String> data = FXCollections.observableArrayList();
+    
+    private Player p1 = new Player(3, Enums.Playercondition.PLAYER);
+    private Player p2 = new Player(4, Enums.Playercondition.PLAYER);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -86,8 +90,13 @@ public class DemomodusController implements Initializable {
         }
 
         //build the two player objects
-        Player p1 = new Player(ID1, Enums.Playercondition.PLAYER);
-        Player p2 = new Player(ID2, Enums.Playercondition.PLAYER);
+        p1.setID(ID1);
+        p2.setID(ID2);
+        
+        //get random symbole
+        p1.setSymbole(p1.getRandomSymbole());
+        p2.setSymbole(p2.getRandomSymbole());
+        
 
         //clean the protocol
         getCleanProtocol(backlog);
@@ -124,11 +133,11 @@ public class DemomodusController implements Initializable {
             changePlayerUI(p2, 2);
 
             //retrun the Loser
-            resultFromfight = figthinground(p1, p2);
+            resultFromfight = figthinground();
         }
 
         //removce the lost player
-        showLostPlayer(resultFromfight, p1, p2);
+        showLostPlayer(resultFromfight);
 
         //show the fight result  
         result.setText("Player 1 has: " + resultFromfight);
@@ -144,7 +153,7 @@ public class DemomodusController implements Initializable {
      * @param p2
      * @return
      */
-    private Enum figthinground(Player p1, Player p2) {
+    private Enum figthinground() {
         Enum fightresult = null;
 
         //get new behavor for next round
@@ -211,10 +220,8 @@ public class DemomodusController implements Initializable {
      * giveback the Lost player in the UI
      *
      * @param result
-     * @param p1
-     * @param p2
      */
-    private void showLostPlayer(Enum result, Player p1, Player p2) {
+    private void showLostPlayer(Enum result) {
         Integer removePlayerID = 0;
 
         try {

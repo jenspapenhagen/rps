@@ -7,7 +7,7 @@ package eu.papenhagen.rockpaperscissor.test;
 
 import eu.papenhagen.rockpaperscissor.Fight;
 import eu.papenhagen.rockpaperscissor.Enums;
-import eu.papenhagen.rockpaperscissor.Match;
+import eu.papenhagen.rockpaperscissor.Entities.Match;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -15,7 +15,7 @@ import java.util.concurrent.Future;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.assertj.core.api.Assertions.*;
-import eu.papenhagen.rockpaperscissor.Player;
+import eu.papenhagen.rockpaperscissor.Entities.Player;
 
 /**
  *

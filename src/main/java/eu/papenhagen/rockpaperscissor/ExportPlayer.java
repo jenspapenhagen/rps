@@ -11,6 +11,7 @@ package eu.papenhagen.rockpaperscissor;
  * @author jens.papenhagen
  */
 
+import eu.papenhagen.rockpaperscissor.Entities.Player;
 import lombok.*;
 
 public class ExportPlayer {

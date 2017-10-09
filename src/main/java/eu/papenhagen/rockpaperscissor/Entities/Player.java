@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.papenhagen.rockpaperscissor;
+package eu.papenhagen.rockpaperscissor.Entities;
 
+import eu.papenhagen.rockpaperscissor.Enums;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
@@ -26,7 +27,8 @@ public final class Player {
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(Player.class);
 
     @Getter
-    private final int ID;
+    @Setter
+    private int ID;
     
     @Setter
     @Getter

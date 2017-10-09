@@ -5,6 +5,8 @@
  */
 package eu.papenhagen.rockpaperscissor;
 
+import eu.papenhagen.rockpaperscissor.Entities.Match;
+import eu.papenhagen.rockpaperscissor.Entities.Player;
 import java.util.concurrent.Callable;
 import org.slf4j.LoggerFactory;
 

@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.papenhagen.rockpaperscissor;
+package eu.papenhagen.rockpaperscissor.EntitiesService;
 
+import eu.papenhagen.rockpaperscissor.Entities.*;
+import eu.papenhagen.rockpaperscissor.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -17,23 +19,18 @@ import org.slf4j.LoggerFactory;
  *
  * @author jens.papenhagen
  */
-public class MatchBuilder {
+public class MatchService {
 
-    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(MatchBuilder.class);
-
-    MatchBuilder() {
-
-    }
-
+    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(MatchService.class);
     /**
-     * build the matches in a extra methode
+     * buildMatches the matches in a extra methode
      *
      * @param maxMatchesInNextTier an int for the maxiaml amout of machtes in this tier
      * @param remainingPlayerList a list of player
      * @param matchListForThisTier a list of matches for logging pr.
      * @return a returnobject a list of callables and a list of matches
      */
-    public List<Object> build(int maxMatchesInNextTier, List<Player> remainingPlayerList, List<Match> matchListForThisTier) {
+    public static List<Object> buildMatches(int maxMatchesInNextTier, List<Player> remainingPlayerList, List<Match> matchListForThisTier) {
         //build list
         List<Callable<Player>> callableList = new LinkedList<>();
 

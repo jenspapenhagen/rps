@@ -15,8 +15,8 @@ import eu.papenhagen.rockpaperscissor.Enums;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import eu.papenhagen.rockpaperscissor.Fight;
-import eu.papenhagen.rockpaperscissor.Match;
-import eu.papenhagen.rockpaperscissor.Player;
+import eu.papenhagen.rockpaperscissor.Entities.Match;
+import eu.papenhagen.rockpaperscissor.Entities.Player;
 
 /**
  *
