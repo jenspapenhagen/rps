@@ -64,6 +64,9 @@ public class SingleplayerController implements Initializable {
 
     private Enum symbole1 = null;
 
+    private Player p1 = new Player(1, Enums.Playercondition.PLAYER);
+    private Player p2 = new Player(2, Enums.Playercondition.PLAYER);
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //show a text animate the singel player to start the game
@@ -72,29 +75,32 @@ public class SingleplayerController implements Initializable {
         //fill the combox
         combobox.getItems().addAll(EnumSet.allOf(Enums.Symbole.class));
         combobox.getItems().remove(Enums.Symbole.DEFAULT);
+
+        matchButton.setVisible(false);
     }
 
     @FXML
     private void handleSelectedCombobox(ActionEvent event) {
-        //build new player object 
-        Player p = new Player(1, Enums.Playercondition.PLAYER);
-        p.setSymbole((Enum) combobox.getValue());
+        //set symbole to player 1
+        p1.setSymbole((Enum) combobox.getValue());
 
         //set player to ready
         player1ready = true;
 
         //fill Protocoll and change UI
-        changePlayerUI(p, 1);
+        changePlayerUI(p1, 1);
         result.setText("lets go");
 
         //only add to log it the game is not ended
         if (!fightended) {
-            addToProtocol("Player1: " + p.getSymbole());
-            LOG.debug("Player1: " + p.getSymbole());
+            addToProtocol("Player1: " + p1.getSymbole());
+            LOG.debug("Player1: " + p1.getSymbole());
         }
-        
+
         //set the globle enum
-        symbole1 = p.getSymbole();
+        symbole1 = p1.getSymbole();
+
+        matchButton.setVisible(true);
     }
 
     @FXML
@@ -108,7 +114,7 @@ public class SingleplayerController implements Initializable {
             //give out that you are waiting on player input
             LOG.debug("new player input requested");
             result.setText("Bitte noch Symbol wählen");
-            stillInFight = true;
+            stillInFight = false;
         }
     }
 
@@ -124,49 +130,34 @@ public class SingleplayerController implements Initializable {
         int Player1ID = 4;
         int Player2ID = random.nextInt((10 - 1) + 1) + 1;
 
-        //building the 2 player objects
-        Player p1 = new Player(Player1ID, Enums.Playercondition.PLAYER);
-        Player p2 = new Player(Player2ID, Enums.Playercondition.PLAYER);
+        p1.setID(Player1ID);
+        p2.setID(Player2ID);
 
         //get new behavor for next round
         Behavor behv = new Behavor();
 
-        //fight
-        Enum infightSymbole1 = null;
-        Enum infightSymbole2 = null;
-
-        //check still in fight or the game starts again
-        if (stillInFight) {
-            //new symbole form player 1
-            infightSymbole1 = this.symbole1;
-            //new symbole for player 2
-            infightSymbole2 = behv.getBehavor(infightSymbole1);
-        } else {
+         //check still in fight or the game starts again
+        if (!stillInFight) {
             //start new and clean the Protocol
             getCleanProtocol(backlog);
-            //change the UI
-            changePlayerUI(p2, 2);
-
-            //get both symboles
-            infightSymbole1 = this.symbole1;
-            infightSymbole2 = p2.getSymbole();
         }
-
         //set the given symbole
-        p1.setSymbole(infightSymbole1);
+        p1.setSymbole(this.symbole1);
+        p2.setSymbole(behv.getBehavor(p2.getSymbole()));
 
         //change UI
         changePlayerUI(p1, 1);
+        changePlayerUI(p2, 2);
         roundNr.setText(0 + "");
 
         //fight
         Enum figtresult = null;
-        
-        Enums.Symbole temosymbole = (Enums.Symbole)p1.getSymbole(); 
-        if (temosymbole.loseAgaist((Enums.Symbole) infightSymbole1, (Enums.Symbole) infightSymbole2)) {
+
+        Enums.Symbole temosymbole = (Enums.Symbole) p1.getSymbole();
+        if (temosymbole.loseAgaist((Enums.Symbole) p1.getSymbole(), (Enums.Symbole) p2.getSymbole())) {
             //player 1 have lost
             figtresult = Enums.Fightstat.LOST;
-        } else if (infightSymbole1.equals(infightSymbole2)) {
+        } else if (p1.getSymbole().equals(p2.getSymbole())) {
             //can happend but raw
             figtresult = Enums.Fightstat.DRAW;
 
@@ -219,7 +210,7 @@ public class SingleplayerController implements Initializable {
      * changing the player in the UI on a given postion
      *
      * @param p player object
-     * @param pos postion in the UI 
+     * @param pos postion in the UI
      */
     private void changePlayerUI(Player p, int pos) {
         //get the player symbole

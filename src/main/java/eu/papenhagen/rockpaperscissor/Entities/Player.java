@@ -58,6 +58,7 @@ public final class Player {
         int indexer = new Random().nextInt(Enums.Symbole.values().length - 1);
 
         Enums.Symbole output = Enums.Symbole.values()[indexer];
+        //no deauflt better froce it to AIR
         if(output.equals(Enums.Symbole.DEFAULT)){
             output = Enums.Symbole.AIR;
         }

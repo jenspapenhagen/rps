@@ -19,12 +19,6 @@ public class Behavor {
     public Behavor() {
     }
 
-    //allways the same
-    private Enum Behavor1(Enum lastRoundSymbol1) {
-        LOG.debug("Behavor1: take scissor");
-        return Enums.Symbole.SCISSOR;
-    }
-
     private Enum OppositeOfLastRound(Enum lastRoundSymbol1) {
         LOG.debug("OppositeOfLastRound");
         return getOppositeSymbole(lastRoundSymbol1);
@@ -54,16 +48,13 @@ public class Behavor {
 
         switch (indexer) {
             case 1:
-                output = Behavor1(Symbole);
-                break;
-            case 2:
                 output = OppositeOfLastRound(Symbole);
                 break;
-            case 3:
+            case 2:
                 output = SameOfLastRound(Symbole);
                 break;
             default:
-                output = Behavor1(Symbole);
+                output = SameOfLastRound(Symbole);
 
         }
 
