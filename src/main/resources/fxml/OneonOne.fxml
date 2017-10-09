@@ -22,7 +22,7 @@
                                 <HBox VBox.vgrow="NEVER">
                                     <children>
                                         <Label text="Playername " />
-                                        <Label fx:id="player1Name" text="Singleplayer" />
+                                        <Label fx:id="player1Name" text="Player ONE" />
                                     </children>
                                     <opaqueInsets>
                                         <Insets />
@@ -55,7 +55,7 @@
                                 <HBox alignment="TOP_LEFT" prefHeight="50.0" prefWidth="200.0" VBox.vgrow="NEVER">
                                     <children>
                                         <Label text="Playername " />
-                                        <Label fx:id="player2Name" text="name2" />
+                                        <Label fx:id="player2Name" text="Player TWO" />
                                     </children>
                                     <opaqueInsets>
                                         <Insets right="5.0" />
