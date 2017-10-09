@@ -20,7 +20,7 @@
                             <children>
                                 <HBox VBox.vgrow="NEVER">
                                     <children>
-                                        <Label text="Spielername: " />
+                                        <Label text="Playername " />
                                         <Label fx:id="player1Name" text="name1" />
                                     </children>
                                     <opaqueInsets>
@@ -54,7 +54,7 @@
                             <children>
                                 <HBox alignment="TOP_LEFT" prefHeight="50.0" prefWidth="200.0" VBox.vgrow="NEVER" >
                                     <children>
-                                        <Label text="Spielername: " />
+                                        <Label text="Playername " />
                                         <Label fx:id="player2Name" text="name2" />
                                     </children>
                                     <opaqueInsets>
@@ -97,7 +97,7 @@
                     <children>
                         <VBox HBox.hgrow="ALWAYS">
                             <children>
-                                <Button fx:id="matchButton" mnemonicParsing="false" onAction="#handleMatchButton" text="Match" />
+                                <Button fx:id="matchButton" mnemonicParsing="false" onAction="#handleMatchButton" text="Fight" />
                                 <HBox spacing="5.0">
                                     <children>
                                         <Label text="To remove ID: " />

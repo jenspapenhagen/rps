@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author jens.papenhagen
  */
-public class SingelplayerController implements Initializable {
+public class SingleplayerController implements Initializable {
 
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(DemomodusController.class);
 
@@ -186,7 +186,7 @@ public class SingelplayerController implements Initializable {
             stillInFight = true;
 
             //change player 1 symbole to defauled symbole
-            p1.setSymbole(Enums.Symbole.DEFAULED);
+            p1.setSymbole(Enums.Symbole.DEFAULT);
 
             //change UI
             changePlayerUI(p1, 1);

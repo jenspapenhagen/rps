@@ -30,7 +30,7 @@ public class Enums {
         TREE,
         HUMAN,
         SNAKE,
-        DEFAULED;
+        DEFAULT;
 
         public boolean loseAgaist(Symbole e, Symbole s) {
             switch (e) {
@@ -64,7 +64,7 @@ public class Enums {
                     return EnumSet.of(SNAKE, SCISSOR, FIRE, ROCK, GUN, LIGHTNING, DEVIL).contains(s);
                 case SNAKE:
                     return EnumSet.of(SCISSOR, FIRE, ROCK, GUN, LIGHTNING, DEVIL, DRAGON).contains(s);
-                case DEFAULED:
+                case DEFAULT:
                     return false;
                 default:
                     return false;

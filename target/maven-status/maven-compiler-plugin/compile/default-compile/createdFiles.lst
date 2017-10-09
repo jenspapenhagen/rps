@@ -1,5 +1,6 @@
 eu\papenhagen\rockpaperscissor\Main.class
 eu\papenhagen\rockpaperscissor\Behavor.class
+eu\papenhagen\rockpaperscissor\SingleplayerController.class
 eu\papenhagen\rockpaperscissor\Fight.class
 eu\papenhagen\rockpaperscissor\SwingApp$3.class
 eu\papenhagen\rockpaperscissor\Match.class
@@ -10,7 +11,6 @@ eu\papenhagen\rockpaperscissor\MatchBuilder.class
 eu\papenhagen\rockpaperscissor\DemomodusController.class
 eu\papenhagen\rockpaperscissor\Enums$1.class
 eu\papenhagen\rockpaperscissor\SwingApp.class
-eu\papenhagen\rockpaperscissor\SingelplayerController.class
 eu\papenhagen\rockpaperscissor\SwingApp$2.class
 eu\papenhagen\rockpaperscissor\Player.class
 eu\papenhagen\rockpaperscissor\ExportPlayer.class

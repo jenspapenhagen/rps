@@ -22,9 +22,9 @@
                        <fx:include fx:id="Demomodus" source="/fxml/Demomodus.fxml"/>
                     </content>
                 </Tab>
-                <Tab closable="false" text="Singel Player Modus" fx:id="SingelplayerTap">
+                <Tab closable="false" text="Single Player Modus" fx:id="SingleplayerTap">
                     <content>
-                        <fx:include fx:id="Singelplayer" source="/fxml/Singelplayer.fxml"/>
+                        <fx:include fx:id="Singleplayer" source="/fxml/Singleplayer.fxml"/>
                     </content>
                 </Tab>
                 <Tab closable="false" text="1vs1 Modus" fx:id="1vs1">

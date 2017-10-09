@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.papenhagen.rockpaperscissor.SingelplayerController">
+<AnchorPane id="AnchorPane" maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.papenhagen.rockpaperscissor.SingleplayerController">
     <children>
         <VBox alignment="TOP_LEFT" spacing="5.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -22,8 +22,8 @@
                             <children>
                                 <HBox VBox.vgrow="NEVER">
                                     <children>
-                                        <Label text="Spielername: " />
-                                        <Label fx:id="player1Name" text="Singelplayer" />
+                                        <Label text="Playername " />
+                                        <Label fx:id="player1Name" text="Singleplayer" />
                                     </children>
                                     <opaqueInsets>
                                         <Insets />
@@ -55,14 +55,14 @@
                             <children>
                                 <HBox alignment="TOP_LEFT" prefHeight="50.0" prefWidth="200.0" VBox.vgrow="NEVER">
                                     <children>
-                                        <Label text="Spielername: " />
+                                        <Label text="Playername " />
                                         <Label fx:id="player2Name" text="name2" />
                                     </children>
                                     <opaqueInsets>
                                         <Insets right="5.0" />
                                     </opaqueInsets>
                                 </HBox>
-                                <Label text="Spieler: ">
+                                <Label text="Player ">
                                 </Label>
                                 <Label fx:id="player2Nr" text="Nr2" />
                                 <ImageView fx:id="player2img" fitHeight="150.0" fitWidth="222.0" pickOnBounds="true" />
@@ -101,7 +101,7 @@
                     <children>
                         <VBox minHeight="-Infinity" prefHeight="200.0" HBox.hgrow="ALWAYS">
                             <children>
-                                <Button fx:id="matchButton" mnemonicParsing="false" onAction="#handleMatchButton" text="Match" />
+                                <Button fx:id="matchButton" mnemonicParsing="false" onAction="#handleMatchButton" text="Fight" />
                                 <HBox spacing="5.0" VBox.vgrow="ALWAYS">
                                     <children>
                                         <Label text="Round Counter:" />
