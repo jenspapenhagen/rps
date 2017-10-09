@@ -27,17 +27,17 @@ public class Fight implements Callable<Player> {
         this.matchNr = matchID;
         this.player1 = m.getPlayer1();
         this.player2 = m.getPlayer2();
-        
+
         LOG.debug("Match with ID:" + matchNr);
         LOG.debug(" getstarted." + player1.getID() + " vs. " + player2.getID());
         LOG.debug("This Fight is: " + this.calm);
     }
 
-    
-    private void resetWonStatForPlayers(Player p1, Player p2){
+    private void resetWonStatForPlayers(Player p1, Player p2) {
         p1.setWon(0);
         p2.setWon(0);
     }
+
     /**
      * checking the condition of to player object
      *
@@ -58,14 +58,13 @@ public class Fight implements Callable<Player> {
     }
 
     private Enum complainingPlayerSymboles(Enum player1Symbole, Enum player2Symbole) {
-        //adding a rulter to check the result
-        Ruler.getInstance();
-        
+
         Enum result = null;
+        Enums.Symbole temoSymbole = (Enums.Symbole) player1Symbole;
         //comparing the two symboles from the players
         if (player1Symbole.equals(player2Symbole)) {
             return result = Enums.Fightstat.DRAW;
-        } else if (Ruler.getInstance().comparingBigSymboleRange((Enums.Symbole) player1Symbole, (Enums.Symbole) player2Symbole)) {
+        } else if (temoSymbole.loseAgaist((Enums.Symbole) player1Symbole, (Enums.Symbole) player2Symbole)) {
             result = Enums.Fightstat.LOST;
         } else {
             result = Enums.Fightstat.WON;
@@ -93,7 +92,7 @@ public class Fight implements Callable<Player> {
             LOG.debug("Fastgame one player was a non player object");
             return loser;
         }
-        
+
         //reset the Won counter of all player
         resetWonStatForPlayers(player1, player2);
 
@@ -108,7 +107,7 @@ public class Fight implements Callable<Player> {
                 player1Symbole = behv.getBehavor(player1Symbole);
                 player2Symbole = behv.getBehavor(player1Symbole);
             }
-            
+
             //get back the enum for win or lost or draw
             result = complainingPlayerSymboles(player1Symbole, player2Symbole);
 
@@ -125,7 +124,7 @@ public class Fight implements Callable<Player> {
 
             //playing rounds if the frist fight was a draw
             if (result.equals(Enums.Fightstat.DRAW)) {
-                
+
                 //rounds
                 for (int rounds = 1; rounds < Fight.maxrounds; rounds++) {
                     Enum roundSymbole1 = behv.getBehavor(player1Symbole);

@@ -28,16 +28,18 @@ import org.slf4j.LoggerFactory;
  *
  * @author jens.papenhagen
  */
-public class SingleplayerController implements Initializable {
+public class OneonOneController implements Initializable {
 
-    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(SingleplayerController.class);
+    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(OneonOneController.class);
 
     @FXML
     private ListView backlog;
     @FXML
     private Button matchButton;
     @FXML
-    private ComboBox combobox;
+    private ComboBox combobox1;
+    @FXML
+    private ComboBox combobox2;
     @FXML
     private Label player2Nr;
     @FXML
@@ -51,13 +53,9 @@ public class SingleplayerController implements Initializable {
     @FXML
     private Label roundNr;
 
-    private Boolean player1ready = false;
+    private Boolean player2ready = false;
 
-    private Boolean stillInFight = false;
-
-    private Boolean fightended = false;
-
-    private UtilityMethodes funk = new UtilityMethodes();
+    private final UtilityMethodes funk = new UtilityMethodes();
 
     ObservableList<String> data = FXCollections.observableArrayList();
 
@@ -69,89 +67,82 @@ public class SingleplayerController implements Initializable {
         result.setText("Bitte noch Symbol wählen");
 
         //fill the combox
-        combobox.getItems().addAll(EnumSet.allOf(Enums.Symbole.class));
+        combobox1.getItems().addAll(EnumSet.allOf(Enums.Symbole.class));
+        combobox2.getItems().addAll(EnumSet.allOf(Enums.Symbole.class));
     }
 
     @FXML
-    private void handleSelectedCombobox(ActionEvent event) {
+    private void handleSelectedCombobox1(ActionEvent event) {
         //build new player object 
         Player p = new Player(1, Enums.Playercondition.PLAYER);
-        p.setSymbole((Enum) combobox.getValue());
+        p.setSymbole((Enum) combobox1.getValue());
 
-        //set player to ready
-        player1ready = true;
-
-        //fill Protocoll and change UI
-        changePlayerUI(p, 1);
+        //fill Protocoll
         result.setText("lets go");
 
         //only add to log it the game is not ended
-        if (!fightended) {
-            addToProtocol("Player1: " + p.getSymbole());
-            LOG.debug("Player1: " + p.getSymbole());
-        }
-        
+        addToProtocol("Player1: " + p.getSymbole());
+
         //set the globle enum
         symbole1 = p.getSymbole();
+
+        //move to next player
+        nextPlayer();
+
+    }
+
+    @FXML
+    private void handleSelectedCombobox2(ActionEvent event) {
+        //build new player object 
+        Player p = new Player(1, Enums.Playercondition.PLAYER);
+        p.setSymbole((Enum) combobox2.getValue());
+
+        //fill Protocoll
+        result.setText("lets go");
+
+        //only add to log it the game is not ended
+        addToProtocol("Player1: " + p.getSymbole());
+
     }
 
     @FXML
     private void handleMatchButton(ActionEvent event) throws InterruptedException {
         //playerready get set true on button pressed
-        if (player1ready) {
-            //clean the protocol and start the fight
-            getCleanProtocol(backlog);
+        if (player2ready) {
             fight();
         } else {
             //give out that you are waiting on player input
             LOG.debug("new player input requested");
             result.setText("Bitte noch Symbol wählen");
-            stillInFight = true;
         }
+    }
+
+    private void nextPlayer() {
+        //set to defaule
+        combobox1.getSelectionModel().clearSelection();
+
+        //set player 2 for ready
+        player2ready = true;
     }
 
     /**
      * Starting the fight
      */
     private void fight() {
-        //disable match button in fight
-        matchButton.setDisable(true);
+        //set to defaule
+        combobox1.getSelectionModel().selectFirst();
 
         //get random ID´s for nicer UI output
         Random random = new Random();
-        int Player1ID = 4;
         int Player2ID = random.nextInt((10 - 1) + 1) + 1;
 
-        //building the 2 player objects
-        Player p1 = new Player(Player1ID, Enums.Playercondition.PLAYER);
+        //building the 2 player objects 
+        Player p1 = new Player(Player2ID, Enums.Playercondition.PLAYER);
         Player p2 = new Player(Player2ID, Enums.Playercondition.PLAYER);
-
-        //get new behavor for next round
-        Behavor behv = new Behavor();
 
         //fight
         Enum infightSymbole1 = null;
         Enum infightSymbole2 = null;
-
-        //check still in fight or the game starts again
-        if (stillInFight) {
-            //new symbole form player 1
-            infightSymbole1 = this.symbole1;
-            //new symbole for player 2
-            infightSymbole2 = behv.getBehavor(infightSymbole1);
-        } else {
-            //start new and clean the Protocol
-            getCleanProtocol(backlog);
-            //change the UI
-            changePlayerUI(p2, 2);
-
-            //get both symboles
-            infightSymbole1 = this.symbole1;
-            infightSymbole2 = p2.getSymbole();
-        }
-
-        //set the given symbole
-        p1.setSymbole(infightSymbole1);
 
         //change UI
         changePlayerUI(p1, 1);
@@ -159,9 +150,8 @@ public class SingleplayerController implements Initializable {
 
         //fight
         Enum figtresult = null;
-        
-        Enums.Symbole temosymbole = (Enums.Symbole)p1.getSymbole(); 
-        if (temosymbole.loseAgaist((Enums.Symbole) infightSymbole1, (Enums.Symbole) infightSymbole2)) {
+        Enums.Symbole tempsymbole = (Enums.Symbole) infightSymbole1;
+        if (tempsymbole.loseAgaist((Enums.Symbole) infightSymbole1, (Enums.Symbole) infightSymbole2)) {
             //player 1 have lost
             figtresult = Enums.Fightstat.LOST;
         } else if (infightSymbole1.equals(infightSymbole2)) {
@@ -175,9 +165,7 @@ public class SingleplayerController implements Initializable {
 
             LOG.debug("First Match was a draw");
             //unset the player ready (this will be set on button press)
-            player1ready = false;
-            //the game is still running to NOT restart it
-            stillInFight = true;
+            player2ready = false;
 
             //change player 1 symbole to defauled symbole
             p1.setSymbole(Enums.Symbole.DEFAULT);
@@ -204,20 +192,15 @@ public class SingleplayerController implements Initializable {
         //plot the Protocol
         getProtocol(backlog);
 
-        //set the fight of end
-        fightended = true;
-
         //populate the debug log
         LOG.debug(backlog.toString());
-        //now the match button can be used again
-        matchButton.setDisable(false);
     }
 
     /**
      * changing the player in the UI on a given postion
      *
      * @param p player object
-     * @param pos postion in the UI 
+     * @param pos postion in the UI
      */
     private void changePlayerUI(Player p, int pos) {
         //get the player symbole

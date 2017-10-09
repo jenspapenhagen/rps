@@ -23,7 +23,7 @@ public class JAVAFXApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Taps.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Tabs.fxml"));
 
         Scene scene = new Scene(root);
         //css get added in teh fxml files

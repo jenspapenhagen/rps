@@ -29,7 +29,7 @@
                 </Tab>
                 <Tab closable="false" text="1vs1 Modus" fx:id="1vs1">
                     <content>
-                        <Label text="Comming Soon "></Label>                    
+                        <fx:include fx:id="OneOnOne" source="/fxml/OneonOne.fxml"/>                    
                     </content>
                 </Tab>
             </tabs>

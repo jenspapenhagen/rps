@@ -102,8 +102,9 @@ public class DemomodusController implements Initializable {
 
         //fight
         Enum resultFromfight = null;
-        Ruler ruler = new Ruler();
-        if (ruler.comparingBigSymboleRange((Enums.Symbole) p1.getSymbole(), (Enums.Symbole) p2.getSymbole())) {
+       
+        Enums.Symbole symbole1 = (Enums.Symbole)p1.getSymbole();       
+        if ( symbole1.loseAgaist( (Enums.Symbole)p1.getSymbole(), (Enums.Symbole) p2.getSymbole()) ) {
             resultFromfight = Enums.Fightstat.LOST;
         } else if (p1.getSymbole().equals(p2.getSymbole())) {
             resultFromfight = Enums.Fightstat.DRAW;
