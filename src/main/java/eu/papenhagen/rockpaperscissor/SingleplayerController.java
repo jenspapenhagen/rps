@@ -70,6 +70,7 @@ public class SingleplayerController implements Initializable {
 
         //fill the combox
         combobox.getItems().addAll(EnumSet.allOf(Enums.Symbole.class));
+        combobox.getItems().remove(Enums.Symbole.DEFAULT);
     }
 
     @FXML

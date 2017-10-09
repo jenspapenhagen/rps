@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -20,26 +21,41 @@ import javafx.stage.Stage;
  */
 public class JAVAFXApp extends Application {
 
-    @Override
-    public void start(Stage stage) throws IOException {
+    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(JAVAFXApp.class);
 
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Tabs.fxml"));
+    @Override
+    public void start(Stage stage) {
+        startGame(stage);
+    }
+
+    public void restart(Stage stage) {
+        startGame(stage);
+    }
+
+    
+    public void startGame(Stage stage) {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/fxml/Tabs.fxml"));
+        } catch (IOException ex) {
+            LOG.error(ex.getMessage());
+        }
 
         Scene scene = new Scene(root);
         //css get added in teh fxml files
-        scene.getStylesheets().add( getClass().getResource("/styles/javafxdialog.css").toExternalForm() );
+        scene.getStylesheets().add(getClass().getResource("/styles/javafxdialog.css").toExternalForm());
 
         stage.setResizable(true);
         stage.setTitle("Stein Schere Papier Game");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.jpg")));
-        
+
         //keep resize in a dianginal way
-        stage.minWidthProperty().bind(scene.heightProperty().multiply(1.5));
-        stage.minHeightProperty().bind(scene.widthProperty().divide(1.5));
+//        stage.minWidthProperty().bind(scene.heightProperty().multiply(1.5));
+//        stage.minHeightProperty().bind(scene.widthProperty().divide(1.5));
 
         stage.setScene(scene);
+        
         stage.show();
-
     }
 
     /**

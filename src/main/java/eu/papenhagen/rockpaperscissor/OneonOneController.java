@@ -8,7 +8,6 @@ package eu.papenhagen.rockpaperscissor;
 import java.io.IOException;
 import java.net.URL;
 import java.util.EnumSet;
-import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import lombok.Getter;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -37,21 +37,17 @@ public class OneonOneController implements Initializable {
     @FXML
     private Button matchButton;
     @FXML
+    private Button restartButton;
+    @FXML
     private ComboBox combobox1;
     @FXML
     private ComboBox combobox2;
-    @FXML
-    private Label player2Nr;
-    @FXML
-    private Label player2Name;
     @FXML
     private ImageView player1img;
     @FXML
     private ImageView player2img;
     @FXML
     private Label result;
-    @FXML
-    private Label roundNr;
 
     private final UtilityMethodes funk = new UtilityMethodes();
 
@@ -62,38 +58,44 @@ public class OneonOneController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //clean the log
+        data.clear();
+
         //show a text animate the singel player to start the game
         result.setText("Bitte noch Symbol wählen");
 
         //fill the combox
         combobox1.getItems().addAll(EnumSet.allOf(Enums.Symbole.class));
+        combobox1.getItems().remove(Enums.Symbole.DEFAULT);
         combobox2.getItems().addAll(EnumSet.allOf(Enums.Symbole.class));
-        
-        //desable matchbutton
+        combobox2.getItems().remove(Enums.Symbole.DEFAULT);
+
+        //hidebutton and 2. combobox
         matchButton.setVisible(false);
-        
+        restartButton.setVisible(false);
+        combobox2.setVisible(true);
+
         backlog.setVisible(false);
     }
 
     @FXML
     private void handleSelectedCombobox1(ActionEvent event) {
-        //clean the log
-        getCleanProtocol(backlog);
         //set the player symbole
         p1.setSymbole((Enum) combobox1.getValue());
 
         //fill Protocoll
-        result.setText("lets go");
+        result.setText("player2 select a symbole please");
 
         //move to next player
         //hide combobox 1
         combobox1.setVisible(false);
+        combobox2.setVisible(true);
     }
 
     @FXML
     private void handleSelectedCombobox2(ActionEvent event) {
         p2.setSymbole((Enum) combobox2.getValue());
-        
+
         //set matchButton to visable
         matchButton.setVisible(true);
     }
@@ -103,24 +105,55 @@ public class OneonOneController implements Initializable {
         fight();
     }
 
-    
-    /**
-     * Starting the fight
-     */
-    private void fight() {
-        
-        //show log again
-        backlog.setVisible(true);
-        
-        
-        //show comboox1 again
-        combobox1.setVisible(true);
-               
+    @FXML
+    private void handleRestartButton(ActionEvent event) throws InterruptedException {
+        //set both player to default
+        p1.setSymbole(Enums.Symbole.DEFAULT);
+        p2.setSymbole(Enums.Symbole.DEFAULT);
 
         //change UI
         changePlayerUI(p1, 1);
         changePlayerUI(p2, 2);
-        roundNr.setText(0 + "");
+
+        //clean the log
+        data.clear();
+
+        //clear and fill the combox
+        combobox1.getItems().clear();
+        combobox2.getItems().clear();
+        
+        combobox1.getItems().addAll(EnumSet.allOf(Enums.Symbole.class));
+        combobox1.getItems().remove(Enums.Symbole.DEFAULT);
+        combobox2.getItems().addAll(EnumSet.allOf(Enums.Symbole.class));
+        combobox2.getItems().remove(Enums.Symbole.DEFAULT);
+
+        //unset matchbutton
+        matchButton.setVisible(false);
+        //unset restartbutton
+        restartButton.setVisible(false);
+        //unset combobox2 set combobox1
+        combobox1.setVisible(true);
+        combobox2.setVisible(false);
+
+        backlog.setVisible(false);
+
+        backlog.setVisible(false);
+    }
+
+    /**
+     * Starting the fight
+     */
+    private void fight() {
+
+        //show log again
+        backlog.setVisible(true);
+
+        //show comboox1 again
+        combobox1.setVisible(true);
+
+        //change UI
+        changePlayerUI(p1, 1);
+        changePlayerUI(p2, 2);
 
         //fight
         Enum figtresult = null;
@@ -136,7 +169,6 @@ public class OneonOneController implements Initializable {
             figtresult = Enums.Fightstat.WON;
         }
 
-
         //fill the protocol
         addToProtocol("Player1: " + p1.getSymbole());
         addToProtocol("Player2: " + p2.getSymbole());
@@ -149,7 +181,12 @@ public class OneonOneController implements Initializable {
         getProtocol(backlog);
 
         //populate the debug log
-        LOG.debug(backlog.toString());
+        LOG.debug(data.toString());
+
+        //end of fight
+        matchButton.setVisible(false);
+        restartButton.setVisible(true);
+
     }
 
     /**
@@ -175,8 +212,6 @@ public class OneonOneController implements Initializable {
                 player1img.setImage(playerSymbole);
                 break;
             case 2:
-                player2Nr.setText("" + p.getID());
-                player2Name.setText(p.getName());
                 player2img.setImage(playerSymbole);
                 break;
             default:
