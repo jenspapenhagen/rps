@@ -60,8 +60,8 @@ public class DemomodusController implements Initializable {
 
     ObservableList<String> data = FXCollections.observableArrayList();
     
-    private Player p1 = new Player(3, Player.PlayerCondition.PLAYER);
-    private Player p2 = new Player(4, Player.PlayerCondition.PLAYER);
+    private Player p1 = new Player(3, Player.PLAYERCONDITION.PLAYER);
+    private Player p2 = new Player(4, Player.PLAYERCONDITION.PLAYER);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -114,7 +114,7 @@ public class DemomodusController implements Initializable {
         //fight
         Match.Fightstat resultFromfight = null;
 
-        Player.Symbole symbole1 =  p1.getSymbole();
+        Player.SYMBOLE symbole1 =  p1.getSymbole();
         if (symbole1.loseAgaist(p1.getSymbole(), p2.getSymbole())) {
             resultFromfight = Match.Fightstat.LOST;
         } else if (p1.getSymbole().equals(p2.getSymbole())) {
@@ -168,8 +168,8 @@ public class DemomodusController implements Initializable {
         //start this rounds
         for (int rounds = 1; rounds <= maxr; rounds++) {
             //change the behavor of the player
-            Player.Symbole player1symbole = behv.getBehavor(p1.getSymbole());
-            Player.Symbole player2symbole = behv.getBehavor(p2.getSymbole());
+            Player.SYMBOLE player1symbole = behv.getBehavor(p1.getSymbole());
+            Player.SYMBOLE player2symbole = behv.getBehavor(p2.getSymbole());
 
             //set the new player symbole
             p1.setSymbole(player1symbole);
@@ -185,7 +185,7 @@ public class DemomodusController implements Initializable {
 
 
             //fight
-            Player.Symbole symbole1 = player1symbole;
+            Player.SYMBOLE symbole1 = player1symbole;
             if (symbole1.loseAgaist(player1symbole, player2symbole)) {
                 fightresult = Match.Fightstat.LOST;
             } else if (player1symbole.equals(player2symbole)) {

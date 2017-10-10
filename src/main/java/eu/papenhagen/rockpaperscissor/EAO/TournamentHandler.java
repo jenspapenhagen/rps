@@ -154,7 +154,7 @@ public class TournamentHandler {
             //not in the last round
             //only as fallback
             if (Main.getMaxMatchesInNextTier() != 1 && playerList.size() % 2 != 0) {
-                Player p1 = new Player(Main.getMaxPlayer() + 1, Player.PlayerCondition.FREEWIN);
+                Player p1 = new Player(Main.getMaxPlayer() + 1, Player.PLAYERCONDITION.FREEWIN);
                 p1.setName("FreeWin");
                 //add to random postion in the remainingPlayerList
                 int ranhdomIndex = new Random().nextInt(playerList.size() - 1);

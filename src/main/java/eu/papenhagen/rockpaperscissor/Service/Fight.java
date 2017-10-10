@@ -48,21 +48,21 @@ public class Fight implements Callable<Player> {
      * @return the the non player als instant loser
      */
     public Player comparingPlayerCondition(Player p1, Player p2) {
-        if (!p1.getCondition().equals(Player.PlayerCondition.PLAYER)) {
+        if (!p1.getCondition().equals(Player.PLAYERCONDITION.PLAYER)) {
             LOG.debug("Player 1 has not a Playercondition of Player");
             return p1;
         }
-        if (!p2.getCondition().equals(Player.PlayerCondition.PLAYER)) {
+        if (!p2.getCondition().equals(Player.PLAYERCONDITION.PLAYER)) {
             LOG.debug("Player 2 has not a Playercondition of Player");
             return p2;
         }
         return null;
     }
 
-    private Match.Fightstat complainingPlayerSymboles(Player.Symbole player1Symbole, Player.Symbole player2Symbole) {
+    private Match.Fightstat complainingPlayerSymboles(Player.SYMBOLE player1Symbole, Player.SYMBOLE player2Symbole) {
 
         Match.Fightstat result = null;
-        Player.Symbole temoSymbole = player1Symbole;
+        Player.SYMBOLE temoSymbole = player1Symbole;
         //comparing the two symboles from the players
         if (player1Symbole.equals(player2Symbole)) {
             return result = Match.Fightstat.DRAW;
@@ -83,8 +83,8 @@ public class Fight implements Callable<Player> {
     @Override
     public Player call() {
         //getting the symboles of the player
-        Player.Symbole player1Symbole = player1.getSymbole();
-        Player.Symbole player2Symbole = player2.getSymbole();
+        Player.SYMBOLE player1Symbole = player1.getSymbole();
+        Player.SYMBOLE player2Symbole = player2.getSymbole();
 
         Match.Fightstat result = null;
 
@@ -129,8 +129,8 @@ public class Fight implements Callable<Player> {
 
                 //rounds
                 for (int rounds = 1; rounds < Fight.maxrounds; rounds++) {
-                    Player.Symbole roundSymbole1 = behv.getBehavor(player1Symbole);
-                    Player.Symbole roundSymbole2 = behv.getBehavor(player2Symbole);
+                    Player.SYMBOLE roundSymbole1 = behv.getBehavor(player1Symbole);
+                    Player.SYMBOLE roundSymbole2 = behv.getBehavor(player2Symbole);
 
                     //get back the enum for win or lost or draw
                     result = complainingPlayerSymboles(roundSymbole1, roundSymbole2);

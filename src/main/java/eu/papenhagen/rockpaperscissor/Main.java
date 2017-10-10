@@ -7,7 +7,6 @@ package eu.papenhagen.rockpaperscissor;
 
 import eu.papenhagen.rockpaperscissor.EAO.*;
 import eu.papenhagen.rockpaperscissor.Entities.*;
-import eu.papenhagen.rockpaperscissor.Service.TournamentLogging;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.LoggerFactory;
@@ -58,21 +57,21 @@ public class Main {
         LOG.debug("This Fight is calm: " + calm);
 
         //build moving list for all the player
-        List<Player> remainingPlayerList = new ArrayList<>(maxPlayer);
+        List<Player> playerList = new ArrayList<>(maxPlayer);
 
         //build up the PlayerList
-        remainingPlayerList = PlayerHandler.getListOfPlayerWithCondition(maxPlayer, firstID, Player.PlayerCondition.PLAYER);
+        playerList = PlayerHandler.getListOfPlayerWithCondition(maxPlayer, firstID, Player.PLAYERCONDITION.PLAYER);
 
         //give next bigger amount of player
-        int missingPlayer = PlayerHandler.nextBiggerPlayerCount(maxPlayer) - remainingPlayerList.size();
+        int missingPlayer = PlayerHandler.nextBiggerPlayerCount(maxPlayer) - playerList.size();
 
         //adding FreePlayer to the List in the first round 
-        List<Player> missingPlayerList = PlayerHandler.getListOfPlayerWithCondition(missingPlayer, (maxPlayer + 1), Player.PlayerCondition.FREEWIN);
-        remainingPlayerList.addAll(missingPlayerList);
+        List<Player> missingPlayerList = PlayerHandler.getListOfPlayerWithCondition(missingPlayer, (maxPlayer + 1), Player.PLAYERCONDITION.FREEWIN);
+        playerList.addAll(missingPlayerList);
         LOG.debug("added Freewin player");
 
         //run Tiers in TournamentHandler        
-        TournamentHandler.runTiers(remainingPlayerList);
+        TournamentHandler.runTiers(playerList);
 
         //display in better cli
         TournamentHandler.displayTournament();

@@ -20,19 +20,19 @@ public class Behavor {
     public Behavor() {
     }
 
-    private Player.Symbole OppositeOfLastRound(Player.Symbole lastRoundSymbol1) {
+    private Player.SYMBOLE OppositeOfLastRound(Player.SYMBOLE lastRoundSymbol1) {
         LOG.debug("OppositeOfLastRound");
         return getOppositeSymbole(lastRoundSymbol1);
     }
 
-    private Player.Symbole SameOfLastRound(Player.Symbole lastRoundSymbol1) {
+    private Player.SYMBOLE SameOfLastRound(Player.SYMBOLE lastRoundSymbol1) {
         LOG.debug("SameOfLastRound");
         return lastRoundSymbol1;
     }
 
-    private Player.Symbole getOppositeSymbole(Player.Symbole Symbol) {
+    private Player.SYMBOLE getOppositeSymbole(Player.SYMBOLE Symbol) {
         //take a random Enum but NOT default
-        Player.Symbole output = Player.Symbole.values()[new Random().nextInt(Player.Symbole.values().length - 1)];
+        Player.SYMBOLE output = Player.SYMBOLE.values()[new Random().nextInt(Player.SYMBOLE.values().length - 1)];
 
         return output;
     }
@@ -40,12 +40,12 @@ public class Behavor {
     /**
      * get a random behavor
      *
-     * @param Symbole Enum form typ Symbole
+     * @param Symbole Enum form typ SYMBOLE
      * @return get random Enum back
      */
-    public Player.Symbole getBehavor(Player.Symbole Symbole) {
+    public Player.SYMBOLE getBehavor(Player.SYMBOLE Symbole) {
         int indexer = new Random().nextInt(3);
-        Player.Symbole output;
+        Player.SYMBOLE output;
 
         switch (indexer) {
             case 1:

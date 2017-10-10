@@ -31,17 +31,17 @@ public final class Player {
     
     @Setter
     @Getter
-    private Symbole symbole;
+    private SYMBOLE symbole;
 
     @Setter
     @Getter
-    private PlayerCondition condition;
+    private PLAYERCONDITION condition;
     
     @Setter
     @Getter
     private int won;
 
-    public static enum Symbole {
+    public static enum SYMBOLE {
         FIRE,
         SCISSOR,
         ROCK,
@@ -59,7 +59,7 @@ public final class Player {
         SNAKE,
         DEFAULT;
 
-        public boolean loseAgaist(Symbole e, Symbole s) {
+        public boolean loseAgaist(SYMBOLE e, SYMBOLE s) {
             switch (e) {
                 case FIRE:
                     return EnumSet.of(ROCK, GUN, LIGHTNING, DEVIL, DRAGON, WATER, AIR).contains(s);
@@ -101,7 +101,7 @@ public final class Player {
     };
 
 
-    public enum PlayerCondition {
+    public enum PLAYERCONDITION {
         PLAYER,
         FREEWIN,
         DISQUALIFIZIED
@@ -109,21 +109,21 @@ public final class Player {
     
     
     
-    public Player(int ID, PlayerCondition condition) {
+    public Player(int ID, PLAYERCONDITION condition) {
         this.name = getRandomName();
         this.ID = ID;
         this.condition = condition;
         this.symbole = getRandomSymbole();
     }
 
-    public Symbole getRandomSymbole() {
+    public SYMBOLE getRandomSymbole() {
         //so not select the default Enum
-        int indexer = new Random().nextInt(Symbole.values().length - 1);
+        int indexer = new Random().nextInt(SYMBOLE.values().length - 1);
 
-        Symbole output = Symbole.values()[indexer];
+        SYMBOLE output = SYMBOLE.values()[indexer];
         //no deauflt better froce it to AIR
-        if(output.equals(Symbole.DEFAULT)){
-            output = Symbole.AIR;
+        if(output.equals(SYMBOLE.DEFAULT)){
+            output = SYMBOLE.AIR;
         }
         
         return output;

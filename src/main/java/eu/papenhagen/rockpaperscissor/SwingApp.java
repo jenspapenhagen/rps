@@ -303,14 +303,14 @@ public final class SwingApp extends javax.swing.JDialog {
         try {
             Thread.sleep(5000);
             //give out the view
-            Player.Symbole symbole1 = showPlayer1(ID1);
-            Player.Symbole symbole2 = showPlayer2(ID2);
+            Player.SYMBOLE symbole1 = showPlayer1(ID1);
+            Player.SYMBOLE symbole2 = showPlayer2(ID2);
             changeRoundCounter(0 + "");
 
             //fight
             Enum result = null;
             
-            Player.Symbole tempsymbole =  symbole1;
+            Player.SYMBOLE tempsymbole =  symbole1;
             if (tempsymbole.loseAgaist( symbole1, symbole2)) {
                 result = Match.Fightstat.LOST;
             } else if (player1symbole.equals(player2symbole)) {
@@ -344,7 +344,7 @@ public final class SwingApp extends javax.swing.JDialog {
 
     }
 
-    public Enum runde(int ID1, int ID2, Player.Symbole lastPlayer1Symbole, Player.Symbole lastPlayer2Symbole)  {
+    public Enum runde(int ID1, int ID2, Player.SYMBOLE lastPlayer1Symbole, Player.SYMBOLE lastPlayer2Symbole)  {
         Enum result = null;
         Behavor behv = new Behavor();
 
@@ -355,7 +355,7 @@ public final class SwingApp extends javax.swing.JDialog {
             //fight
             result = null;
             
-            Player.Symbole tempsymbole = lastPlayer1Symbole;
+            Player.SYMBOLE tempsymbole = lastPlayer1Symbole;
             if (tempsymbole.loseAgaist( behv.getBehavor(lastPlayer1Symbole),  behv.getBehavor(lastPlayer2Symbole))) {
                 result = Match.Fightstat.LOST;
             } else if (player1symbole.equals(player2symbole)) {
@@ -424,10 +424,10 @@ public final class SwingApp extends javax.swing.JDialog {
         removedPlayerID.setText(input);
     }
 
-    public Player.Symbole showPlayer1(int playerID1) throws IOException {
-        Player p1 = new Player(playerID1, Player.PlayerCondition.PLAYER );
+    public Player.SYMBOLE showPlayer1(int playerID1) throws IOException {
+        Player p1 = new Player(playerID1, Player.PLAYERCONDITION.PLAYER );
 
-        Player.Symbole symbole1 = p1.getSymbole();
+        Player.SYMBOLE symbole1 = p1.getSymbole();
 
         BufferedImage playerSymbole = givebackImg(symbole1);
         ImageIcon imageIcon = new ImageIcon(playerSymbole);
@@ -442,10 +442,10 @@ public final class SwingApp extends javax.swing.JDialog {
 
     }
 
-    public Player.Symbole showPlayer2(int playerID2) throws IOException {
-        Player p2 = new Player(playerID2, Player.PlayerCondition.PLAYER);
+    public Player.SYMBOLE showPlayer2(int playerID2) throws IOException {
+        Player p2 = new Player(playerID2, Player.PLAYERCONDITION.PLAYER);
 
-        Player.Symbole symbole2 = p2.getSymbole();
+        Player.SYMBOLE symbole2 = p2.getSymbole();
 
         BufferedImage playerSymbole = givebackImg(symbole2);
         ImageIcon imageIcon = new ImageIcon(playerSymbole);
@@ -459,15 +459,15 @@ public final class SwingApp extends javax.swing.JDialog {
         return symbole2;
     }
 
-    public BufferedImage givebackImg(Player.Symbole symbole) throws IOException {
+    public BufferedImage givebackImg(Player.SYMBOLE symbole) throws IOException {
         BufferedImage myPicture;
-        if (symbole.equals(Player.Symbole.SCISSOR)) {
+        if (symbole.equals(Player.SYMBOLE.SCISSOR)) {
             myPicture = ImageIO.read(SwingApp.class.getResource("/images/scissor.png"));
         }
-        if (symbole.equals(Player.Symbole.PAPER)) {
+        if (symbole.equals(Player.SYMBOLE.PAPER)) {
             myPicture = ImageIO.read(SwingApp.class.getResource("/images/paper.png"));
         }
-        if (symbole.equals(Player.Symbole.ROCK)) {
+        if (symbole.equals(Player.SYMBOLE.ROCK)) {
             myPicture = ImageIO.read(SwingApp.class.getResource("/images/rock.png"));
         } else {
             myPicture = ImageIO.read(SwingApp.class.getResource("/images/scissor.png"));

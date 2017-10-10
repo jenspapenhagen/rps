@@ -65,10 +65,10 @@ public class SingleplayerController implements Initializable {
 
     ObservableList<String> data = FXCollections.observableArrayList();
 
-    private Player.Symbole symbole1 = null;
+    private Player.SYMBOLE symbole1 = null;
 
-    private Player p1 = new Player(1, Player.PlayerCondition.PLAYER);
-    private Player p2 = new Player(2, Player.PlayerCondition.PLAYER);
+    private Player p1 = new Player(1, Player.PLAYERCONDITION.PLAYER);
+    private Player p2 = new Player(2, Player.PLAYERCONDITION.PLAYER);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -76,8 +76,8 @@ public class SingleplayerController implements Initializable {
         result.setText("Bitte noch Symbol wählen");
 
         //fill the combox
-        combobox.getItems().addAll(EnumSet.allOf(Player.Symbole.class));
-        combobox.getItems().remove(Player.Symbole.DEFAULT);
+        combobox.getItems().addAll(EnumSet.allOf(Player.SYMBOLE.class));
+        combobox.getItems().remove(Player.SYMBOLE.DEFAULT);
 
         matchButton.setVisible(false);
     }
@@ -85,7 +85,7 @@ public class SingleplayerController implements Initializable {
     @FXML
     private void handleSelectedCombobox(ActionEvent event) {
         //set symbole to player 1
-        p1.setSymbole((Player.Symbole) combobox.getValue());
+        p1.setSymbole((Player.SYMBOLE) combobox.getValue());
 
         //set player to ready
         player1ready = true;
@@ -156,7 +156,7 @@ public class SingleplayerController implements Initializable {
         //fight
         Match.Fightstat figtresult = null;
 
-        Player.Symbole temosymbole = p1.getSymbole();
+        Player.SYMBOLE temosymbole = p1.getSymbole();
         if (temosymbole.loseAgaist( p1.getSymbole(), p2.getSymbole())) {
             //player 1 have lost
             figtresult = Match.Fightstat.LOST;
@@ -176,7 +176,7 @@ public class SingleplayerController implements Initializable {
             stillInFight = true;
 
             //change player 1 symbole to defauled symbole
-            p1.setSymbole(Player.Symbole.DEFAULT);
+            p1.setSymbole(Player.SYMBOLE.DEFAULT);
 
             //change UI
             changePlayerUI(p1, 1);

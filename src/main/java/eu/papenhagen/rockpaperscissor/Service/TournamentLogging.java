@@ -17,7 +17,6 @@ import lombok.*;
  */
 public class TournamentLogging {
    @Getter
-   @Setter
    private List<Tier> tournament;
 
     public TournamentLogging() {

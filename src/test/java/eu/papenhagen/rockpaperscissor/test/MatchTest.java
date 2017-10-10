@@ -30,11 +30,11 @@ public class MatchTest {
     @Test
     public void testCall() throws InterruptedException, ExecutionException {
 
-        Player p1 = new Player(5, Player.PlayerCondition.PLAYER);
-        Player p2 = new Player(3, Player.PlayerCondition.PLAYER);
+        Player p1 = new Player(5, Player.PLAYERCONDITION.PLAYER);
+        Player p2 = new Player(3, Player.PLAYERCONDITION.PLAYER);
 
-        p1.setSymbole(Player.Symbole.PAPER);
-        p2.setSymbole(Player.Symbole.SCISSOR);
+        p1.setSymbole(Player.SYMBOLE.PAPER);
+        p2.setSymbole(Player.SYMBOLE.SCISSOR);
 
         Match match = new Match(1, p1, p2);
 
