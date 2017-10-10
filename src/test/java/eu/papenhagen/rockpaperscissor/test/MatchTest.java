@@ -5,8 +5,8 @@
  */
 package eu.papenhagen.rockpaperscissor.test;
 
-import eu.papenhagen.rockpaperscissor.Fight;
-import eu.papenhagen.rockpaperscissor.Enums;
+import eu.papenhagen.rockpaperscissor.Service.Fight;
+import eu.papenhagen.rockpaperscissor.Entities.Enums;
 import eu.papenhagen.rockpaperscissor.Entities.Match;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;

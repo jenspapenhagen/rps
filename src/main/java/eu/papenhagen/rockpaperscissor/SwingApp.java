@@ -5,6 +5,8 @@
  */
 package eu.papenhagen.rockpaperscissor;
 
+import eu.papenhagen.rockpaperscissor.Service.Behavor;
+import eu.papenhagen.rockpaperscissor.Entities.Enums;
 import eu.papenhagen.rockpaperscissor.Entities.Player;
 import java.awt.Image;
 import java.awt.image.BufferedImage;

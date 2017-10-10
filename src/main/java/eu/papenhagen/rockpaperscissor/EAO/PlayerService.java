@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.papenhagen.rockpaperscissor.EntitiesService;
+package eu.papenhagen.rockpaperscissor.EAO;
 
 import eu.papenhagen.rockpaperscissor.Entities.Player;
-import eu.papenhagen.rockpaperscissor.Enums;
+import eu.papenhagen.rockpaperscissor.Entities.Enums;
 import java.util.ArrayList;
 import java.util.List;
 

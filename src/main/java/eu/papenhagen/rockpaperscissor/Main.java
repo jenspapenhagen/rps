@@ -5,8 +5,10 @@
  */
 package eu.papenhagen.rockpaperscissor;
 
+import eu.papenhagen.rockpaperscissor.EAO.PlayerService;
+import eu.papenhagen.rockpaperscissor.EAO.MatchService;
+import eu.papenhagen.rockpaperscissor.Entities.Enums;
 import eu.papenhagen.rockpaperscissor.Entities.ExportPlayer;
-import eu.papenhagen.rockpaperscissor.EntitiesService.*;
 import eu.papenhagen.rockpaperscissor.Entities.*;
 import java.util.ArrayList;
 import java.util.Collections;

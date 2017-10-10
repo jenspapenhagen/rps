@@ -33,19 +33,19 @@ public class SingelplayerModus {
 
             Parent root;
             try {
-                root = FXMLLoader.load(getClass().getResource("/fxml/Singelplayer.fxml"));
+                root = FXMLLoader.load(getClass().getResource("../src/fxml/Singelplayer.fxml"));
 
                 Scene scene = new Scene(root);
 
                 //css get added in teh fxml files
-                scene.getStylesheets().add(getClass().getResource("/styles/javafxdialog.css").toExternalForm());
+                scene.getStylesheets().add(getClass().getResource("../src/styles/javafxdialog.css").toExternalForm());
 
                 stage.setResizable(true);
                 stage.setTitle("Stein Schere Papier Game");
-                stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.jpg")));
+                stage.getIcons().add(new Image(getClass().getResourceAsStream("../src/images/icon.jpg")));
                 //keep resize in a dianginal way
-                stage.minWidthProperty().bind(scene.heightProperty().multiply(1.5));
-                stage.minHeightProperty().bind(scene.widthProperty().divide(1.5));
+//                stage.minWidthProperty().bind(scene.heightProperty().multiply(1.5));
+//                stage.minHeightProperty().bind(scene.widthProperty().divide(1.5));
 
                 stage.setScene(scene);
                 stage.showAndWait();

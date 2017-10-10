@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.papenhagen.rockpaperscissor;
+package eu.papenhagen.rockpaperscissor.Service;
 
+import eu.papenhagen.rockpaperscissor.Entities.Enums;
 import java.util.Random;
 import org.slf4j.LoggerFactory;
 

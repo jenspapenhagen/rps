@@ -5,7 +5,6 @@
  */
 package eu.papenhagen.rockpaperscissor.Entities;
 
-import eu.papenhagen.rockpaperscissor.Enums;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;

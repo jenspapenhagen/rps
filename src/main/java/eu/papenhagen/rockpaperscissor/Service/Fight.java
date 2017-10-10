@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.papenhagen.rockpaperscissor;
+package eu.papenhagen.rockpaperscissor.Service;
 
+import eu.papenhagen.rockpaperscissor.Entities.Enums;
 import eu.papenhagen.rockpaperscissor.Entities.Match;
 import eu.papenhagen.rockpaperscissor.Entities.Player;
+import eu.papenhagen.rockpaperscissor.Main;
 import java.util.concurrent.Callable;
 import org.slf4j.LoggerFactory;
 

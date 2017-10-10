@@ -11,10 +11,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import static org.assertj.core.api.Assertions.*;
-import eu.papenhagen.rockpaperscissor.Enums;
+import eu.papenhagen.rockpaperscissor.Entities.Enums;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import eu.papenhagen.rockpaperscissor.Fight;
+import eu.papenhagen.rockpaperscissor.Service.Fight;
 import eu.papenhagen.rockpaperscissor.Entities.Match;
 import eu.papenhagen.rockpaperscissor.Entities.Player;
 

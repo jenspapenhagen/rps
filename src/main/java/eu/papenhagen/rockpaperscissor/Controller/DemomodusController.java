@@ -3,9 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.papenhagen.rockpaperscissor;
+package eu.papenhagen.rockpaperscissor.Controller;
 
+import eu.papenhagen.rockpaperscissor.Service.Behavor;
+import eu.papenhagen.rockpaperscissor.Entities.Enums;
 import eu.papenhagen.rockpaperscissor.Entities.Player;
+import eu.papenhagen.rockpaperscissor.Service.UtilityMethodes;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
