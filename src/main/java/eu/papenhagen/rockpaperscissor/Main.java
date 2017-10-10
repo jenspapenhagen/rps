@@ -144,7 +144,7 @@ public class Main {
             List<Match> matchListForThisTier = new ArrayList<>(maxMatchesInNextTier);
             LOG.debug("matchListForThisTier size before " + matchListForThisTier.size());
 
-            //build all Matchs in a Callable List and log all match wighback both in a ReturnObject
+            //build all Matchs in a Callable List and log all match in a List<Match> 
             List<Object> matchbuild = MatchService.buildMatches(maxMatchesInNextTier, playerList, matchListForThisTier);
 
             //split the both return objects 
