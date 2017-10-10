@@ -5,22 +5,12 @@
  */
 package eu.papenhagen.rockpaperscissor;
 
-import eu.papenhagen.rockpaperscissor.EAO.PlayerHandler;
-import eu.papenhagen.rockpaperscissor.EAO.MatchHandler;
+import eu.papenhagen.rockpaperscissor.EAO.*;
 import eu.papenhagen.rockpaperscissor.Entities.*;
+import eu.papenhagen.rockpaperscissor.Service.TournamentLogging;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import org.slf4j.LoggerFactory;
-import eu.papenhagen.rockpaperscissor.EAO.TierHandler;
-import eu.papenhagen.rockpaperscissor.EAO.TournamentHandler;
 import lombok.*;
 
 /**
@@ -67,9 +57,6 @@ public class Main {
 
         LOG.debug("This Fight is calm: " + calm);
 
-        //build up the tournament
-        List<Tier> tournament = new ArrayList<>(countOfTiers);
-
         //build moving list for all the player
         List<Player> remainingPlayerList = new ArrayList<>(maxPlayer);
 
@@ -84,15 +71,14 @@ public class Main {
         remainingPlayerList.addAll(missingPlayerList);
         LOG.debug("added Freewin player");
 
-        //run Tiers
-        List<Tier> listOfTier = TournamentHandler.runTiers(remainingPlayerList, tournament);
+        //run Tiers in TournamentHandler        
+        TournamentHandler.runTiers(remainingPlayerList);
 
         //display in better cli
-        TournamentHandler.displayTournament(listOfTier);
+        TournamentHandler.displayTournament();
 
         //export to JSON
-        //saveToJson(listOfTier);
+        //saveToJson(TournamentHandler.runTiers(remainingPlayerList, tournament));
     }
-
 
 }

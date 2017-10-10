@@ -6,6 +6,7 @@ eu\papenhagen\rockpaperscissor\Controller\SingleplayerController.class
 eu\papenhagen\rockpaperscissor\SwingApp$3.class
 eu\papenhagen\rockpaperscissor\Entities\Player$PlayerCondition.class
 eu\papenhagen\rockpaperscissor\Controller\OneonOneController.class
+eu\papenhagen\rockpaperscissor\Service\TournamentLogging.class
 eu\papenhagen\rockpaperscissor\SwingApp.class
 eu\papenhagen\rockpaperscissor\Entities\ExportPlayer.class
 eu\papenhagen\rockpaperscissor\Service\Fight.class
