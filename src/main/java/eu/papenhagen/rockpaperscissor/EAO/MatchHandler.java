@@ -6,7 +6,6 @@
 package eu.papenhagen.rockpaperscissor.EAO;
 
 import eu.papenhagen.rockpaperscissor.Service.Fight;
-import eu.papenhagen.rockpaperscissor.Entities.Enums;
 import eu.papenhagen.rockpaperscissor.Entities.*;
 import eu.papenhagen.rockpaperscissor.*;
 import java.util.ArrayList;
@@ -49,7 +48,7 @@ public class MatchHandler {
                     p2 = playerListIterator.next();
                 } else {
                     //only as Fallback
-                    p2 = new Player(Main.getMaxPlayer()+1 , Player.Playercondition.FREEWIN);
+                    p2 = new Player(Main.getMaxPlayer()+1 , Player.PlayerCondition.FREEWIN);
                     p2.setName("FreeWin");
                 }
 

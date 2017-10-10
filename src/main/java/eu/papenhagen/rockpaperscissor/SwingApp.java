@@ -6,11 +6,10 @@
 package eu.papenhagen.rockpaperscissor;
 
 import eu.papenhagen.rockpaperscissor.Service.Behavor;
-import eu.papenhagen.rockpaperscissor.Entities.Enums;
+import eu.papenhagen.rockpaperscissor.Entities.Match;
 import eu.papenhagen.rockpaperscissor.Entities.Player;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 import java.util.logging.Level;
@@ -304,27 +303,27 @@ public final class SwingApp extends javax.swing.JDialog {
         try {
             Thread.sleep(5000);
             //give out the view
-            Enum symbole1 = showPlayer1(ID1);
-            Enum symbole2 = showPlayer2(ID2);
+            Player.Symbole symbole1 = showPlayer1(ID1);
+            Player.Symbole symbole2 = showPlayer2(ID2);
             changeRoundCounter(0 + "");
 
             //fight
             Enum result = null;
             
-            Player.Symbole tempsymbole = (Player.Symbole) symbole1;
-            if (tempsymbole.loseAgaist((Player.Symbole) symbole1, (Player.Symbole) symbole2)) {
-                result = Enums.Fightstat.LOST;
+            Player.Symbole tempsymbole =  symbole1;
+            if (tempsymbole.loseAgaist( symbole1, symbole2)) {
+                result = Match.Fightstat.LOST;
             } else if (player1symbole.equals(player2symbole)) {
-                result = Enums.Fightstat.DRAW;
+                result = Match.Fightstat.DRAW;
             } else {
-                result = Enums.Fightstat.WON;
+                result = Match.Fightstat.WON;
             }
             
             
             
             addToProtocol("Ausgabe normal Fight: " + result);
             //fight again if the fight was a draw
-            if (result.equals(Enums.Fightstat.DRAW)) {
+            if (result.equals(Match.Fightstat.DRAW)) {
                 addToProtocol("First Match was a draw, NOW Round 1");
                 result = runde(ID1, ID2, symbole1, symbole2);
             }
@@ -345,7 +344,7 @@ public final class SwingApp extends javax.swing.JDialog {
 
     }
 
-    public Enum runde(int ID1, int ID2, Enum lastPlayer1Symbole, Enum lastPlayer2Symbole)  {
+    public Enum runde(int ID1, int ID2, Player.Symbole lastPlayer1Symbole, Player.Symbole lastPlayer2Symbole)  {
         Enum result = null;
         Behavor behv = new Behavor();
 
@@ -356,25 +355,25 @@ public final class SwingApp extends javax.swing.JDialog {
             //fight
             result = null;
             
-            Player.Symbole tempsymbole = (Player.Symbole) lastPlayer1Symbole;
-            if (tempsymbole.loseAgaist((Player.Symbole) behv.getBehavor(lastPlayer1Symbole), (Player.Symbole) behv.getBehavor(lastPlayer2Symbole))) {
-                result = Enums.Fightstat.LOST;
+            Player.Symbole tempsymbole = lastPlayer1Symbole;
+            if (tempsymbole.loseAgaist( behv.getBehavor(lastPlayer1Symbole),  behv.getBehavor(lastPlayer2Symbole))) {
+                result = Match.Fightstat.LOST;
             } else if (player1symbole.equals(player2symbole)) {
-                result = Enums.Fightstat.DRAW;
+                result = Match.Fightstat.DRAW;
             } else {
-                result = Enums.Fightstat.WON;
+                result = Match.Fightstat.WON;
             }
             
             
 
             addToProtocol("Runden "+ rounds +" Ergebnis: " + result);
-            if (!result.equals(Enums.Fightstat.DRAW)) {
+            if (!result.equals(Match.Fightstat.DRAW)) {
                 break;
             }
 
             if (rounds == maxrounds) {
                 //froce win
-                result = Enums.Fightstat.WON;
+                result = Match.Fightstat.WON;
                 break;
             }
 
@@ -387,7 +386,7 @@ public final class SwingApp extends javax.swing.JDialog {
         //remove the loser
         Integer removePlayerID = 0;
         try {
-            if (result.equals(Enums.Fightstat.WON)) {
+            if (result.equals(Match.Fightstat.WON)) {
                 removePlayerID = ID2;
             } else {
                 removePlayerID = ID1;
@@ -425,10 +424,10 @@ public final class SwingApp extends javax.swing.JDialog {
         removedPlayerID.setText(input);
     }
 
-    public Enum showPlayer1(int playerID1) throws IOException {
-        Player p1 = new Player(playerID1, Player.Playercondition.PLAYER );
+    public Player.Symbole showPlayer1(int playerID1) throws IOException {
+        Player p1 = new Player(playerID1, Player.PlayerCondition.PLAYER );
 
-        Enum symbole1 = p1.getSymbole();
+        Player.Symbole symbole1 = p1.getSymbole();
 
         BufferedImage playerSymbole = givebackImg(symbole1);
         ImageIcon imageIcon = new ImageIcon(playerSymbole);
@@ -443,10 +442,10 @@ public final class SwingApp extends javax.swing.JDialog {
 
     }
 
-    public Enum showPlayer2(int playerID2) throws IOException {
-        Player p2 = new Player(playerID2, Player.Playercondition.PLAYER);
+    public Player.Symbole showPlayer2(int playerID2) throws IOException {
+        Player p2 = new Player(playerID2, Player.PlayerCondition.PLAYER);
 
-        Enum symbole2 = p2.getSymbole();
+        Player.Symbole symbole2 = p2.getSymbole();
 
         BufferedImage playerSymbole = givebackImg(symbole2);
         ImageIcon imageIcon = new ImageIcon(playerSymbole);
@@ -460,7 +459,7 @@ public final class SwingApp extends javax.swing.JDialog {
         return symbole2;
     }
 
-    public BufferedImage givebackImg(Enum symbole) throws IOException {
+    public BufferedImage givebackImg(Player.Symbole symbole) throws IOException {
         BufferedImage myPicture;
         if (symbole.equals(Player.Symbole.SCISSOR)) {
             myPicture = ImageIO.read(SwingApp.class.getResource("/images/scissor.png"));

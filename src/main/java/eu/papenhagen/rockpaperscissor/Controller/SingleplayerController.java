@@ -6,7 +6,7 @@
 package eu.papenhagen.rockpaperscissor.Controller;
 
 import eu.papenhagen.rockpaperscissor.Service.Behavor;
-import eu.papenhagen.rockpaperscissor.Entities.Enums;
+import eu.papenhagen.rockpaperscissor.Entities.Match;
 import eu.papenhagen.rockpaperscissor.Entities.Player;
 import eu.papenhagen.rockpaperscissor.Service.UtilityMethodes;
 import java.io.IOException;
@@ -65,10 +65,10 @@ public class SingleplayerController implements Initializable {
 
     ObservableList<String> data = FXCollections.observableArrayList();
 
-    private Enum symbole1 = null;
+    private Player.Symbole symbole1 = null;
 
-    private Player p1 = new Player(1, Player.Playercondition.PLAYER);
-    private Player p2 = new Player(2, Player.Playercondition.PLAYER);
+    private Player p1 = new Player(1, Player.PlayerCondition.PLAYER);
+    private Player p2 = new Player(2, Player.PlayerCondition.PLAYER);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -85,7 +85,7 @@ public class SingleplayerController implements Initializable {
     @FXML
     private void handleSelectedCombobox(ActionEvent event) {
         //set symbole to player 1
-        p1.setSymbole((Enum) combobox.getValue());
+        p1.setSymbole((Player.Symbole) combobox.getValue());
 
         //set player to ready
         player1ready = true;
@@ -154,15 +154,15 @@ public class SingleplayerController implements Initializable {
         roundNr.setText(0 + "");
 
         //fight
-        Enum figtresult = null;
+        Match.Fightstat figtresult = null;
 
-        Player.Symbole temosymbole = (Player.Symbole) p1.getSymbole();
-        if (temosymbole.loseAgaist((Player.Symbole) p1.getSymbole(), (Player.Symbole) p2.getSymbole())) {
+        Player.Symbole temosymbole = p1.getSymbole();
+        if (temosymbole.loseAgaist( p1.getSymbole(), p2.getSymbole())) {
             //player 1 have lost
-            figtresult = Enums.Fightstat.LOST;
+            figtresult = Match.Fightstat.LOST;
         } else if (p1.getSymbole().equals(p2.getSymbole())) {
             //can happend but raw
-            figtresult = Enums.Fightstat.DRAW;
+            figtresult = Match.Fightstat.DRAW;
 
             //fight was draw
             //waiting on new user input
@@ -183,7 +183,7 @@ public class SingleplayerController implements Initializable {
 
         } else {
             //player 1 have won
-            figtresult = Enums.Fightstat.WON;
+            figtresult = Match.Fightstat.WON;
         }
 
         //change the UI

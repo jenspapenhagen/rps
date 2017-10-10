@@ -5,7 +5,6 @@
  */
 package eu.papenhagen.rockpaperscissor.Service;
 
-import eu.papenhagen.rockpaperscissor.Entities.Enums;
 import eu.papenhagen.rockpaperscissor.Entities.Player;
 import java.util.Random;
 import org.slf4j.LoggerFactory;
@@ -21,17 +20,17 @@ public class Behavor {
     public Behavor() {
     }
 
-    private Enum OppositeOfLastRound(Enum lastRoundSymbol1) {
+    private Player.Symbole OppositeOfLastRound(Player.Symbole lastRoundSymbol1) {
         LOG.debug("OppositeOfLastRound");
         return getOppositeSymbole(lastRoundSymbol1);
     }
 
-    private Enum SameOfLastRound(Enum lastRoundSymbol1) {
+    private Player.Symbole SameOfLastRound(Player.Symbole lastRoundSymbol1) {
         LOG.debug("SameOfLastRound");
         return lastRoundSymbol1;
     }
 
-    private Enum getOppositeSymbole(Enum Symbol) {
+    private Player.Symbole getOppositeSymbole(Player.Symbole Symbol) {
         //take a random Enum but NOT default
         Player.Symbole output = Player.Symbole.values()[new Random().nextInt(Player.Symbole.values().length - 1)];
 
@@ -44,9 +43,9 @@ public class Behavor {
      * @param Symbole Enum form typ Symbole
      * @return get random Enum back
      */
-    public Enum getBehavor(Enum Symbole) {
+    public Player.Symbole getBehavor(Player.Symbole Symbole) {
         int indexer = new Random().nextInt(3);
-        Enum output;
+        Player.Symbole output;
 
         switch (indexer) {
             case 1:

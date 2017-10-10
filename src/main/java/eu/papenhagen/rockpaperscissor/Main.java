@@ -7,7 +7,6 @@ package eu.papenhagen.rockpaperscissor;
 
 import eu.papenhagen.rockpaperscissor.EAO.PlayerHandler;
 import eu.papenhagen.rockpaperscissor.EAO.MatchHandler;
-import eu.papenhagen.rockpaperscissor.Entities.Enums;
 import eu.papenhagen.rockpaperscissor.Entities.ExportPlayer;
 import eu.papenhagen.rockpaperscissor.Entities.*;
 import java.util.ArrayList;
@@ -25,7 +24,6 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.concurrent.CountDownLatch;
 import lombok.*;
 
 /**
@@ -76,7 +74,7 @@ public class Main {
         List<Player> remainingPlayerList = new ArrayList<>(maxPlayer);
 
         //build up the PlayerList
-        remainingPlayerList = PlayerHandler.getListOfPlayerWithCondition(maxPlayer, firstID, Player.Playercondition.PLAYER);
+        remainingPlayerList = PlayerHandler.getListOfPlayerWithCondition(maxPlayer, firstID, Player.PlayerCondition.PLAYER);
 
         //give next bigger amount of player
         int missingPlayer = nextBiggerPlayerCount(maxPlayer) - remainingPlayerList.size();
@@ -86,7 +84,7 @@ public class Main {
         LOG.debug("remainingPlayerList size " + remainingPlayerList.size());
 
         //adding FreePlayer to the List in the first round 
-        List<Player> missingPlayerList = PlayerHandler.getListOfPlayerWithCondition(missingPlayer, (maxPlayer + 1), Player.Playercondition.FREEWIN);
+        List<Player> missingPlayerList = PlayerHandler.getListOfPlayerWithCondition(missingPlayer, (maxPlayer + 1), Player.PlayerCondition.FREEWIN);
         remainingPlayerList.addAll(missingPlayerList);
         LOG.debug("added Freewin player");
 
@@ -147,8 +145,8 @@ public class Main {
             List<List> matchbuild = MatchHandler.buildMatches(maxMatchesInNextTier, playerList, matchListForThisTier);
 
             //split the both return objects 
-            List<Callable<Player>> callableList = (List<Callable<Player>>) matchbuild.get(0);
-            matchListForThisTier = (List<Match>) matchbuild.get(1);
+            List<Callable<Player>> callableList = matchbuild.get(0);
+            matchListForThisTier = matchbuild.get(1);
             LOG.debug("callableList size after fwilling with match " + callableList.size());
             LOG.debug("matchListForThisTier size afther filling with match " + matchListForThisTier.size());
 
@@ -206,7 +204,7 @@ public class Main {
             //not in the last round
             //only as fallback
             if (maxMatchesInNextTier != 1 && playerList.size() % 2 != 0) {
-                Player p1 = new Player((maxPlayer + 1), Player.Playercondition.FREEWIN);
+                Player p1 = new Player((maxPlayer + 1), Player.PlayerCondition.FREEWIN);
                 p1.setName("FreeWin");
 
                 //add to random postion in the remainingPlayerList

@@ -5,11 +5,6 @@
  */
 package eu.papenhagen.rockpaperscissor.Entities;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -36,11 +31,11 @@ public final class Player {
     
     @Setter
     @Getter
-    private Enum symbole;
+    private Symbole symbole;
 
     @Setter
     @Getter
-    private Enum condition;
+    private PlayerCondition condition;
     
     @Setter
     @Getter
@@ -106,7 +101,7 @@ public final class Player {
     };
 
 
-    public enum Playercondition {
+    public enum PlayerCondition {
         PLAYER,
         FREEWIN,
         DISQUALIFIZIED
@@ -114,14 +109,14 @@ public final class Player {
     
     
     
-    public Player(int ID, Enum condition) {
+    public Player(int ID, PlayerCondition condition) {
         this.name = getRandomName();
         this.ID = ID;
         this.condition = condition;
         this.symbole = getRandomSymbole();
     }
 
-    public Enum getRandomSymbole() {
+    public Symbole getRandomSymbole() {
         //so not select the default Enum
         int indexer = new Random().nextInt(Symbole.values().length - 1);
 
@@ -130,6 +125,7 @@ public final class Player {
         if(output.equals(Symbole.DEFAULT)){
             output = Symbole.AIR;
         }
+        
         return output;
     }
 

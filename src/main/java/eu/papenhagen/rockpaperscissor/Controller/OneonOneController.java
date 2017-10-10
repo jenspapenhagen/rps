@@ -5,7 +5,8 @@
  */
 package eu.papenhagen.rockpaperscissor.Controller;
 
-import eu.papenhagen.rockpaperscissor.Entities.Enums;
+
+import eu.papenhagen.rockpaperscissor.Entities.Match;
 import eu.papenhagen.rockpaperscissor.Entities.Player;
 import eu.papenhagen.rockpaperscissor.Service.UtilityMethodes;
 import java.io.IOException;
@@ -23,7 +24,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import lombok.Getter;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -56,8 +56,8 @@ public class OneonOneController implements Initializable {
 
     ObservableList<String> data = FXCollections.observableArrayList();
 
-    Player p1 = new Player(1, Player.Playercondition.PLAYER);
-    Player p2 = new Player(1, Player.Playercondition.PLAYER);
+    Player p1 = new Player(1, Player.PlayerCondition.PLAYER);
+    Player p2 = new Player(1, Player.PlayerCondition.PLAYER);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -68,9 +68,9 @@ public class OneonOneController implements Initializable {
         result.setText("Bitte noch Symbol wählen");
 
         //fill the combox
-        combobox1.getItems().addAll(EnumSet.allOf(Player.Symbole.class));
+        combobox1.getItems().addAll(EnumSet.allOf(Player.Symbole.class) );
         combobox1.getItems().remove(Player.Symbole.DEFAULT);
-        combobox2.getItems().addAll(EnumSet.allOf(Player.Symbole.class));
+        combobox2.getItems().addAll(EnumSet.allOf(Player.Symbole.class) );
         combobox2.getItems().remove(Player.Symbole.DEFAULT);
 
         //hidebutton and 2. combobox
@@ -84,7 +84,8 @@ public class OneonOneController implements Initializable {
     @FXML
     private void handleSelectedCombobox1(ActionEvent event) {
         //set the player symbole
-        p1.setSymbole((Enum) combobox1.getValue());
+        p1.setSymbole( (Player.Symbole) combobox1.getValue() );
+
 
         //fill Protocoll
         result.setText("player2 select a symbole please");
@@ -97,7 +98,7 @@ public class OneonOneController implements Initializable {
 
     @FXML
     private void handleSelectedCombobox2(ActionEvent event) {
-        p2.setSymbole((Enum) combobox2.getValue());
+        p2.setSymbole( (Player.Symbole) combobox2.getValue());
 
         //set matchButton to visable
         matchButton.setVisible(true);
@@ -159,17 +160,17 @@ public class OneonOneController implements Initializable {
         changePlayerUI(p2, 2);
 
         //fight
-        Enum figtresult = null;
-        Player.Symbole tempsymbole = (Player.Symbole) p1.getSymbole();
-        if (tempsymbole.loseAgaist((Player.Symbole) p1.getSymbole(), (Player.Symbole) p2.getSymbole())) {
+        Match.Fightstat figtresult = null;
+        Player.Symbole tempsymbole =  p1.getSymbole();
+        if (tempsymbole.loseAgaist(p1.getSymbole(), p2.getSymbole())) {
             //player 1 have lost
-            figtresult = Enums.Fightstat.LOST;
+            figtresult = Match.Fightstat.LOST;
         } else if (p1.getSymbole().equals(p2.getSymbole())) {
             //can happend but raw
-            figtresult = Enums.Fightstat.DRAW;
+            figtresult = Match.Fightstat.DRAW;
         } else {
             //player 1 have won
-            figtresult = Enums.Fightstat.WON;
+            figtresult = Match.Fightstat.WON;
         }
 
         //fill the protocol

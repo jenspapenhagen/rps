@@ -6,7 +6,7 @@
 package eu.papenhagen.rockpaperscissor.Controller;
 
 import eu.papenhagen.rockpaperscissor.Service.Behavor;
-import eu.papenhagen.rockpaperscissor.Entities.Enums;
+import eu.papenhagen.rockpaperscissor.Entities.Match;
 import eu.papenhagen.rockpaperscissor.Entities.Player;
 import eu.papenhagen.rockpaperscissor.Service.UtilityMethodes;
 import java.io.IOException;
@@ -60,8 +60,8 @@ public class DemomodusController implements Initializable {
 
     ObservableList<String> data = FXCollections.observableArrayList();
     
-    private Player p1 = new Player(3, Player.Playercondition.PLAYER);
-    private Player p2 = new Player(4, Player.Playercondition.PLAYER);
+    private Player p1 = new Player(3, Player.PlayerCondition.PLAYER);
+    private Player p2 = new Player(4, Player.PlayerCondition.PLAYER);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -112,15 +112,15 @@ public class DemomodusController implements Initializable {
         roundNr.setText("");
 
         //fight
-        Enum resultFromfight = null;
+        Match.Fightstat resultFromfight = null;
 
-        Player.Symbole symbole1 = (Player.Symbole) p1.getSymbole();
-        if (symbole1.loseAgaist((Player.Symbole) p1.getSymbole(), (Player.Symbole) p2.getSymbole())) {
-            resultFromfight = Enums.Fightstat.LOST;
+        Player.Symbole symbole1 =  p1.getSymbole();
+        if (symbole1.loseAgaist(p1.getSymbole(), p2.getSymbole())) {
+            resultFromfight = Match.Fightstat.LOST;
         } else if (p1.getSymbole().equals(p2.getSymbole())) {
-            resultFromfight = Enums.Fightstat.DRAW;
+            resultFromfight = Match.Fightstat.DRAW;
         } else {
-            resultFromfight = Enums.Fightstat.WON;
+            resultFromfight = Match.Fightstat.WON;
         }
 
         //fill the Protocol
@@ -129,7 +129,7 @@ public class DemomodusController implements Initializable {
         addToProtocol("Ausgabe normal Fight: " + resultFromfight);
 
         //fight again if the fight was a draw
-        if (resultFromfight.equals(Enums.Fightstat.DRAW)) {
+        if (resultFromfight.equals(Match.Fightstat.DRAW)) {
             addToProtocol("First Match was a draw, NOW Round 1");
             //change the UI
             changePlayerUI(p1, 1);
@@ -156,8 +156,8 @@ public class DemomodusController implements Initializable {
      * @param p2
      * @return
      */
-    private Enum figthinground() {
-        Enum fightresult = null;
+    private Match.Fightstat figthinground() {
+        Match.Fightstat fightresult = null;
 
         //get new behavor for next round
         Behavor behv = new Behavor();
@@ -168,8 +168,8 @@ public class DemomodusController implements Initializable {
         //start this rounds
         for (int rounds = 1; rounds <= maxr; rounds++) {
             //change the behavor of the player
-            Enum player1symbole = behv.getBehavor(p1.getSymbole());
-            Enum player2symbole = behv.getBehavor(p2.getSymbole());
+            Player.Symbole player1symbole = behv.getBehavor(p1.getSymbole());
+            Player.Symbole player2symbole = behv.getBehavor(p2.getSymbole());
 
             //set the new player symbole
             p1.setSymbole(player1symbole);
@@ -185,20 +185,20 @@ public class DemomodusController implements Initializable {
 
 
             //fight
-            Player.Symbole symbole1 = (Player.Symbole) player1symbole;
-            if (symbole1.loseAgaist((Player.Symbole) player1symbole, (Player.Symbole) player2symbole)) {
-                fightresult = Enums.Fightstat.LOST;
+            Player.Symbole symbole1 = player1symbole;
+            if (symbole1.loseAgaist(player1symbole, player2symbole)) {
+                fightresult = Match.Fightstat.LOST;
             } else if (player1symbole.equals(player2symbole)) {
-                fightresult = Enums.Fightstat.DRAW;
+                fightresult = Match.Fightstat.DRAW;
             } else {
-                fightresult = Enums.Fightstat.WON;
+                fightresult = Match.Fightstat.WON;
             }
 
             //fill the Protocol
             addToProtocol("Runden " + rounds + " Ergebnis: " + fightresult);
 
             //fight again if this fight was a draw, too.
-            if (!fightresult.equals(Enums.Fightstat.DRAW)) {
+            if (!fightresult.equals(Match.Fightstat.DRAW)) {
                 changePlayerUI(p1, 1);
                 changePlayerUI(p2, 2);
                 break;
@@ -208,7 +208,7 @@ public class DemomodusController implements Initializable {
             if (rounds == maxr) {
                 //froce win
                 LOG.debug("froce win");
-                fightresult = Enums.Fightstat.WON;
+                fightresult = Match.Fightstat.WON;
                 break;
             }
 
@@ -224,11 +224,11 @@ public class DemomodusController implements Initializable {
      *
      * @param result
      */
-    private void showLostPlayer(Enum result) {
+    private void showLostPlayer(Match.Fightstat result) {
         Integer removePlayerID = 0;
 
         try {
-            if (result.equals(Enums.Fightstat.WON)) {
+            if (result.equals(Match.Fightstat.WON)) {
                 removePlayerID = p2.getID();
             } else {
                 removePlayerID = p1.getID();

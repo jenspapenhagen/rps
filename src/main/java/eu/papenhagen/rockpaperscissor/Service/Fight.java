@@ -5,7 +5,6 @@
  */
 package eu.papenhagen.rockpaperscissor.Service;
 
-import eu.papenhagen.rockpaperscissor.Entities.Enums;
 import eu.papenhagen.rockpaperscissor.Entities.Match;
 import eu.papenhagen.rockpaperscissor.Entities.Player;
 import eu.papenhagen.rockpaperscissor.Main;
@@ -49,28 +48,28 @@ public class Fight implements Callable<Player> {
      * @return the the non player als instant loser
      */
     public Player comparingPlayerCondition(Player p1, Player p2) {
-        if (!p1.getCondition().equals(Player.Playercondition.PLAYER)) {
+        if (!p1.getCondition().equals(Player.PlayerCondition.PLAYER)) {
             LOG.debug("Player 1 has not a Playercondition of Player");
             return p1;
         }
-        if (!p2.getCondition().equals(Player.Playercondition.PLAYER)) {
+        if (!p2.getCondition().equals(Player.PlayerCondition.PLAYER)) {
             LOG.debug("Player 2 has not a Playercondition of Player");
             return p2;
         }
         return null;
     }
 
-    private Enum complainingPlayerSymboles(Enum player1Symbole, Enum player2Symbole) {
+    private Match.Fightstat complainingPlayerSymboles(Player.Symbole player1Symbole, Player.Symbole player2Symbole) {
 
-        Enum result = null;
-        Player.Symbole temoSymbole = (Player.Symbole) player1Symbole;
+        Match.Fightstat result = null;
+        Player.Symbole temoSymbole = player1Symbole;
         //comparing the two symboles from the players
         if (player1Symbole.equals(player2Symbole)) {
-            return result = Enums.Fightstat.DRAW;
-        } else if (temoSymbole.loseAgaist((Player.Symbole) player1Symbole, (Player.Symbole) player2Symbole)) {
-            result = Enums.Fightstat.LOST;
+            return result = Match.Fightstat.DRAW;
+        } else if (temoSymbole.loseAgaist( player1Symbole,  player2Symbole)) {
+            result = Match.Fightstat.LOST;
         } else {
-            result = Enums.Fightstat.WON;
+            result = Match.Fightstat.WON;
         }
 
         return result;
@@ -84,10 +83,10 @@ public class Fight implements Callable<Player> {
     @Override
     public Player call() {
         //getting the symboles of the player
-        Enum player1Symbole = player1.getSymbole();
-        Enum player2Symbole = player2.getSymbole();
+        Player.Symbole player1Symbole = player1.getSymbole();
+        Player.Symbole player2Symbole = player2.getSymbole();
 
-        Enum result = null;
+        Match.Fightstat result = null;
 
         //remove player out of condition
         Player loser = comparingPlayerCondition(player1, player2);
@@ -126,12 +125,12 @@ public class Fight implements Callable<Player> {
             }
 
             //playing rounds if the frist fight was a draw
-            if (result.equals(Enums.Fightstat.DRAW)) {
+            if (result.equals(Match.Fightstat.DRAW)) {
 
                 //rounds
                 for (int rounds = 1; rounds < Fight.maxrounds; rounds++) {
-                    Enum roundSymbole1 = behv.getBehavor(player1Symbole);
-                    Enum roundSymbole2 = behv.getBehavor(player2Symbole);
+                    Player.Symbole roundSymbole1 = behv.getBehavor(player1Symbole);
+                    Player.Symbole roundSymbole2 = behv.getBehavor(player2Symbole);
 
                     //get back the enum for win or lost or draw
                     result = complainingPlayerSymboles(roundSymbole1, roundSymbole2);
@@ -142,13 +141,13 @@ public class Fight implements Callable<Player> {
                     }
 
                     //we have a winner lift this loop
-                    if (!result.equals(Enums.Fightstat.DRAW)) {
+                    if (!result.equals(Match.Fightstat.DRAW)) {
                         break;
                     }
                     //max round reach froce win for player 1
                     if (rounds == maxrounds) {
                         LOG.debug("froce win");
-                        result = Enums.Fightstat.WON;
+                        result = Match.Fightstat.WON;
                         break;
                     }
 
@@ -156,7 +155,7 @@ public class Fight implements Callable<Player> {
             }
 
             //count the won counter in the bestOF
-            if (result.equals(Enums.Fightstat.WON)) {
+            if (result.equals(Match.Fightstat.WON)) {
                 player1.setWon(player1.getWon() + 1);
             } else {
                 player2.setWon(player2.getWon() + 1);
@@ -169,18 +168,18 @@ public class Fight implements Callable<Player> {
              */
             if (Main.getBestOf() >= 3) {
                 if (player1.getWon() > (Main.getBestOf() / 2)) {
-                    result = Enums.Fightstat.WON;
+                    result = Match.Fightstat.WON;
                 }
 
                 if (player2.getWon() > (Main.getBestOf() / 2)) {
-                    result = Enums.Fightstat.LOST;
+                    result = Match.Fightstat.LOST;
                 }
             }
 
         }
 
         //giveback the lost player 
-        loser = givebackLosingPlayer((Enums.Fightstat) result, player1, player2);
+        loser = givebackLosingPlayer(result, player1, player2);
 
         return loser;
     }
@@ -193,9 +192,9 @@ public class Fight implements Callable<Player> {
      * @param player2
      * @return the lost player
      */
-    private Player givebackLosingPlayer(Enums.Fightstat result, Player player1, Player player2) {
+    private Player givebackLosingPlayer(Match.Fightstat result, Player player1, Player player2) {
         try {
-            if (result.equals(Enums.Fightstat.WON)) {
+            if (result.equals(Match.Fightstat.WON)) {
                 return player2;
             } else {
                 return player1;

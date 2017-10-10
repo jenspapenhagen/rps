@@ -10,7 +10,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import static org.assertj.core.api.Assertions.*;
-import eu.papenhagen.rockpaperscissor.Entities.Enums;
 import org.junit.Test;
 import eu.papenhagen.rockpaperscissor.Service.Fight;
 import eu.papenhagen.rockpaperscissor.Entities.Match;
@@ -31,8 +30,8 @@ public class RundenTest {
     @Test
     public void testFightround() throws InterruptedException, ExecutionException {
 
-        Player p1 = new Player(5, Player.Playercondition.FREEWIN);
-        Player p2 = new Player(3, Player.Playercondition.PLAYER);
+        Player p1 = new Player(5, Player.PlayerCondition.FREEWIN);
+        Player p2 = new Player(3, Player.PlayerCondition.PLAYER);
 
         p1.setSymbole(Player.Symbole.PAPER);
         p2.setSymbole(Player.Symbole.PAPER);

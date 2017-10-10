@@ -6,7 +6,6 @@
 package eu.papenhagen.rockpaperscissor.test;
 
 import eu.papenhagen.rockpaperscissor.Service.Fight;
-import eu.papenhagen.rockpaperscissor.Entities.Enums;
 import eu.papenhagen.rockpaperscissor.Entities.Match;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -31,8 +30,8 @@ public class MatchTest {
     @Test
     public void testCall() throws InterruptedException, ExecutionException {
 
-        Player p1 = new Player(5, Player.Playercondition.PLAYER);
-        Player p2 = new Player(3, Player.Playercondition.PLAYER);
+        Player p1 = new Player(5, Player.PlayerCondition.PLAYER);
+        Player p2 = new Player(3, Player.PlayerCondition.PLAYER);
 
         p1.setSymbole(Player.Symbole.PAPER);
         p2.setSymbole(Player.Symbole.SCISSOR);

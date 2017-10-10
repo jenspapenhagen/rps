@@ -6,7 +6,6 @@
 package eu.papenhagen.rockpaperscissor.EAO;
 
 import eu.papenhagen.rockpaperscissor.Entities.Player;
-import eu.papenhagen.rockpaperscissor.Entities.Enums;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +15,7 @@ import java.util.List;
  */
 public class PlayerHandler {
 
-    public static List<Player> getListOfPlayerWithCondition(int number, int starterId,Player.Playercondition condition) {
+    public static List<Player> getListOfPlayerWithCondition(int number, int starterId,Player.PlayerCondition condition) {
         List<Player> list = new ArrayList<>(number);
         for (int i = starterId; i <= (number + starterId) ; i++) {
             Player p1 = new Player(i, condition);

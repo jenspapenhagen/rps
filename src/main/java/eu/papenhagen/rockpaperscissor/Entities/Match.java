@@ -24,10 +24,16 @@ public class Match {
     @Setter
     @Getter
     private Player player2;
-    
+
     @Setter
     @Getter
     private Player winner;
+
+    public enum Fightstat {
+        WON,
+        LOST,
+        DRAW
+    };
 
     public Match(int id, Player player1, Player player2) {
         this.id = id;
