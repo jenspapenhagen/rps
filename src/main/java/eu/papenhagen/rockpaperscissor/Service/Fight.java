@@ -179,7 +179,7 @@ public class Fight implements Callable<Player> {
         }
 
         //giveback the lost player 
-        loser = givebackLosingPlayer(result, player1, player2);
+        loser = givebackLosingPlayer( (Enums.Fightstat)result, player1, player2);
 
         return loser;
     }
@@ -192,9 +192,9 @@ public class Fight implements Callable<Player> {
      * @param player2
      * @return the lost player
      */
-    private Player givebackLosingPlayer(Enum result, Player player1, Player player2) {
+    private Player givebackLosingPlayer(Enums.Fightstat result, Player player1, Player player2) {
         try {
-            if (result.equals(Enums.Fightstat.WON)) {
+            if ( result.equals(Enums.Fightstat.WON) ) {
                 return player2;
             } else {
                 return player1;

@@ -46,6 +46,7 @@ public class MatchTest {
         Future<Player> result10 = es.submit(game);
 
         es.shutdown();
+        
         assertThat(p1.getID()).isEqualTo(result10.get().getID()).as("Vergleich player1 id zu gewinner");
         assertThat(p2.getID()).isNotEqualTo(result10.get().getID()).as("Vergleich player2 id zu gewinner");
     }
