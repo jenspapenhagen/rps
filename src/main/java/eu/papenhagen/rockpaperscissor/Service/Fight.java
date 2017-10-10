@@ -116,14 +116,14 @@ public class Fight implements Callable<Player> {
             result = complainingPlayerSymboles(player1Symbole, player2Symbole);
 
             if (calm) {
-                LOG.debug("Match " + matchNr + ": Player 1 Name: " + player1.getName() + " mit der Nr." + player1.getID() + " nimmt: " + player1Symbole
-                        + " gegen Player 2 Name: " + player2.getName() + " mit der Nr. " + player2.getID() + " mit " + player2Symbole
-                        + " -- Player1 hat: " + result);
+                LOG.debug("Match " + matchNr + ": Player 1 Name: " + player1.getName() + " with the No." + player1.getID() + " takes: " + player1Symbole
+                        + " agains Player 2 Name: " + player2.getName() + " with the No. " + player2.getID() + " has " + player2Symbole
+                        + " -- Player1 has: " + result);
             } else {
                 //the cli output
-                System.out.println("Match " + matchNr + ": Player 1 Name: " + player1.getName() + " mit der Nr." + player1.getID() + " nimmt: " + player1Symbole
-                        + " gegen Player 2 Name: " + player2.getName() + " mit der Nr. " + player2.getID() + " mit " + player2Symbole
-                        + " -- Player1 hat: " + result);
+                System.out.println("Match " + matchNr + ": Player 1 Name: " + player1.getName() + " with the No." + player1.getID() + " takes: " + player1Symbole
+                        + " agains Player 2 Name: " + player2.getName() + " with the No. " + player2.getID() + " has " + player2Symbole
+                        + " -- Player1 has: " + result);
             }
 
             //playing rounds if the frist fight was a draw
