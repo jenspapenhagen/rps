@@ -1,6 +1,8 @@
+C:\Users\jay\Documents\NetBeansProjects\rps\src\main\java\eu\papenhagen\rockpaperscissor\EAO\TournamentHandler.java
 C:\Users\jay\Documents\NetBeansProjects\rps\src\main\java\eu\papenhagen\rockpaperscissor\Entities\Player.java
 C:\Users\jay\Documents\NetBeansProjects\rps\src\main\java\eu\papenhagen\rockpaperscissor\Controller\DemomodusController.java
 C:\Users\jay\Documents\NetBeansProjects\rps\src\main\java\eu\papenhagen\rockpaperscissor\Entities\Match.java
+C:\Users\jay\Documents\NetBeansProjects\rps\src\main\java\eu\papenhagen\rockpaperscissor\EAO\TierHandler.java
 C:\Users\jay\Documents\NetBeansProjects\rps\src\main\java\eu\papenhagen\rockpaperscissor\Entities\Tier.java
 C:\Users\jay\Documents\NetBeansProjects\rps\src\main\java\eu\papenhagen\rockpaperscissor\Service\Fight.java
 C:\Users\jay\Documents\NetBeansProjects\rps\src\main\java\eu\papenhagen\rockpaperscissor\EAO\MatchHandler.java
@@ -10,6 +12,7 @@ C:\Users\jay\Documents\NetBeansProjects\rps\src\main\java\eu\papenhagen\rockpape
 C:\Users\jay\Documents\NetBeansProjects\rps\src\main\java\eu\papenhagen\rockpaperscissor\Controller\SingleplayerController.java
 C:\Users\jay\Documents\NetBeansProjects\rps\src\main\java\eu\papenhagen\rockpaperscissor\Service\Behavor.java
 C:\Users\jay\Documents\NetBeansProjects\rps\src\main\java\eu\papenhagen\rockpaperscissor\EAO\PlayerHandler.java
+C:\Users\jay\Documents\NetBeansProjects\rps\src\main\java\eu\papenhagen\rockpaperscissor\Service\OutputToJson.java
 C:\Users\jay\Documents\NetBeansProjects\rps\src\main\java\eu\papenhagen\rockpaperscissor\Entities\ExportPlayer.java
 C:\Users\jay\Documents\NetBeansProjects\rps\src\main\java\eu\papenhagen\rockpaperscissor\Service\UtilityMethodes.java
 C:\Users\jay\Documents\NetBeansProjects\rps\src\main\java\eu\papenhagen\rockpaperscissor\Main.java
