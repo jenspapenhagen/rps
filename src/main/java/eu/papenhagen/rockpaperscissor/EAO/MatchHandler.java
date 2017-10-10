@@ -21,9 +21,9 @@ import org.slf4j.LoggerFactory;
  *
  * @author jens.papenhagen
  */
-public class MatchService {
+public class MatchHandler {
 
-    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(MatchService.class);
+    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(MatchHandler.class);
     /**
      * buildMatches the matches in a extra methode
      *
@@ -46,7 +46,7 @@ public class MatchService {
             if (playerListIterator.hasNext()) {
                 //getting the 2 player
                 Player p1 = playerListIterator.next();
-                //agains the java.util.NoSuchElementException adding a FreeWIn player
+                //check if there is an other Player for this match if NOT build a FREEWIN one
                 Player p2 = null;
                 if (playerListIterator.hasNext()) {
                     p2 = playerListIterator.next();

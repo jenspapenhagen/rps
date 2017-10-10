@@ -5,8 +5,8 @@
  */
 package eu.papenhagen.rockpaperscissor;
 
-import eu.papenhagen.rockpaperscissor.EAO.PlayerService;
-import eu.papenhagen.rockpaperscissor.EAO.MatchService;
+import eu.papenhagen.rockpaperscissor.EAO.PlayerHandler;
+import eu.papenhagen.rockpaperscissor.EAO.MatchHandler;
 import eu.papenhagen.rockpaperscissor.Entities.Enums;
 import eu.papenhagen.rockpaperscissor.Entities.ExportPlayer;
 import eu.papenhagen.rockpaperscissor.Entities.*;
@@ -76,7 +76,7 @@ public class Main {
         List<Player> remainingPlayerList = new ArrayList<>(maxPlayer);
 
         //build up the PlayerList
-        remainingPlayerList = PlayerService.getListOfPlayerWithCondition(maxPlayer, Enums.Playercondition.PLAYER);
+        remainingPlayerList = PlayerHandler.getListOfPlayerWithCondition(maxPlayer, Enums.Playercondition.PLAYER);
 
         //give next bigger amount of player
         int missingPlayer = nextBiggerPlayerCount(maxPlayer) - remainingPlayerList.size();
@@ -86,7 +86,7 @@ public class Main {
         LOG.debug("remainingPlayerList size " + remainingPlayerList.size());
 
         //adding FreePlayer to the List in the first round 
-        List<Player> missingPlayerList = PlayerService.getListOfPlayerWithCondition(missingPlayer, Enums.Playercondition.FREEWIN);
+        List<Player> missingPlayerList = PlayerHandler.getListOfPlayerWithCondition(missingPlayer, Enums.Playercondition.FREEWIN);
         remainingPlayerList.addAll(missingPlayerList);
         LOG.debug("added Freewin player");
 
@@ -145,7 +145,7 @@ public class Main {
             LOG.debug("matchListForThisTier size before " + matchListForThisTier.size());
 
             //build all Matchs in a Callable List and log all match in a List<Match> 
-            List<Object> matchbuild = MatchService.buildMatches(maxMatchesInNextTier, playerList, matchListForThisTier);
+            List<Object> matchbuild = MatchHandler.buildMatches(maxMatchesInNextTier, playerList, matchListForThisTier);
 
             //split the both return objects 
             List<Callable<Player>> callableList = (List<Callable<Player>>) matchbuild.get(0);

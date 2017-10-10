@@ -2,7 +2,6 @@ eu\papenhagen\rockpaperscissor\Entities\Match.class
 eu\papenhagen\rockpaperscissor\Service\Behavor.class
 eu\papenhagen\rockpaperscissor\Controller\SingleplayerController.class
 eu\papenhagen\rockpaperscissor\SwingApp$3.class
-eu\papenhagen\rockpaperscissor\EAO\PlayerService.class
 eu\papenhagen\rockpaperscissor\Controller\OneonOneController.class
 eu\papenhagen\rockpaperscissor\SwingApp.class
 eu\papenhagen\rockpaperscissor\Entities\ExportPlayer.class
@@ -11,13 +10,14 @@ eu\papenhagen\rockpaperscissor\Entities\Enums$Symbole.class
 eu\papenhagen\rockpaperscissor\SwingApp$1.class
 eu\papenhagen\rockpaperscissor\Main.class
 eu\papenhagen\rockpaperscissor\Entities\Player.class
-eu\papenhagen\rockpaperscissor\EAO\MatchService.class
 eu\papenhagen\rockpaperscissor\Entities\Enums$1.class
+eu\papenhagen\rockpaperscissor\EAO\PlayerHandler.class
 eu\papenhagen\rockpaperscissor\Controller\DemomodusController.class
 eu\papenhagen\rockpaperscissor\SwingApp$2.class
 eu\papenhagen\rockpaperscissor\Service\UtilityMethodes.class
 eu\papenhagen\rockpaperscissor\Entities\Enums$Playercondition.class
 eu\papenhagen\rockpaperscissor\Entities\Enums.class
 eu\papenhagen\rockpaperscissor\Entities\Tier.class
+eu\papenhagen\rockpaperscissor\EAO\MatchHandler.class
 eu\papenhagen\rockpaperscissor\Entities\Enums$Fightstat.class
 eu\papenhagen\rockpaperscissor\JAVAFXApp.class

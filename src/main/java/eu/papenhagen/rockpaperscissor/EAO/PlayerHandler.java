@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author jens.papenhagen
  */
-public class PlayerService {
+public class PlayerHandler {
 
     public static List<Player> getListOfPlayerWithCondition(int number, Enums.Playercondition condition) {
         List<Player> list = new ArrayList<>(number);
