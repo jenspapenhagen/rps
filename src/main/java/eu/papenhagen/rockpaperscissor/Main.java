@@ -41,22 +41,12 @@ public class Main {
     @Getter
     private static boolean calm;
     @Getter
-    private static int FreeWinID;
-
-    @Getter
-    @Setter
     private static int maxPlayer;
-
     @Getter
-    @Setter
     private static int maxMatches;
-
     @Getter
-    @Setter
     private static int maxMatchesInNextTier;
-
     @Getter
-    @Setter
     private static int countOfTiers;
 
     public static void main(String[] args) {
@@ -65,7 +55,6 @@ public class Main {
         maxPlayer = 100;
         maxMatches = maxPlayer / 2;
         maxMatchesInNextTier = maxMatches;
-        FreeWinID = maxPlayer + 3;
         calm = true;
         bestOf = 5;
 
@@ -87,7 +76,7 @@ public class Main {
         LOG.debug("max Match games for the frist round " + maxMatches);
         LOG.debug("maxGamesNextTier " + maxMatchesInNextTier);
         LOG.debug("count of tiers " + countOfTiers);
-        LOG.debug("ID from the freeWin player " + FreeWinID);
+
         LOG.debug("This Fight is calm: " + calm);
 
         //build up the tournament
@@ -235,8 +224,11 @@ public class Main {
             //adding FREEWIN odd size of remainingPlayerList
             //not in the last round
             if (maxMatchesInNextTier != 1 && playerList.size() % 2 != 0) {
-                Player p1 = new Player(FreeWinID, Enums.Playercondition.FREEWIN);
+                
+                int idOfWining =  maxPlayer + 1;
+                Player p1 = new Player(idOfWining, Enums.Playercondition.FREEWIN);
                 p1.setName("FreeWin");
+                
                 //add to random postion in the remainingPlayerList
                 int ranhdomIndex = new Random().nextInt(playerList.size() - 1);
                 playerList.add(ranhdomIndex, p1);

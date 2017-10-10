@@ -51,7 +51,7 @@ public class MatchService {
                 if (playerListIterator.hasNext()) {
                     p2 = playerListIterator.next();
                 } else {
-                    p2 = new Player(Main.getFreeWinID(), Enums.Playercondition.FREEWIN);
+                    p2 = new Player(Main.getMaxPlayer()+1 , Enums.Playercondition.FREEWIN);
                     p2.setName("FreeWin");
                 }
 
