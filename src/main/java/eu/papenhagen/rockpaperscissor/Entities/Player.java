@@ -67,12 +67,22 @@ public final class Player {
     public String getRandomName() {
         String output = "";
         List<String> Namelist = new ArrayList<>();
+        Namelist.add("Jens");
+        Namelist.add("Pascal");
+        Namelist.add("Jacob");
+        Namelist.add("Hassan");
+        Namelist.add("Joerg");
+        Namelist.add("Malte");
+        Namelist.add("Oliver");
+        Namelist.add("Wolfgang");
+        Namelist.add("Lucas");
+        
         //get the resources as stream
-        try {
-            Namelist = Files.readAllLines(Paths.get(this.getClass().getResource("/resources/forename.txt").toURI()), Charset.defaultCharset());
-        } catch (URISyntaxException | IOException ex) {
-            LOG.error(ex.getMessage());
-        }
+//        try {
+//            Namelist = Files.readAllLines(Paths.get(this.getClass().getResource("/resources/forename.txt").toURI()), Charset.defaultCharset());
+//        } catch (URISyntaxException | IOException ex) {
+//            LOG.error(ex.getMessage());
+//        }
 
         //get a random line
         int randomline = new Random().nextInt(Namelist.size());
