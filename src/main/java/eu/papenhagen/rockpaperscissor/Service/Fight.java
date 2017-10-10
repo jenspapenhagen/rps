@@ -51,11 +51,11 @@ public class Fight implements Callable<Player> {
      */
     public Player comparingPlayerCondition(Player p1, Player p2) {
         if (!p1.getCondition().equals(Enums.Playercondition.PLAYER)) {
-            LOG.debug("Player 1 was a non Player object");
+            LOG.debug("Player 1 has not a Playercondition of Player");
             return p1;
         }
         if (!p2.getCondition().equals(Enums.Playercondition.PLAYER)) {
-            LOG.debug("Player 2 was a non Player object");
+            LOG.debug("Player 2 has not a Playercondition of Player");
             return p2;
         }
         return null;
