@@ -22,8 +22,10 @@ import org.slf4j.LoggerFactory;
  * @author jens.papenhagen
  */
 public class MatchHandler {
-
+    
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(MatchHandler.class);
+   
+    
     /**
      * buildMatches the matches in a extra methode
      *
@@ -32,10 +34,10 @@ public class MatchHandler {
      * @param matchListForThisTier a list of matches for logging pr.
      * @return a returnobject a list of callables and a list of matches
      */
-    public static List<Object> buildMatches(int maxMatchesInNextTier, List<Player> remainingPlayerList, List<Match> matchListForThisTier) {
+    public static List<List> buildMatches(int maxMatchesInNextTier, List<Player> remainingPlayerList, List<Match> matchListForThisTier) {
         //build list
         List<Callable<Player>> callableList = new LinkedList<>();
-
+        
         //using the Iterator for getting the next player and check if there is even a nextplayer
         Iterator<Player> playerListIterator = remainingPlayerList.iterator();
 
@@ -66,7 +68,7 @@ public class MatchHandler {
                 matchListForThisTier.add(match);
             }
         }
-        List<Object> returnlist = new ArrayList<>();
+        List<List> returnlist = new ArrayList<>();
         returnlist.add(callableList);
         returnlist.add(matchListForThisTier);
 

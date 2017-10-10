@@ -16,7 +16,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Callable;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -48,9 +47,6 @@ public class Main {
     private static int maxMatchesInNextTier;
     @Getter
     private static int countOfTiers;
-    @Getter
-    private static CountDownLatch latch;
-    
 
     public static void main(String[] args) {
         //config area for this tournament
@@ -58,7 +54,6 @@ public class Main {
         maxPlayer = 100;
         calm = true;
         bestOf = 5;
-
 
         //STOP CHANGING HERE
         int firstID = 1;
@@ -80,7 +75,7 @@ public class Main {
         List<Player> remainingPlayerList = new ArrayList<>(maxPlayer);
 
         //build up the PlayerList
-        remainingPlayerList = PlayerHandler.getListOfPlayerWithCondition(maxPlayer, firstID,  Enums.Playercondition.PLAYER);
+        remainingPlayerList = PlayerHandler.getListOfPlayerWithCondition(maxPlayer, firstID, Enums.Playercondition.PLAYER);
 
         //give next bigger amount of player
         int missingPlayer = nextBiggerPlayerCount(maxPlayer) - remainingPlayerList.size();
@@ -90,7 +85,7 @@ public class Main {
         LOG.debug("remainingPlayerList size " + remainingPlayerList.size());
 
         //adding FreePlayer to the List in the first round 
-        List<Player> missingPlayerList = PlayerHandler.getListOfPlayerWithCondition(missingPlayer, (maxPlayer+1), Enums.Playercondition.FREEWIN);
+        List<Player> missingPlayerList = PlayerHandler.getListOfPlayerWithCondition(missingPlayer, (maxPlayer + 1), Enums.Playercondition.FREEWIN);
         remainingPlayerList.addAll(missingPlayerList);
         LOG.debug("added Freewin player");
 
@@ -142,14 +137,13 @@ public class Main {
                 });
                 LOG.debug("Round nr: " + tierCounter);
             }
-            
 
             //make a new matchList
             List<Match> matchListForThisTier = new ArrayList<>(maxMatchesInNextTier);
             LOG.debug("matchListForThisTier size before " + matchListForThisTier.size());
 
             //build all Matchs in a Callable List and log all match in a List<Match> 
-            List<Object> matchbuild = MatchHandler.buildMatches(maxMatchesInNextTier, playerList, matchListForThisTier);
+            List<List> matchbuild = MatchHandler.buildMatches(maxMatchesInNextTier, playerList, matchListForThisTier);
 
             //split the both return objects 
             List<Callable<Player>> callableList = (List<Callable<Player>>) matchbuild.get(0);
@@ -165,9 +159,6 @@ public class Main {
 
             //staring the Callable
             try {
-                //make a CountDownLatch for waiting all matches in a tier are finish to go to the next tier
-                latch = new CountDownLatch(callableList.size());
-
                 //submit Callable tasks to be executed by thread pool
                 //CompletableFuture
                 List<Future<Player>> futureList = tournamentexecutor.invokeAll(callableList);
@@ -179,13 +170,8 @@ public class Main {
                     }
                     LOG.debug("the get " + p.get().getName());
                     loserList.add(p.get());
-                    //count the latch down to "wait" for all player get added to list
-                    LOG.debug("latch get count down");
-                    
                 }
 
-                //wait for countdown
-                latch.await();
             } catch (InterruptedException | ExecutionException ex) {
                 LOG.error(ex.getMessage());
             }
@@ -218,9 +204,9 @@ public class Main {
             //not in the last round
             //only as fallback
             if (maxMatchesInNextTier != 1 && playerList.size() % 2 != 0) {
-                Player p1 = new Player( (maxPlayer + 1) , Enums.Playercondition.FREEWIN);
+                Player p1 = new Player((maxPlayer + 1), Enums.Playercondition.FREEWIN);
                 p1.setName("FreeWin");
-                
+
                 //add to random postion in the remainingPlayerList
                 int ranhdomIndex = new Random().nextInt(playerList.size() - 1);
                 playerList.add(ranhdomIndex, p1);
@@ -274,8 +260,8 @@ public class Main {
     }
 
     /**
-     * Try to buildMatches a tournament grid in console. using a List of Tier Objects
-     * for this. Winner on the top and than to the button
+     * Try to buildMatches a tournament grid in console. using a List of Tier
+     * Objects for this. Winner on the top and than to the button
      *
      * @param tournament
      */
@@ -410,14 +396,14 @@ public class Main {
 
         return outout;
     }
-    
+
     /**
-     * calulateMaxTiers by simble up counting 
-     * 
+     * calulateMaxTiers by simble up counting
+     *
      * @param int of max player
      * @return the amount of tiers the game can run
      */
-    private static int calulateMaxTiers(int player){
+    private static int calulateMaxTiers(int player) {
         //calculate the maxTiers
         int maxLevle = 1;
         //loop and count maxLevle one up so long i can dif. player into 2
@@ -429,9 +415,9 @@ public class Main {
                 player = player + 1;
             }
         }
-        
+
         return maxLevle;
- 
+
     }
 
 }

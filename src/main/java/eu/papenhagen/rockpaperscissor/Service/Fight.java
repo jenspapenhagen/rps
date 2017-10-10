@@ -31,7 +31,6 @@ public class Fight implements Callable<Player> {
         this.matchNr = matchID;
         this.player1 = m.getPlayer1();
         this.player2 = m.getPlayer2();
-
         LOG.debug("Match with ID:" + matchNr);
         LOG.debug(" getstarted." + player1.getID() + " vs. " + player2.getID());
         LOG.debug("This Fight is: " + this.calm);
@@ -179,11 +178,8 @@ public class Fight implements Callable<Player> {
         }
 
         //giveback the lost player 
-        loser = givebackLosingPlayer( (Enums.Fightstat)result, player1, player2);
-        
-        //count the Latch form the main Thread down
-        Main.getLatch().countDown();
-
+        loser = givebackLosingPlayer((Enums.Fightstat) result, player1, player2);
+            
         return loser;
     }
 
@@ -197,7 +193,7 @@ public class Fight implements Callable<Player> {
      */
     private Player givebackLosingPlayer(Enums.Fightstat result, Player player1, Player player2) {
         try {
-            if ( result.equals(Enums.Fightstat.WON) ) {
+            if (result.equals(Enums.Fightstat.WON)) {
                 return player2;
             } else {
                 return player1;

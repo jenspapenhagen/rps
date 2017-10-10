@@ -13,12 +13,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import static org.assertj.core.api.Assertions.*;
 import eu.papenhagen.rockpaperscissor.Entities.Player;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 /**
  *
@@ -28,8 +24,8 @@ public class MatchTest {
 
     public MatchTest() {
     }
-
-    /**
+    
+      /**
      * Test of call method, of class Fight.
      */
     @Test
@@ -42,13 +38,7 @@ public class MatchTest {
         p2.setSymbole(Enums.Symbole.SCISSOR);
 
         Match match = new Match(1, p1, p2);
-        List<Match> listOfMatchs = new ArrayList<>();
-        
-        listOfMatchs.add(match);
-        
 
-        CountDownLatch latch = new CountDownLatch(listOfMatchs.size());
-        
         ExecutorService es = Executors.newSingleThreadExecutor();
 
         Fight game = new Fight(1, match);
