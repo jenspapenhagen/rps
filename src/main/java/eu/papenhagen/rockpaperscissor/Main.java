@@ -62,7 +62,7 @@ public class Main {
     public static void main(String[] args) {
         //config area for this tournament
         //there are 8/16/32/64/128 tournaments please select a number near this
-        maxPlayer = 64;
+        maxPlayer = 100;
         maxMatches = maxPlayer / 2;
         maxMatchesInNextTier = maxMatches;
         FreeWinID = maxPlayer + 3;
