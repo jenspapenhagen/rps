@@ -123,7 +123,6 @@ public class Main {
             LOG.debug("maxMatchesInNextTier " + maxMatchesInNextTier);
 
             if (firstround) {
-                LOG.debug("first round");
                 maxMatchesInNextTier = maxMatches;
                 //shuffle the playerlist
                 long seed = System.nanoTime();
@@ -131,6 +130,7 @@ public class Main {
                 //set firstorut of false
                 firstround = false;
                 LOG.debug("First round");
+                LOG.debug("maxMatchesInNextTier " + maxMatchesInNextTier);
             } else {
                 //shuffle symbole for eath tier;
                 playerList.forEach((p) -> {
@@ -138,8 +138,7 @@ public class Main {
                 });
                 LOG.debug("Round nr: " + tierCounter);
             }
-            LOG.debug("maxMatchesInNextTier" + maxMatchesInNextTier);
-            LOG.debug("maxMatchesInNextTier output " + maxMatchesInNextTier);
+            
 
             //make a new matchList
             List<Match> matchListForThisTier = new ArrayList<>(maxMatchesInNextTier);
