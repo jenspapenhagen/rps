@@ -45,8 +45,8 @@ public class DemoModus {
                 stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.jpg")));
 
                 //keep resize in a dianginal way
-                stage.minWidthProperty().bind(scene.heightProperty().multiply(1.5));
-                stage.minHeightProperty().bind(scene.widthProperty().divide(1.5));
+//                stage.minWidthProperty().bind(scene.heightProperty().multiply(1.5));
+//                stage.minHeightProperty().bind(scene.widthProperty().divide(1.5));
 
                 stage.setScene(scene);
                 stage.showAndWait();
