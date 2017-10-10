@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 /**
- * Build up the matches
+ * This Match Handler have dif. methodes for Handling Match
  *
  * @author jens.papenhagen
  */
