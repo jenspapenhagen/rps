@@ -67,8 +67,8 @@ public class SingleplayerController implements Initializable {
 
     private Enum symbole1 = null;
 
-    private Player p1 = new Player(1, Enums.Playercondition.PLAYER);
-    private Player p2 = new Player(2, Enums.Playercondition.PLAYER);
+    private Player p1 = new Player(1, Player.Playercondition.PLAYER);
+    private Player p2 = new Player(2, Player.Playercondition.PLAYER);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -76,8 +76,8 @@ public class SingleplayerController implements Initializable {
         result.setText("Bitte noch Symbol wählen");
 
         //fill the combox
-        combobox.getItems().addAll(EnumSet.allOf(Enums.Symbole.class));
-        combobox.getItems().remove(Enums.Symbole.DEFAULT);
+        combobox.getItems().addAll(EnumSet.allOf(Player.Symbole.class));
+        combobox.getItems().remove(Player.Symbole.DEFAULT);
 
         matchButton.setVisible(false);
     }
@@ -156,8 +156,8 @@ public class SingleplayerController implements Initializable {
         //fight
         Enum figtresult = null;
 
-        Enums.Symbole temosymbole = (Enums.Symbole) p1.getSymbole();
-        if (temosymbole.loseAgaist((Enums.Symbole) p1.getSymbole(), (Enums.Symbole) p2.getSymbole())) {
+        Player.Symbole temosymbole = (Player.Symbole) p1.getSymbole();
+        if (temosymbole.loseAgaist((Player.Symbole) p1.getSymbole(), (Player.Symbole) p2.getSymbole())) {
             //player 1 have lost
             figtresult = Enums.Fightstat.LOST;
         } else if (p1.getSymbole().equals(p2.getSymbole())) {
@@ -176,7 +176,7 @@ public class SingleplayerController implements Initializable {
             stillInFight = true;
 
             //change player 1 symbole to defauled symbole
-            p1.setSymbole(Enums.Symbole.DEFAULT);
+            p1.setSymbole(Player.Symbole.DEFAULT);
 
             //change UI
             changePlayerUI(p1, 1);

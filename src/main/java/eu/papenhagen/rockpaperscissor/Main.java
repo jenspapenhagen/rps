@@ -76,7 +76,7 @@ public class Main {
         List<Player> remainingPlayerList = new ArrayList<>(maxPlayer);
 
         //build up the PlayerList
-        remainingPlayerList = PlayerHandler.getListOfPlayerWithCondition(maxPlayer, firstID, Enums.Playercondition.PLAYER);
+        remainingPlayerList = PlayerHandler.getListOfPlayerWithCondition(maxPlayer, firstID, Player.Playercondition.PLAYER);
 
         //give next bigger amount of player
         int missingPlayer = nextBiggerPlayerCount(maxPlayer) - remainingPlayerList.size();
@@ -86,7 +86,7 @@ public class Main {
         LOG.debug("remainingPlayerList size " + remainingPlayerList.size());
 
         //adding FreePlayer to the List in the first round 
-        List<Player> missingPlayerList = PlayerHandler.getListOfPlayerWithCondition(missingPlayer, (maxPlayer + 1), Enums.Playercondition.FREEWIN);
+        List<Player> missingPlayerList = PlayerHandler.getListOfPlayerWithCondition(missingPlayer, (maxPlayer + 1), Player.Playercondition.FREEWIN);
         remainingPlayerList.addAll(missingPlayerList);
         LOG.debug("added Freewin player");
 
@@ -206,7 +206,7 @@ public class Main {
             //not in the last round
             //only as fallback
             if (maxMatchesInNextTier != 1 && playerList.size() % 2 != 0) {
-                Player p1 = new Player((maxPlayer + 1), Enums.Playercondition.FREEWIN);
+                Player p1 = new Player((maxPlayer + 1), Player.Playercondition.FREEWIN);
                 p1.setName("FreeWin");
 
                 //add to random postion in the remainingPlayerList

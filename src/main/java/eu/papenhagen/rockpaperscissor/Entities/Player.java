@@ -11,6 +11,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Random;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,74 @@ public final class Player {
     @Getter
     private int won;
 
+    public static enum Symbole {
+        FIRE,
+        SCISSOR,
+        ROCK,
+        GUN,
+        LIGHTNING,
+        DEVIL,
+        DRAGON,
+        WATER,
+        AIR,
+        PAPER,
+        SPONGE,
+        WOLF,
+        TREE,
+        HUMAN,
+        SNAKE,
+        DEFAULT;
+
+        public boolean loseAgaist(Symbole e, Symbole s) {
+            switch (e) {
+                case FIRE:
+                    return EnumSet.of(ROCK, GUN, LIGHTNING, DEVIL, DRAGON, WATER, AIR).contains(s);
+                case SCISSOR:
+                    return EnumSet.of(FIRE, ROCK, GUN, LIGHTNING, DEVIL, DRAGON, WATER).contains(s);
+                case ROCK:
+                    return EnumSet.of(GUN, LIGHTNING, DEVIL, DRAGON, WATER, AIR, PAPER).contains(s);
+                case GUN:
+                    return EnumSet.of(LIGHTNING, DEVIL, DRAGON, WATER, AIR, PAPER, SPONGE).contains(s);
+                case LIGHTNING:
+                    return EnumSet.of(DEVIL, DRAGON, WATER, AIR, PAPER, SPONGE, WOLF).contains(s);
+                case DEVIL:
+                    return EnumSet.of(DRAGON, WATER, AIR, PAPER, SPONGE, WOLF, TREE).contains(s);
+                case DRAGON:
+                    return EnumSet.of(WATER, AIR, PAPER, SPONGE, WOLF, TREE, HUMAN).contains(s);
+                case WATER:
+                    return EnumSet.of(AIR, PAPER, SPONGE, WOLF, TREE, HUMAN, SNAKE).contains(s);
+                case AIR:
+                    return EnumSet.of(PAPER, SPONGE, WOLF, TREE, HUMAN, SNAKE, SCISSOR).contains(s);
+                case PAPER:
+                    return EnumSet.of(SPONGE, WOLF, TREE, HUMAN, SNAKE, SCISSOR, FIRE).contains(s);
+                case SPONGE:
+                    return EnumSet.of(WOLF, TREE, HUMAN, SNAKE, SCISSOR, FIRE, ROCK).contains(s);
+                case WOLF:
+                    return EnumSet.of(TREE, HUMAN, SNAKE, SCISSOR, FIRE, ROCK, GUN).contains(s);
+                case TREE:
+                    return EnumSet.of(HUMAN, SNAKE, SCISSOR, FIRE, ROCK, GUN, LIGHTNING).contains(s);
+                case HUMAN:
+                    return EnumSet.of(SNAKE, SCISSOR, FIRE, ROCK, GUN, LIGHTNING, DEVIL).contains(s);
+                case SNAKE:
+                    return EnumSet.of(SCISSOR, FIRE, ROCK, GUN, LIGHTNING, DEVIL, DRAGON).contains(s);
+                case DEFAULT:
+                    return false;
+                default:
+                    return false;
+            }
+
+        }
+    };
+
+
+    public enum Playercondition {
+        PLAYER,
+        FREEWIN,
+        DISQUALIFIZIED
+    };
+    
+    
+    
     public Player(int ID, Enum condition) {
         this.name = getRandomName();
         this.ID = ID;
@@ -54,12 +123,12 @@ public final class Player {
 
     public Enum getRandomSymbole() {
         //so not select the default Enum
-        int indexer = new Random().nextInt(Enums.Symbole.values().length - 1);
+        int indexer = new Random().nextInt(Symbole.values().length - 1);
 
-        Enums.Symbole output = Enums.Symbole.values()[indexer];
+        Symbole output = Symbole.values()[indexer];
         //no deauflt better froce it to AIR
-        if(output.equals(Enums.Symbole.DEFAULT)){
-            output = Enums.Symbole.AIR;
+        if(output.equals(Symbole.DEFAULT)){
+            output = Symbole.AIR;
         }
         return output;
     }

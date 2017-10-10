@@ -6,6 +6,7 @@
 package eu.papenhagen.rockpaperscissor.Service;
 
 import eu.papenhagen.rockpaperscissor.Entities.Enums;
+import eu.papenhagen.rockpaperscissor.Entities.Player;
 import java.util.Random;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +33,7 @@ public class Behavor {
 
     private Enum getOppositeSymbole(Enum Symbol) {
         //take a random Enum but NOT default
-        Enums.Symbole output = Enums.Symbole.values()[new Random().nextInt(Enums.Symbole.values().length - 1)];
+        Player.Symbole output = Player.Symbole.values()[new Random().nextInt(Player.Symbole.values().length - 1)];
 
         return output;
     }

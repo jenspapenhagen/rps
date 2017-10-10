@@ -31,11 +31,11 @@ public class RundenTest {
     @Test
     public void testFightround() throws InterruptedException, ExecutionException {
 
-        Player p1 = new Player(5, Enums.Playercondition.FREEWIN);
-        Player p2 = new Player(3, Enums.Playercondition.PLAYER);
+        Player p1 = new Player(5, Player.Playercondition.FREEWIN);
+        Player p2 = new Player(3, Player.Playercondition.PLAYER);
 
-        p1.setSymbole(Enums.Symbole.PAPER);
-        p2.setSymbole(Enums.Symbole.PAPER);
+        p1.setSymbole(Player.Symbole.PAPER);
+        p2.setSymbole(Player.Symbole.PAPER);
 
         ExecutorService es = Executors.newSingleThreadExecutor();
 

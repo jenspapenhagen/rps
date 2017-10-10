@@ -56,8 +56,8 @@ public class OneonOneController implements Initializable {
 
     ObservableList<String> data = FXCollections.observableArrayList();
 
-    Player p1 = new Player(1, Enums.Playercondition.PLAYER);
-    Player p2 = new Player(1, Enums.Playercondition.PLAYER);
+    Player p1 = new Player(1, Player.Playercondition.PLAYER);
+    Player p2 = new Player(1, Player.Playercondition.PLAYER);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -68,10 +68,10 @@ public class OneonOneController implements Initializable {
         result.setText("Bitte noch Symbol wählen");
 
         //fill the combox
-        combobox1.getItems().addAll(EnumSet.allOf(Enums.Symbole.class));
-        combobox1.getItems().remove(Enums.Symbole.DEFAULT);
-        combobox2.getItems().addAll(EnumSet.allOf(Enums.Symbole.class));
-        combobox2.getItems().remove(Enums.Symbole.DEFAULT);
+        combobox1.getItems().addAll(EnumSet.allOf(Player.Symbole.class));
+        combobox1.getItems().remove(Player.Symbole.DEFAULT);
+        combobox2.getItems().addAll(EnumSet.allOf(Player.Symbole.class));
+        combobox2.getItems().remove(Player.Symbole.DEFAULT);
 
         //hidebutton and 2. combobox
         matchButton.setVisible(false);
@@ -111,8 +111,8 @@ public class OneonOneController implements Initializable {
     @FXML
     private void handleRestartButton(ActionEvent event) throws InterruptedException {
         //set both player to default
-        p1.setSymbole(Enums.Symbole.DEFAULT);
-        p2.setSymbole(Enums.Symbole.DEFAULT);
+        p1.setSymbole(Player.Symbole.DEFAULT);
+        p2.setSymbole(Player.Symbole.DEFAULT);
 
         //change UI
         changePlayerUI(p1, 1);
@@ -125,10 +125,10 @@ public class OneonOneController implements Initializable {
         combobox1.getItems().clear();
         combobox2.getItems().clear();
         
-        combobox1.getItems().addAll(EnumSet.allOf(Enums.Symbole.class));
-        combobox1.getItems().remove(Enums.Symbole.DEFAULT);
-        combobox2.getItems().addAll(EnumSet.allOf(Enums.Symbole.class));
-        combobox2.getItems().remove(Enums.Symbole.DEFAULT);
+        combobox1.getItems().addAll(EnumSet.allOf(Player.Symbole.class));
+        combobox1.getItems().remove(Player.Symbole.DEFAULT);
+        combobox2.getItems().addAll(EnumSet.allOf(Player.Symbole.class));
+        combobox2.getItems().remove(Player.Symbole.DEFAULT);
 
         //unset matchbutton
         matchButton.setVisible(false);
@@ -160,8 +160,8 @@ public class OneonOneController implements Initializable {
 
         //fight
         Enum figtresult = null;
-        Enums.Symbole tempsymbole = (Enums.Symbole) p1.getSymbole();
-        if (tempsymbole.loseAgaist((Enums.Symbole) p1.getSymbole(), (Enums.Symbole) p2.getSymbole())) {
+        Player.Symbole tempsymbole = (Player.Symbole) p1.getSymbole();
+        if (tempsymbole.loseAgaist((Player.Symbole) p1.getSymbole(), (Player.Symbole) p2.getSymbole())) {
             //player 1 have lost
             figtresult = Enums.Fightstat.LOST;
         } else if (p1.getSymbole().equals(p2.getSymbole())) {

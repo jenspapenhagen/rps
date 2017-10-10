@@ -49,7 +49,7 @@ public class MatchHandler {
                     p2 = playerListIterator.next();
                 } else {
                     //only as Fallback
-                    p2 = new Player(Main.getMaxPlayer()+1 , Enums.Playercondition.FREEWIN);
+                    p2 = new Player(Main.getMaxPlayer()+1 , Player.Playercondition.FREEWIN);
                     p2.setName("FreeWin");
                 }
 

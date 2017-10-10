@@ -311,8 +311,8 @@ public final class SwingApp extends javax.swing.JDialog {
             //fight
             Enum result = null;
             
-            Enums.Symbole tempsymbole = (Enums.Symbole) symbole1;
-            if (tempsymbole.loseAgaist((Enums.Symbole) symbole1, (Enums.Symbole) symbole2)) {
+            Player.Symbole tempsymbole = (Player.Symbole) symbole1;
+            if (tempsymbole.loseAgaist((Player.Symbole) symbole1, (Player.Symbole) symbole2)) {
                 result = Enums.Fightstat.LOST;
             } else if (player1symbole.equals(player2symbole)) {
                 result = Enums.Fightstat.DRAW;
@@ -356,8 +356,8 @@ public final class SwingApp extends javax.swing.JDialog {
             //fight
             result = null;
             
-            Enums.Symbole tempsymbole = (Enums.Symbole) lastPlayer1Symbole;
-            if (tempsymbole.loseAgaist((Enums.Symbole) behv.getBehavor(lastPlayer1Symbole), (Enums.Symbole) behv.getBehavor(lastPlayer2Symbole))) {
+            Player.Symbole tempsymbole = (Player.Symbole) lastPlayer1Symbole;
+            if (tempsymbole.loseAgaist((Player.Symbole) behv.getBehavor(lastPlayer1Symbole), (Player.Symbole) behv.getBehavor(lastPlayer2Symbole))) {
                 result = Enums.Fightstat.LOST;
             } else if (player1symbole.equals(player2symbole)) {
                 result = Enums.Fightstat.DRAW;
@@ -426,7 +426,7 @@ public final class SwingApp extends javax.swing.JDialog {
     }
 
     public Enum showPlayer1(int playerID1) throws IOException {
-        Player p1 = new Player(playerID1, Enums.Playercondition.PLAYER );
+        Player p1 = new Player(playerID1, Player.Playercondition.PLAYER );
 
         Enum symbole1 = p1.getSymbole();
 
@@ -444,7 +444,7 @@ public final class SwingApp extends javax.swing.JDialog {
     }
 
     public Enum showPlayer2(int playerID2) throws IOException {
-        Player p2 = new Player(playerID2, Enums.Playercondition.PLAYER);
+        Player p2 = new Player(playerID2, Player.Playercondition.PLAYER);
 
         Enum symbole2 = p2.getSymbole();
 
@@ -462,13 +462,13 @@ public final class SwingApp extends javax.swing.JDialog {
 
     public BufferedImage givebackImg(Enum symbole) throws IOException {
         BufferedImage myPicture;
-        if (symbole.equals(Enums.Symbole.SCISSOR)) {
+        if (symbole.equals(Player.Symbole.SCISSOR)) {
             myPicture = ImageIO.read(SwingApp.class.getResource("/images/scissor.png"));
         }
-        if (symbole.equals(Enums.Symbole.PAPER)) {
+        if (symbole.equals(Player.Symbole.PAPER)) {
             myPicture = ImageIO.read(SwingApp.class.getResource("/images/paper.png"));
         }
-        if (symbole.equals(Enums.Symbole.ROCK)) {
+        if (symbole.equals(Player.Symbole.ROCK)) {
             myPicture = ImageIO.read(SwingApp.class.getResource("/images/rock.png"));
         } else {
             myPicture = ImageIO.read(SwingApp.class.getResource("/images/scissor.png"));

@@ -31,11 +31,11 @@ public class MatchTest {
     @Test
     public void testCall() throws InterruptedException, ExecutionException {
 
-        Player p1 = new Player(5, Enums.Playercondition.PLAYER);
-        Player p2 = new Player(3, Enums.Playercondition.PLAYER);
+        Player p1 = new Player(5, Player.Playercondition.PLAYER);
+        Player p2 = new Player(3, Player.Playercondition.PLAYER);
 
-        p1.setSymbole(Enums.Symbole.PAPER);
-        p2.setSymbole(Enums.Symbole.SCISSOR);
+        p1.setSymbole(Player.Symbole.PAPER);
+        p2.setSymbole(Player.Symbole.SCISSOR);
 
         Match match = new Match(1, p1, p2);
 

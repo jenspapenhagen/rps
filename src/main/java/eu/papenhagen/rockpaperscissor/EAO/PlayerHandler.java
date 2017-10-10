@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class PlayerHandler {
 
-    public static List<Player> getListOfPlayerWithCondition(int number, int starterId,Enums.Playercondition condition) {
+    public static List<Player> getListOfPlayerWithCondition(int number, int starterId,Player.Playercondition condition) {
         List<Player> list = new ArrayList<>(number);
         for (int i = starterId; i <= (number + starterId) ; i++) {
             Player p1 = new Player(i, condition);

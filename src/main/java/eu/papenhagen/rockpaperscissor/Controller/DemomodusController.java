@@ -60,8 +60,8 @@ public class DemomodusController implements Initializable {
 
     ObservableList<String> data = FXCollections.observableArrayList();
     
-    private Player p1 = new Player(3, Enums.Playercondition.PLAYER);
-    private Player p2 = new Player(4, Enums.Playercondition.PLAYER);
+    private Player p1 = new Player(3, Player.Playercondition.PLAYER);
+    private Player p2 = new Player(4, Player.Playercondition.PLAYER);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -114,8 +114,8 @@ public class DemomodusController implements Initializable {
         //fight
         Enum resultFromfight = null;
 
-        Enums.Symbole symbole1 = (Enums.Symbole) p1.getSymbole();
-        if (symbole1.loseAgaist((Enums.Symbole) p1.getSymbole(), (Enums.Symbole) p2.getSymbole())) {
+        Player.Symbole symbole1 = (Player.Symbole) p1.getSymbole();
+        if (symbole1.loseAgaist((Player.Symbole) p1.getSymbole(), (Player.Symbole) p2.getSymbole())) {
             resultFromfight = Enums.Fightstat.LOST;
         } else if (p1.getSymbole().equals(p2.getSymbole())) {
             resultFromfight = Enums.Fightstat.DRAW;
@@ -185,8 +185,8 @@ public class DemomodusController implements Initializable {
 
 
             //fight
-            Enums.Symbole symbole1 = (Enums.Symbole) player1symbole;
-            if (symbole1.loseAgaist((Enums.Symbole) player1symbole, (Enums.Symbole) player2symbole)) {
+            Player.Symbole symbole1 = (Player.Symbole) player1symbole;
+            if (symbole1.loseAgaist((Player.Symbole) player1symbole, (Player.Symbole) player2symbole)) {
                 fightresult = Enums.Fightstat.LOST;
             } else if (player1symbole.equals(player2symbole)) {
                 fightresult = Enums.Fightstat.DRAW;

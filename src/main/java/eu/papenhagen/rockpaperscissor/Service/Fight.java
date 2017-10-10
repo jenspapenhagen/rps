@@ -49,11 +49,11 @@ public class Fight implements Callable<Player> {
      * @return the the non player als instant loser
      */
     public Player comparingPlayerCondition(Player p1, Player p2) {
-        if (!p1.getCondition().equals(Enums.Playercondition.PLAYER)) {
+        if (!p1.getCondition().equals(Player.Playercondition.PLAYER)) {
             LOG.debug("Player 1 has not a Playercondition of Player");
             return p1;
         }
-        if (!p2.getCondition().equals(Enums.Playercondition.PLAYER)) {
+        if (!p2.getCondition().equals(Player.Playercondition.PLAYER)) {
             LOG.debug("Player 2 has not a Playercondition of Player");
             return p2;
         }
@@ -63,11 +63,11 @@ public class Fight implements Callable<Player> {
     private Enum complainingPlayerSymboles(Enum player1Symbole, Enum player2Symbole) {
 
         Enum result = null;
-        Enums.Symbole temoSymbole = (Enums.Symbole) player1Symbole;
+        Player.Symbole temoSymbole = (Player.Symbole) player1Symbole;
         //comparing the two symboles from the players
         if (player1Symbole.equals(player2Symbole)) {
             return result = Enums.Fightstat.DRAW;
-        } else if (temoSymbole.loseAgaist((Enums.Symbole) player1Symbole, (Enums.Symbole) player2Symbole)) {
+        } else if (temoSymbole.loseAgaist((Player.Symbole) player1Symbole, (Player.Symbole) player2Symbole)) {
             result = Enums.Fightstat.LOST;
         } else {
             result = Enums.Fightstat.WON;
