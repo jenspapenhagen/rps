@@ -44,10 +44,6 @@ public class DemoModus {
                 stage.setTitle("Stein Schere Papier Game");
                 stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.jpg")));
 
-                //keep resize in a dianginal way
-//                stage.minWidthProperty().bind(scene.heightProperty().multiply(1.5));
-//                stage.minHeightProperty().bind(scene.widthProperty().divide(1.5));
-
                 stage.setScene(scene);
                 stage.showAndWait();
 

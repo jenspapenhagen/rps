@@ -19,7 +19,7 @@ import org.junit.Test;
  *
  * @author jens.papenhagen
  */
-public class SingelplayerModus {
+public class SingleplayerModus {
 
     public boolean complete = false;
 
