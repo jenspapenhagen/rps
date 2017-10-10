@@ -180,6 +180,9 @@ public class Fight implements Callable<Player> {
 
         //giveback the lost player 
         loser = givebackLosingPlayer( (Enums.Fightstat)result, player1, player2);
+        
+        //count the Latch form the main Thread down
+        Main.getLatch().countDown();
 
         return loser;
     }

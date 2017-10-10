@@ -48,6 +48,9 @@ public class Main {
     private static int maxMatchesInNextTier;
     @Getter
     private static int countOfTiers;
+    @Getter
+    private static CountDownLatch latch;
+    
 
     public static void main(String[] args) {
         //config area for this tournament
@@ -163,7 +166,7 @@ public class Main {
             //staring the Callable
             try {
                 //make a CountDownLatch for waiting all matches in a tier are finish to go to the next tier
-                CountDownLatch latch = new CountDownLatch(callableList.size());
+                latch = new CountDownLatch(callableList.size());
 
                 //submit Callable tasks to be executed by thread pool
                 //CompletableFuture
@@ -178,7 +181,7 @@ public class Main {
                     loserList.add(p.get());
                     //count the latch down to "wait" for all player get added to list
                     LOG.debug("latch get count down");
-                    latch.countDown();
+                    
                 }
 
                 //wait for countdown

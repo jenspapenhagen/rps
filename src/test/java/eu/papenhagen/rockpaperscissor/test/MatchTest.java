@@ -16,6 +16,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.assertj.core.api.Assertions.*;
 import eu.papenhagen.rockpaperscissor.Entities.Player;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 /**
  *
@@ -38,15 +41,22 @@ public class MatchTest {
         p1.setSymbole(Enums.Symbole.PAPER);
         p2.setSymbole(Enums.Symbole.SCISSOR);
 
-        ExecutorService es = Executors.newSingleThreadExecutor();
         Match match = new Match(1, p1, p2);
+        List<Match> listOfMatchs = new ArrayList<>();
         
+        listOfMatchs.add(match);
+        
+
+        CountDownLatch latch = new CountDownLatch(listOfMatchs.size());
+        
+        ExecutorService es = Executors.newSingleThreadExecutor();
+
         Fight game = new Fight(1, match);
         //give back the loser
         Future<Player> result10 = es.submit(game);
 
         es.shutdown();
-        
+
         assertThat(p1.getID()).isEqualTo(result10.get().getID()).as("Vergleich player1 id zu gewinner");
         assertThat(p2.getID()).isNotEqualTo(result10.get().getID()).as("Vergleich player2 id zu gewinner");
     }
