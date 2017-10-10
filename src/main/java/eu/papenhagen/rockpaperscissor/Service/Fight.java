@@ -202,7 +202,7 @@ public class Fight implements Callable<Player> {
         } catch (NullPointerException ex) {
             //froce win for player 2
             LOG.debug("froce win for player 2");
-            LOG.error(ex.getMessage());
+            LOG.debug(ex.getMessage());
             return player1;
         }
 
