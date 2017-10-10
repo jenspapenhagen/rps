@@ -14,7 +14,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Callable;
-import org.slf4j.LoggerFactory;
 
 /**
  * Build up the matches
@@ -22,9 +21,6 @@ import org.slf4j.LoggerFactory;
  * @author jens.papenhagen
  */
 public class MatchHandler {
-    
-    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(MatchHandler.class);
-   
     
     /**
      * buildMatches the matches in a extra methode
@@ -41,7 +37,6 @@ public class MatchHandler {
         //using the Iterator for getting the next player and check if there is even a nextplayer
         Iterator<Player> playerListIterator = remainingPlayerList.iterator();
 
-        LOG.debug("lets fight");
         for (int matchcount = 1; matchcount <= maxMatchesInNextTier; matchcount++) {
 
             //check if there is a next player in the playerlist and 
