@@ -32,6 +32,11 @@ public class PlayerHandler {
         return list;
     }
 
+    /**
+     * convert a Object Player to ExportPlayer Object
+     * @param p the player
+     * @return 
+     */
     public static ExportPlayer createExportPlayerOutOfPlayer(Player p) {
         //sonvert the Player to a much simpler Object
         ExportPlayer exp = new ExportPlayer();

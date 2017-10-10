@@ -68,7 +68,7 @@ public class Main {
         //adding FreePlayer to the List in the first round 
         List<Player> missingPlayerList = PlayerHandler.getListOfPlayerWithCondition(missingPlayer, (maxPlayer + 1), Player.PLAYERCONDITION.FREEWIN);
         playerList.addAll(missingPlayerList);
-        LOG.debug("added Freewin player");
+        LOG.debug("added Freewin playerlist");
 
         //run Tiers in TournamentHandler        
         TournamentHandler.runTiers(playerList);

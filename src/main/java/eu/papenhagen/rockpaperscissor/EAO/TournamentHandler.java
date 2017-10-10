@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 public class TournamentHandler {
 
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(TournamentHandler.class);
-    private static TournamentLogging tournier = new TournamentLogging();
+    private static TournamentLogging tournierlogger = new TournamentLogging();
 
     /**
      * Try to buildMatches a tournament grid in console. using a List of Tier
@@ -38,7 +38,7 @@ public class TournamentHandler {
      */
     public static void displayTournament() {
         //go from last to frist Tier
-        for (int i = tournier.getTournament().size() - 1; i >= 0; i--) {
+        for (int i = tournierlogger.getTournament().size() - 1; i >= 0; i--) {
             //build a emptry string witgh 100 spaces
             StringBuilder spaces = new StringBuilder();
             spaces.append(String.join("", Collections.nCopies(200, " ")));
@@ -46,18 +46,18 @@ public class TournamentHandler {
             //redruce this string every round
             spaces.delete((i * 10) + 30, maxl);
             //output the number of the tier
-            System.out.printf("%s\t%s", tournier.getTournament().get(i).getTierId() + 1, spaces.toString());
+            System.out.printf("%s\t%s", tournierlogger.getTournament().get(i).getTierId() + 1, spaces.toString());
             //setting the winner on the top
-            for (int j = 0; j < tournier.getTournament().get(i).getMatchList().size(); j++) {
-                System.out.printf("\t%s", String.format("%s", tournier.getTournament().get(i).getMatchList().get(j).getWinner().getID()));
+            for (int j = 0; j < tournierlogger.getTournament().get(i).getMatchList().size(); j++) {
+                System.out.printf("\t%s", String.format("%s", tournierlogger.getTournament().get(i).getMatchList().get(j).getWinner().getID()));
             }
             //line break
             System.out.println("");
             //adding all "ID vs ID " to gether and plot it
-            System.out.printf("%s\t%s", tournier.getTournament().get(i).getTierId() + 1, spaces.toString());
-            for (int j = 0; j < tournier.getTournament().get(i).getMatchList().size(); j++) {
-                System.out.printf("%s\t", String.format(" %s vs. %s", tournier.getTournament().get(i).getMatchList().get(j).getPlayer1().getID(), 
-                        tournier.getTournament().get(i).getMatchList().get(j).getPlayer2().getID()));
+            System.out.printf("%s\t%s", tournierlogger.getTournament().get(i).getTierId() + 1, spaces.toString());
+            for (int j = 0; j < tournierlogger.getTournament().get(i).getMatchList().size(); j++) {
+                System.out.printf("%s\t", String.format(" %s vs. %s", tournierlogger.getTournament().get(i).getMatchList().get(j).getPlayer1().getID(), 
+                        tournierlogger.getTournament().get(i).getMatchList().get(j).getPlayer2().getID()));
             }
             //line break with 200 -´s
             System.out.println("");
@@ -102,7 +102,8 @@ public class TournamentHandler {
             }
             //make a new matchList
             List<Match> matchListForThisTier = new ArrayList<>(Main.getMaxMatchesInNextTier());
-
+            
+    
             //build all Matchs in a Callable List and log all match in a List<Match>
             List<List> matchbuild = MatchHandler.buildMatches(Main.getMaxMatchesInNextTier(), playerList, matchListForThisTier);
             //split the both return objects
@@ -165,7 +166,7 @@ public class TournamentHandler {
             tier.setMatchList(matchListForThisTier);
             //adding this tier to the tournament (lsit of tiers)
             
-            tournier.getTournament().add(tier);
+            tournierlogger.getTournament().add(tier);
             //log the end of the tier
             LOG.debug("tier finish");
             if (Main.isCalm()) {
