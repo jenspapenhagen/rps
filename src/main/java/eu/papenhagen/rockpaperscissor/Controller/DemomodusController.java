@@ -126,7 +126,7 @@ public class DemomodusController implements Initializable {
         //fill the Protocol
         addToProtocol("Player1: " + p1.getSymbole());
         addToProtocol("Player2: " + p2.getSymbole());
-        addToProtocol("Ausgabe normal Fight: " + resultFromfight);
+        addToProtocol("Output normal Fight: " + resultFromfight);
 
         //fight again if the fight was a draw
         if (resultFromfight.equals(Match.Fightstat.DRAW)) {
