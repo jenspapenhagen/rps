@@ -53,24 +53,14 @@ public class Main {
         //config area for this tournament
         //there are 8/16/32/64/128 tournaments please select a number near this
         maxPlayer = 100;
-        maxMatches = maxPlayer / 2;
-        maxMatchesInNextTier = maxMatches;
         calm = true;
         bestOf = 5;
 
-        //calculate the maxTiers
-        int maxLevle = 1;
-        while (maxPlayer / 2 != 1) {
-            maxLevle++;
-            maxPlayer = maxPlayer / 2;
-            if (maxPlayer % 2 != 0 && maxPlayer > 1) {
-                maxPlayer = maxPlayer + 1;
-            }
-        }
-        countOfTiers = maxLevle;
 
-        //change maxplayer back to orgianl size
-        maxPlayer = maxMatches * 2;
+        //STOP CHANGING HERE
+        countOfTiers = calulateMaxTiers(maxPlayer);
+        maxMatches = maxPlayer / 2;
+        maxMatchesInNextTier = maxMatches;
 
         LOG.debug("maxplayer for this tournament " + maxPlayer);
         LOG.debug("max Match games for the frist round " + maxMatches);
@@ -417,6 +407,29 @@ public class Main {
         }
 
         return outout;
+    }
+    
+    /**
+     * calulateMaxTiers by simble up counting 
+     * 
+     * @param int of max player
+     * @return the amount of tiers the game can run
+     */
+    private static int calulateMaxTiers(int player){
+        //calculate the maxTiers
+        int maxLevle = 1;
+        //loop and count maxLevle one up so long i can dif. player into 2
+        while (player / 2 != 1) {
+            maxLevle++;
+            player = player / 2;
+            //adding one up to odd numbers but only if player count smaller 1
+            if (player % 2 != 0 && player > 1) {
+                player = player + 1;
+            }
+        }
+        
+        return maxLevle;
+ 
     }
 
 }
