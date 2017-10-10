@@ -167,19 +167,21 @@ public class Fight implements Callable<Player> {
              * to skip next rounds of this bestOf on division the lower number
              * get use 5 / 2 = 2 NOT 3 therefor we can use the > operator
              */
-            if (player1.getWon() > (Main.getBestOf() / 2)) {
-                result = Enums.Fightstat.WON;
-            }
+            if (Main.getBestOf() >= 3) {
+                if (player1.getWon() > (Main.getBestOf() / 2)) {
+                    result = Enums.Fightstat.WON;
+                }
 
-            if (player2.getWon() > (Main.getBestOf() / 2)) {
-                result = Enums.Fightstat.LOST;
+                if (player2.getWon() > (Main.getBestOf() / 2)) {
+                    result = Enums.Fightstat.LOST;
+                }
             }
 
         }
 
         //giveback the lost player 
         loser = givebackLosingPlayer((Enums.Fightstat) result, player1, player2);
-            
+
         return loser;
     }
 

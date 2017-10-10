@@ -113,7 +113,7 @@ public class Main {
         LOG.debug("maxMatches " + maxMatches);
 
         //run the tier
-        for (int tierCounter = 0; tierCounter <= countOfTiers - 1; tierCounter++) {
+        for (int tierCounter = 0; tierCounter < countOfTiers; tierCounter++) {
 
             //building the tier
             Tier tier = new Tier(tierCounter);
