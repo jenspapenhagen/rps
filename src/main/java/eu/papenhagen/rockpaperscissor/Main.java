@@ -360,7 +360,7 @@ public class Main {
         String jsonString = gson.toJson(exportMatchList);
 
         //safe to Extern file
-        String fileName = "C:\\EAI\\tournament.json";
+        String fileName = (System.getProperty("user.home") + "//Desktop//tournament.json");
         File file = new File(fileName);
         //save to file as OutputStream
         try {
