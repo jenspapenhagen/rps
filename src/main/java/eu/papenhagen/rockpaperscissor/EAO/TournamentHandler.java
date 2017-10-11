@@ -33,8 +33,6 @@ public class TournamentHandler {
     /**
      * Try to buildMatches a tournament grid in console. using a List of Tier
      * Objects for this. Winner on the top and than to the button
-     *
-     * @param tournament
      */
     public static void displayTournament() {
         //go from last to frist Tier

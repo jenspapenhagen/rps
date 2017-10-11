@@ -16,7 +16,7 @@ public class TierHandler {
      * not half the fightcount on odd fights add one fight befor half the
      * fightcount
      *
-     * @param numbersOfFights
+     * @param numbersOfFights number of fights
      * @return maxfights for next tier
      */
     public static int getMaxFightsInTier(int numbersOfFights) {
@@ -37,7 +37,7 @@ public class TierHandler {
     /**
      * calulateMaxTiers by simble up counting
      *
-     * @param int of max player
+     * @param player for the maximal amout of tiers
      * @return the amount of tiers the game can run
      */
     public static int calulateMaxTiers(int player) {

@@ -21,7 +21,7 @@ public class PlayerHandler {
      * @param number how many player are in the List
      * @param starterId staring ID of the Player get count up
      * @param condition what is the Condition of the Player
-     * @return 
+     * @return the list of Player
      */
     public static List<Player> getListOfPlayerWithCondition(int number, int starterId,Player.PLAYERCONDITION condition) {
         List<Player> list = new ArrayList<>(number);
@@ -35,7 +35,7 @@ public class PlayerHandler {
     /**
      * convert a Object Player to ExportPlayer Object
      * @param p the player
-     * @return 
+     * @return giveback the Exportplayer out of Player
      */
     public static ExportPlayer createExportPlayerOutOfPlayer(Player p) {
         //sonvert the Player to a much simpler Object
@@ -49,8 +49,8 @@ public class PlayerHandler {
     /**
      * Giveback the maxplayer
      *
-     * @param maxPlayer
-     * @return
+     * @param maxPlayer are need for checking the next bigger tournament player amount
+     * @return the next bigger Tournier player count
      */
     public static int nextBiggerPlayerCount(int maxPlayer) {
         int outout = 0;
