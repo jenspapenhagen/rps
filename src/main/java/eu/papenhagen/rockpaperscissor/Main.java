@@ -52,7 +52,7 @@ public class Main {
         LOG.debug("maxplayer for this tournament " + maxPlayer);
         LOG.debug("max Match games for the frist round " + maxMatches);
         LOG.debug("maxGamesNextTier " + maxMatchesInNextTier);
-        LOG.debug("count of tiers " + countOfTiers);
+        LOG.debug("Count of tiers for (only for logging) " + countOfTiers);
 
         LOG.debug("This Fight is calm: " + calm);
 

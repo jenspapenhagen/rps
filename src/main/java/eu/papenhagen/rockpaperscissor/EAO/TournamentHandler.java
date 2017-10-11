@@ -54,7 +54,7 @@ public class TournamentHandler {
             //adding all "ID vs ID " to gether and plot it
             System.out.printf("%s\t%s", tournierlogger.getTournament().get(i).getTierId() + 1, spaces.toString());
             for (int j = 0; j < tournierlogger.getTournament().get(i).getMatchList().size(); j++) {
-                System.out.printf("%s\t", String.format(" %s vs. %s", tournierlogger.getTournament().get(i).getMatchList().get(j).getPlayer1().getID(), 
+                System.out.printf("%s\t", String.format(" %s vs. %s", tournierlogger.getTournament().get(i).getMatchList().get(j).getPlayer1().getID(),
                         tournierlogger.getTournament().get(i).getMatchList().get(j).getPlayer2().getID()));
             }
             //line break with 200 -´s
@@ -63,45 +63,52 @@ public class TournamentHandler {
         }
     }
 
-    
     /**
      * Run all the Tier only need a List of Player
+     *
      * @param playerList for the starting
      */
-      public static void runTiers(List<Player> playerList) {
+    public static void runTiers(List<Player> playerList) {
         //the Executor Service for this tournier
         ExecutorService tournamentexecutor = Executors.newCachedThreadPool();
+        
         boolean firstround = true;
+        boolean moreThanOnePlayer = true;
+        int tierCounter = 1;
+        
         //calc new matchcount
         Main.setMaxMatches(playerList.size() / 2);
         LOG.debug("maxMatches " + Main.getMaxMatches());
+        
         //run the tier
-        for (int tierCounter = 0; tierCounter < Main.getCountOfTiers(); tierCounter++) {
+        while(moreThanOnePlayer) {
             //building the tier
             Tier tier = new Tier(tierCounter);
+            //count tier ups
+            tierCounter++;
 
             if (firstround) {
-                Main.setMaxMatchesInNextTier( Main.getMaxMatches() );
-                //shuffle the playerlist
-                long seed = System.nanoTime();
-                Collections.shuffle(playerList, new Random(seed));
+                Main.setMaxMatchesInNextTier(Main.getMaxMatches());
                 //set firstorut of false
                 firstround = false;
                 LOG.debug("First round");
                 LOG.debug("maxMatchesInNextTier " + Main.getMaxMatchesInNextTier());
-            } else {
-                //shuffle symbole for eath tier;
-                playerList.forEach((Player p) -> {
-                    p.setSymbole(p.getRandomSymbole());
-                });
-                //giveback the count of max games for this tier
-                Main.setMaxMatchesInNextTier( TierHandler.getMaxFightsInTier(Main.getMaxMatchesInNextTier()) );
-                LOG.debug("Round nr: " + tierCounter);
             }
+            
+            //shuffle the playerlist
+            long seed = System.nanoTime();
+            Collections.shuffle(playerList, new Random(seed));
+            //shuffle symbole for eath tier;
+            playerList.forEach((Player p) -> {
+                p.setSymbole(p.getRandomSymbole());
+            });
+            //giveback the count of max games for this tier
+            Main.setMaxMatchesInNextTier(TierHandler.getMaxFightsInTier(Main.getMaxMatchesInNextTier()));
+            LOG.debug("Tier No: " + tierCounter);
+
             //make a new matchList
             List<Match> matchListForThisTier = new ArrayList<>(Main.getMaxMatchesInNextTier());
-            
-    
+
             //build all Matchs in a Callable List and log all match in a List<Match>
             List<List> matchbuild = MatchHandler.buildMatches(Main.getMaxMatchesInNextTier(), playerList, matchListForThisTier);
             //split the both return objects
@@ -111,6 +118,7 @@ public class TournamentHandler {
             //build a list of Losers
             int sizeOfLoserlist = matchListForThisTier.size() / 2;
             List<Player> loserList = new ArrayList<>(sizeOfLoserlist);
+            
             //staring the Callable
             try {
                 //submit Callable tasks to be executed by thread pool
@@ -163,7 +171,7 @@ public class TournamentHandler {
             //adding the matchlist to this tier
             tier.setMatchList(matchListForThisTier);
             //adding this tier to the tournament (lsit of tiers)
-            
+
             tournierlogger.getTournament().add(tier);
             //log the end of the tier
             LOG.debug("tier finish");
@@ -172,6 +180,11 @@ public class TournamentHandler {
             } else {
                 System.out.println("\n" + String.join("", Collections.nCopies(100, "-")) + "\n");
             }
+            
+            if( playerList.size() == 1 ){
+                moreThanOnePlayer = false;
+            }
+            
         }
         //try to politly shutdown the executer
         tournamentexecutor.shutdown();

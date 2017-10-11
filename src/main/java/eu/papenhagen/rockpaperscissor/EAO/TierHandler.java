@@ -35,7 +35,7 @@ public class TierHandler {
     }
 
     /**
-     * calulateMaxTiers by simble up counting
+     * calulateMaxTiers by simble up counting only for logging
      *
      * @param player for the maximal amout of tiers
      * @return the amount of tiers the game can run
